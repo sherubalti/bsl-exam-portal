@@ -1,0 +1,1204 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "category": "NumPy",
+      "question": "Which library is used for numerical computing in Python?",
+      "options": [
+        "Pandas",
+        "NumPy",
+        "Matplotlib",
+        "Flask"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 2,
+      "category": "NumPy",
+      "question": "How to import NumPy?",
+      "options": [
+        "import numpy",
+        "import numpy as np",
+        "include numpy",
+        "load numpy"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 3,
+      "category": "NumPy",
+      "question": "Which function creates an array?",
+      "options": [
+        "np.array()",
+        "np.list()",
+        "np.make()",
+        "np.create()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 4,
+      "category": "NumPy",
+      "question": "What is the output of np.array([1,2,3]).shape?",
+      "options": [
+        "(3,)",
+        "(1,3)",
+        "(3,3)",
+        "3"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 5,
+      "category": "NumPy",
+      "question": "Which function creates zeros array?",
+      "options": [
+        "np.empty()",
+        "np.zeros()",
+        "np.one()",
+        "np.null()"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 6,
+      "category": "NumPy",
+      "question": "What is broadcasting in NumPy?",
+      "options": [
+        "Printing arrays",
+        "Expanding arrays automatically",
+        "Sorting arrays",
+        "Deleting arrays"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 7,
+      "category": "NumPy",
+      "question": "Which function creates array of ones?",
+      "options": [
+        "np.ones()",
+        "np.full()",
+        "np.fill()",
+        "np.single()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 8,
+      "category": "NumPy",
+      "question": "What is the output?\nnp.arange(5)",
+      "options": [
+        "0 1 2 3 4",
+        "1 2 3 4 5",
+        "0 1 2 3 4 5",
+        "Error"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 9,
+      "category": "NumPy",
+      "question": "Which function reshapes arrays?",
+      "options": [
+        "np.reshape()",
+        "np.resize()",
+        "np.change()",
+        "np.modify()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 10,
+      "category": "NumPy",
+      "question": "What is axis=0 in NumPy?",
+      "options": [
+        "Rows",
+        "Columns",
+        "Depth",
+        "None"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 11,
+      "category": "NumPy",
+      "question": "What is axis=1 in NumPy?",
+      "options": [
+        "Rows",
+        "Columns",
+        "Depth",
+        "Shape"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 12,
+      "category": "NumPy",
+      "question": "Which function generates random numbers?",
+      "options": [
+        "np.random.rand()",
+        "np.gen()",
+        "np.make()",
+        "np.randomize()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 13,
+      "category": "NumPy",
+      "question": "What is the output?\nnp.sum([1,2,3])",
+      "options": [
+        "5",
+        "6",
+        "7",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 14,
+      "category": "NumPy",
+      "question": "Which function finds mean?",
+      "options": [
+        "np.avg()",
+        "np.mean()",
+        "np.average_value()",
+        "np.mid()"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 15,
+      "category": "NumPy",
+      "question": "Which function finds maximum value?",
+      "options": [
+        "np.high()",
+        "np.maximum()",
+        "np.max()",
+        "np.large()"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 16,
+      "category": "NumPy",
+      "question": "Which function finds minimum value?",
+      "options": [
+        "np.low()",
+        "np.min()",
+        "np.small()",
+        "np.minimum_value()"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 17,
+      "category": "NumPy",
+      "question": "Which function combines arrays vertically?",
+      "options": [
+        "np.vstack()",
+        "np.hstack()",
+        "np.combine()",
+        "np.merge()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 18,
+      "category": "NumPy",
+      "question": "Which function combines arrays horizontally?",
+      "options": [
+        "np.vstack()",
+        "np.hstack()",
+        "np.stack()",
+        "np.join()"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 19,
+      "category": "NumPy",
+      "question": "What is NumPy mainly optimized for?",
+      "options": [
+        "Web design",
+        "Numerical operations",
+        "Gaming",
+        "Networking"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 20,
+      "category": "NumPy",
+      "question": "Which datatype represents missing value?",
+      "options": [
+        "np.null",
+        "np.nan",
+        "np.none",
+        "np.empty"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 21,
+      "category": "Pandas",
+      "question": "Which library is used for data analysis?",
+      "options": [
+        "NumPy",
+        "TensorFlow",
+        "Pandas",
+        "Flask"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 22,
+      "category": "Pandas",
+      "question": "How to import Pandas?",
+      "options": [
+        "import pandas as pd",
+        "include pandas",
+        "load pandas",
+        "import pd"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 23,
+      "category": "Pandas",
+      "question": "Which structure is 1-dimensional in Pandas?",
+      "options": [
+        "DataFrame",
+        "Series",
+        "Array",
+        "Matrix"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 24,
+      "category": "Pandas",
+      "question": "Which structure is 2-dimensional?",
+      "options": [
+        "Series",
+        "Tuple",
+        "DataFrame",
+        "Set"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 25,
+      "category": "Pandas",
+      "question": "Which function reads CSV file?",
+      "options": [
+        "pd.load_csv()",
+        "pd.read_csv()",
+        "pd.open_csv()",
+        "pd.csv()"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 26,
+      "category": "Pandas",
+      "question": "Which function displays first 5 rows?",
+      "options": [
+        "df.top()",
+        "df.head()",
+        "df.show()",
+        "df.first()"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 27,
+      "category": "Pandas",
+      "question": "Which function displays last rows?",
+      "options": [
+        "df.end()",
+        "df.bottom()",
+        "df.tail()",
+        "df.last()"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 28,
+      "category": "Pandas",
+      "question": "Which function shows dataframe information?",
+      "options": [
+        "df.describe()",
+        "df.info()",
+        "df.shape()",
+        "df.summary()"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 29,
+      "category": "Pandas",
+      "question": "Which function shows statistics summary?",
+      "options": [
+        "df.describe()",
+        "df.stats()",
+        "df.summary()",
+        "df.report()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 30,
+      "category": "Pandas",
+      "question": "What does df.shape return?",
+      "options": [
+        "Datatype",
+        "Rows and columns",
+        "Only rows",
+        "Only columns"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 31,
+      "category": "Pandas",
+      "question": "Which function removes missing values?",
+      "options": [
+        "dropna()",
+        "remove()",
+        "delete()",
+        "clear()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 32,
+      "category": "Pandas",
+      "question": "Which function fills missing values?",
+      "options": [
+        "fillna()",
+        "replace()",
+        "insert()",
+        "clean()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 33,
+      "category": "Pandas",
+      "question": "Which function removes duplicate rows?",
+      "options": [
+        "drop_duplicates()",
+        "delete()",
+        "unique()",
+        "distinct()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 34,
+      "category": "Pandas",
+      "question": "Which function sorts values?",
+      "options": [
+        "sort_values()",
+        "arrange()",
+        "sort()",
+        "order()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 35,
+      "category": "Pandas",
+      "question": "Which function groups data?",
+      "options": [
+        "collect()",
+        "groupby()",
+        "cluster()",
+        "aggregate()"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 36,
+      "category": "Pandas",
+      "question": "Which function merges dataframes?",
+      "options": [
+        "combine()",
+        "append()",
+        "merge()",
+        "group()"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 37,
+      "category": "Pandas",
+      "question": "Which join keeps all rows from both tables?",
+      "options": [
+        "inner",
+        "left",
+        "right",
+        "outer"
+      ],
+      "answer": "d"
+    },
+    {
+      "id": 38,
+      "category": "Pandas",
+      "question": "Which join keeps matching rows only?",
+      "options": [
+        "inner",
+        "outer",
+        "left",
+        "right"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 39,
+      "category": "Pandas",
+      "question": "What does df.columns return?",
+      "options": [
+        "Rows",
+        "Indexes",
+        "Column names",
+        "Datatypes"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 40,
+      "category": "Pandas",
+      "question": "What does df.index return?",
+      "options": [
+        "Rows index",
+        "Columns",
+        "Datatype",
+        "Values"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 41,
+      "category": "Data Cleaning",
+      "question": "What is data cleaning?",
+      "options": [
+        "Drawing graphs",
+        "Removing errors from data",
+        "Training model",
+        "Saving file"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 42,
+      "category": "Data Cleaning",
+      "question": "Which method detects missing values?",
+      "options": [
+        "isnull()",
+        "dropna()",
+        "fillna()",
+        "replace()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 43,
+      "category": "Data Cleaning",
+      "question": "Which method replaces values?",
+      "options": [
+        "replace()",
+        "fill()",
+        "change()",
+        "modify()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 44,
+      "category": "Data Cleaning",
+      "question": "Which function removes rows?",
+      "options": [
+        "drop()",
+        "remove()",
+        "delete()",
+        "cut()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 45,
+      "category": "Data Cleaning",
+      "question": "Which function renames columns?",
+      "options": [
+        "rename()",
+        "change()",
+        "modify()",
+        "update()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 46,
+      "category": "Data Cleaning",
+      "question": "What is outlier?",
+      "options": [
+        "Normal value",
+        "Extreme unusual value",
+        "Missing value",
+        "Duplicate value"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 47,
+      "category": "Data Cleaning",
+      "question": "Which method removes spaces in strings?",
+      "options": [
+        "strip()",
+        "trim()",
+        "cut()",
+        "replace()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 48,
+      "category": "Data Cleaning",
+      "question": "Which method converts string to lowercase?",
+      "options": [
+        "lower()",
+        "small()",
+        "down()",
+        "case()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 49,
+      "category": "Data Cleaning",
+      "question": "Which method converts string to uppercase?",
+      "options": [
+        "big()",
+        "upper()",
+        "high()",
+        "capital()"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 50,
+      "category": "Data Cleaning",
+      "question": "Which method checks duplicate rows?",
+      "options": [
+        "duplicated()",
+        "duplicate()",
+        "same()",
+        "repeat()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 51,
+      "category": "NumPy",
+      "question": "Which function creates identity matrix?",
+      "options": [
+        "np.eye()",
+        "np.identity_matrix()",
+        "np.id()",
+        "np.diag()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 52,
+      "category": "NumPy",
+      "question": "Which function computes square root?",
+      "options": [
+        "np.square()",
+        "np.sqrt()",
+        "np.root()",
+        "np.power()"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 53,
+      "category": "NumPy",
+      "question": "Which function flattens array?",
+      "options": [
+        "flatten()",
+        "reshape()",
+        "resize()",
+        "expand()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 54,
+      "category": "NumPy",
+      "question": "What is vectorization?",
+      "options": [
+        "Looping manually",
+        "Fast array operations without loops",
+        "Sorting arrays",
+        "Deleting arrays"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 55,
+      "category": "NumPy",
+      "question": "Which function performs matrix multiplication?",
+      "options": [
+        "np.dot()",
+        "np.sum()",
+        "np.add()",
+        "np.cross()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 56,
+      "category": "Pandas",
+      "question": "Which function saves dataframe to CSV?",
+      "options": [
+        "to_csv()",
+        "save_csv()",
+        "write_csv()",
+        "export_csv()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 57,
+      "category": "Pandas",
+      "question": "Which function reads Excel file?",
+      "options": [
+        "pd.read_excel()",
+        "pd.excel()",
+        "pd.load_excel()",
+        "pd.open_excel()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 58,
+      "category": "Pandas",
+      "question": "Which method selects rows by label?",
+      "options": [
+        "iloc",
+        "loc",
+        "select",
+        "index"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 59,
+      "category": "Pandas",
+      "question": "Which method selects rows by integer position?",
+      "options": [
+        "loc",
+        "iloc",
+        "index",
+        "label"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 60,
+      "category": "Pandas",
+      "question": "Which method counts null values?",
+      "options": [
+        "sum()",
+        "count()",
+        "isnull().sum()",
+        "nullcount()"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 61,
+      "category": "Visualization",
+      "question": "Which library is commonly used for plotting?",
+      "options": [
+        "TensorFlow",
+        "Matplotlib",
+        "NumPy",
+        "Flask"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 62,
+      "category": "Visualization",
+      "question": "Which chart is best for trends?",
+      "options": [
+        "Pie chart",
+        "Line chart",
+        "Histogram",
+        "Scatter plot"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 63,
+      "category": "Visualization",
+      "question": "Which chart shows distribution?",
+      "options": [
+        "Histogram",
+        "Pie chart",
+        "Bar chart",
+        "Line chart"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 64,
+      "category": "Visualization",
+      "question": "Which chart compares categories?",
+      "options": [
+        "Bar chart",
+        "Line chart",
+        "Scatter plot",
+        "Area chart"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 65,
+      "category": "Visualization",
+      "question": "Which chart shows correlation?",
+      "options": [
+        "Scatter plot",
+        "Pie chart",
+        "Bar chart",
+        "Area chart"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 66,
+      "category": "Machine Learning",
+      "question": "Which library is used for machine learning?",
+      "options": [
+        "Pandas",
+        "scikit-learn",
+        "NumPy",
+        "Flask"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 67,
+      "category": "Machine Learning",
+      "question": "What is supervised learning?",
+      "options": [
+        "Learning without labels",
+        "Learning with labeled data",
+        "Random learning",
+        "Manual learning"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 68,
+      "category": "Machine Learning",
+      "question": "What is unsupervised learning?",
+      "options": [
+        "Learning with labels",
+        "Learning without labels",
+        "Testing only",
+        "Deployment"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 69,
+      "category": "Machine Learning",
+      "question": "Which algorithm is used for regression?",
+      "options": [
+        "K-Means",
+        "Linear Regression",
+        "CNN",
+        "Apriori"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 70,
+      "category": "Machine Learning",
+      "question": "Which algorithm is used for clustering?",
+      "options": [
+        "K-Means",
+        "Logistic Regression",
+        "Decision Tree",
+        "Random Forest"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 71,
+      "category": "Machine Learning",
+      "question": "What is overfitting?",
+      "options": [
+        "Good performance on new data",
+        "Model memorizes training data",
+        "Missing values",
+        "Feature scaling"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 72,
+      "category": "Machine Learning",
+      "question": "What is underfitting?",
+      "options": [
+        "Model too simple",
+        "Model too complex",
+        "Perfect fit",
+        "No training"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 73,
+      "category": "Machine Learning",
+      "question": "What is feature scaling?",
+      "options": [
+        "Removing features",
+        "Normalizing feature values",
+        "Deleting rows",
+        "Training model"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 74,
+      "category": "Machine Learning",
+      "question": "Which metric measures classification performance?",
+      "options": [
+        "Accuracy",
+        "MSE",
+        "RMSE",
+        "MAE"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 75,
+      "category": "Machine Learning",
+      "question": "Which metric is used for regression?",
+      "options": [
+        "Accuracy",
+        "Precision",
+        "MSE",
+        "Recall"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 76,
+      "category": "NumPy",
+      "question": "What does np.linspace() do?",
+      "options": [
+        "Creates evenly spaced values",
+        "Sorts values",
+        "Deletes values",
+        "Repeats values"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 77,
+      "category": "NumPy",
+      "question": "Which function transposes matrix?",
+      "options": [
+        "np.transpose()",
+        "np.reverse()",
+        "np.swap()",
+        "np.shift()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 78,
+      "category": "NumPy",
+      "question": "What is dtype in NumPy?",
+      "options": [
+        "Array size",
+        "Data type of elements",
+        "Shape",
+        "Axis"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 79,
+      "category": "Pandas",
+      "question": "What does df.values return?",
+      "options": [
+        "Indexes",
+        "Column names",
+        "Underlying array",
+        "Datatypes"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 80,
+      "category": "Pandas",
+      "question": "Which method changes dataframe index?",
+      "options": [
+        "set_index()",
+        "reset_index()",
+        "index()",
+        "change_index()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 81,
+      "category": "Pandas",
+      "question": "Which method resets index?",
+      "options": [
+        "reset_index()",
+        "set_index()",
+        "clear_index()",
+        "drop_index()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 82,
+      "category": "Pandas",
+      "question": "Which method applies function element-wise?",
+      "options": [
+        "apply()",
+        "map()",
+        "loop()",
+        "iterate()"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 83,
+      "category": "Data Cleaning",
+      "question": "Why handle missing values?",
+      "options": [
+        "Improve model quality",
+        "Increase errors",
+        "Reduce rows only",
+        "For styling"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 84,
+      "category": "Data Cleaning",
+      "question": "Which technique replaces missing values with average?",
+      "options": [
+        "Mean imputation",
+        "Deletion",
+        "Encoding",
+        "Scaling"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 85,
+      "category": "Visualization",
+      "question": "Which chart shows proportions?",
+      "options": [
+        "Pie chart",
+        "Line chart",
+        "Scatter plot",
+        "Histogram"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 86,
+      "category": "Visualization",
+      "question": "Which library creates advanced statistical plots?",
+      "options": [
+        "Seaborn",
+        "Flask",
+        "Tkinter",
+        "Requests"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 87,
+      "category": "Machine Learning",
+      "question": "What is train_test_split() used for?",
+      "options": [
+        "Splitting dataset",
+        "Training model",
+        "Scaling features",
+        "Visualization"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 88,
+      "category": "Machine Learning",
+      "question": "Which algorithm is used for image processing?",
+      "options": [
+        "CNN",
+        "KNN",
+        "Linear Regression",
+        "Apriori"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 89,
+      "category": "Machine Learning",
+      "question": "Which algorithm handles sequential data?",
+      "options": [
+        "CNN",
+        "RNN",
+        "K-Means",
+        "SVM"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 90,
+      "category": "Machine Learning",
+      "question": "What is confusion matrix?",
+      "options": [
+        "Performance evaluation table",
+        "Dataset",
+        "Graph",
+        "Feature list"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 91,
+      "category": "NumPy",
+      "question": "Which function copies array?",
+      "options": [
+        "copy()",
+        "clone()",
+        "duplicate()",
+        "repeat()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 92,
+      "category": "NumPy",
+      "question": "Which function finds standard deviation?",
+      "options": [
+        "np.std()",
+        "np.dev()",
+        "np.sd()",
+        "np.variance()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 93,
+      "category": "Pandas",
+      "question": "Which function concatenates dataframes?",
+      "options": [
+        "pd.concat()",
+        "pd.merge()",
+        "pd.combine()",
+        "pd.join()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 94,
+      "category": "Pandas",
+      "question": "What is pivot table used for?",
+      "options": [
+        "Summarizing data",
+        "Deleting data",
+        "Plotting",
+        "Encoding"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 95,
+      "category": "Visualization",
+      "question": "Which function displays plot in Matplotlib?",
+      "options": [
+        "plt.show()",
+        "plt.display()",
+        "plt.render()",
+        "plt.plotshow()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 96,
+      "category": "Machine Learning",
+      "question": "Which algorithm is tree-based?",
+      "options": [
+        "Decision Tree",
+        "K-Means",
+        "CNN",
+        "Linear Regression"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 97,
+      "category": "Machine Learning",
+      "question": "Which ensemble algorithm uses many trees?",
+      "options": [
+        "Random Forest",
+        "KNN",
+        "RNN",
+        "Naive Bayes"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 98,
+      "category": "Machine Learning",
+      "question": "What is precision in ML?",
+      "options": [
+        "Correct positive predictions",
+        "Correct negative predictions",
+        "Total errors",
+        "Dataset size"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 99,
+      "category": "Machine Learning",
+      "question": "What is recall in ML?",
+      "options": [
+        "Detected actual positives",
+        "Detected negatives",
+        "Average value",
+        "Data cleaning"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 100,
+      "category": "Final",
+      "question": "What is the main goal of Data Science?",
+      "options": [
+        "Extract insights from data",
+        "Only create graphs",
+        "Store files",
+        "Design websites"
+      ],
+      "answer": "a"
+    }
+  ]
+}

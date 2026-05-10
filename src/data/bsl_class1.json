@@ -1,0 +1,1204 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "category": "Variables",
+      "question": "Which symbol is used for assignment in Python?",
+      "options": [
+        "==",
+        "=",
+        "!=",
+        ":"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 2,
+      "category": "Variables",
+      "question": "What is the output?\nx = 5\nprint(type(x))",
+      "options": [
+        "float",
+        "str",
+        "int",
+        "list"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 3,
+      "category": "Variables",
+      "question": "Which variable name is valid?",
+      "options": [
+        "2value",
+        "my-value",
+        "_data",
+        "class"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 4,
+      "category": "Variables",
+      "question": "Python variables are:",
+      "options": [
+        "Static",
+        "Dynamic",
+        "Constant",
+        "Fixed"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 5,
+      "category": "Variables",
+      "question": "What is the output?\na = 10\nb = a\nb = 20\nprint(a)",
+      "options": [
+        "10",
+        "20",
+        "30",
+        "Error"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 6,
+      "category": "Data Types",
+      "question": "Which datatype is mutable?",
+      "options": [
+        "tuple",
+        "str",
+        "list",
+        "int"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 7,
+      "category": "Data Types",
+      "question": "What is the datatype of (1,2,3)?",
+      "options": [
+        "list",
+        "tuple",
+        "dict",
+        "set"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 8,
+      "category": "Data Types",
+      "question": "Which datatype stores key-value pairs?",
+      "options": [
+        "list",
+        "tuple",
+        "dictionary",
+        "set"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 9,
+      "category": "Data Types",
+      "question": "What is the output?\nprint(bool(0))",
+      "options": [
+        "True",
+        "False",
+        "0",
+        "None"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 10,
+      "category": "Data Types",
+      "question": "Which datatype stores unique values?",
+      "options": [
+        "list",
+        "tuple",
+        "set",
+        "dict"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 11,
+      "category": "Operators",
+      "question": "What is the output?\nprint(10 // 3)",
+      "options": [
+        "3.3",
+        "3",
+        "4",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 12,
+      "category": "Operators",
+      "question": "Which operator is used for exponent?",
+      "options": [
+        "^",
+        "**",
+        "//",
+        "%"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 13,
+      "category": "Operators",
+      "question": "What is the output?\nprint(7 % 2)",
+      "options": [
+        "3",
+        "1",
+        "2",
+        "0"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 14,
+      "category": "Operators",
+      "question": "Which operator checks equality?",
+      "options": [
+        "=",
+        "==",
+        "!=",
+        ">"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 15,
+      "category": "Operators",
+      "question": "What is the output?\nprint(True and False)",
+      "options": [
+        "True",
+        "False",
+        "0",
+        "1"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 16,
+      "category": "Conditions",
+      "question": "Which keyword starts a condition?",
+      "options": [
+        "for",
+        "if",
+        "while",
+        "def"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 17,
+      "category": "Conditions",
+      "question": "What is the output?\nif 5 > 2:\n    print('Yes')",
+      "options": [
+        "Yes",
+        "No",
+        "Error",
+        "None"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 18,
+      "category": "Conditions",
+      "question": "Which keyword handles all remaining conditions?",
+      "options": [
+        "elif",
+        "else",
+        "default",
+        "switch"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 19,
+      "category": "Conditions",
+      "question": "What is the output?\nif False:\n    print('A')\nelse:\n    print('B')",
+      "options": [
+        "A",
+        "B",
+        "AB",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 20,
+      "category": "Conditions",
+      "question": "Which keyword checks another condition?",
+      "options": [
+        "elseif",
+        "elif",
+        "other",
+        "case"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 21,
+      "category": "Loops",
+      "question": "Which loop iterates over a sequence?",
+      "options": [
+        "while",
+        "for",
+        "repeat",
+        "do"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 22,
+      "category": "Loops",
+      "question": "What is the output?\nfor i in range(3):\n    print(i)",
+      "options": [
+        "1 2 3",
+        "0 1 2",
+        "0 1 2 3",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 23,
+      "category": "Loops",
+      "question": "Which keyword stops a loop?",
+      "options": [
+        "continue",
+        "skip",
+        "break",
+        "pass"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 24,
+      "category": "Loops",
+      "question": "Which keyword skips current iteration?",
+      "options": [
+        "break",
+        "continue",
+        "pass",
+        "stop"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 25,
+      "category": "Loops",
+      "question": "What is the output?\ni=1\nwhile i<3:\n print(i)\n i+=1",
+      "options": [
+        "1 2",
+        "1 2 3",
+        "0 1 2",
+        "Infinite"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 26,
+      "category": "Functions",
+      "question": "Which keyword defines a function?",
+      "options": [
+        "function",
+        "func",
+        "def",
+        "define"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 27,
+      "category": "Functions",
+      "question": "What is the output?\ndef add(a,b):\n return a+b\nprint(add(2,3))",
+      "options": [
+        "5",
+        "23",
+        "Error",
+        "None"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 28,
+      "category": "Functions",
+      "question": "Default return value of a function?",
+      "options": [
+        "0",
+        "False",
+        "None",
+        "Error"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 29,
+      "category": "Functions",
+      "question": "Functions improve:",
+      "options": [
+        "Duplication",
+        "Complexity",
+        "Reusability",
+        "Errors"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 30,
+      "category": "Functions",
+      "question": "What is an argument?",
+      "options": [
+        "Loop",
+        "Value passed to function",
+        "Condition",
+        "Datatype"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 31,
+      "category": "AI Data Science",
+      "question": "Which library is used for arrays and numerical operations?",
+      "options": [
+        "NumPy",
+        "Flask",
+        "Tkinter",
+        "Requests"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 32,
+      "category": "AI Data Science",
+      "question": "Which library is used for data analysis?",
+      "options": [
+        "Pandas",
+        "TensorFlow",
+        "OpenCV",
+        "pygame"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 33,
+      "category": "AI Data Science",
+      "question": "Which library is used for machine learning?",
+      "options": [
+        "scikit-learn",
+        "BeautifulSoup",
+        "Flask",
+        "Kivy"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 34,
+      "category": "AI Data Science",
+      "question": "Which library is popular for deep learning?",
+      "options": [
+        "TensorFlow",
+        "NumPy",
+        "Matplotlib",
+        "Requests"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 35,
+      "category": "AI Data Science",
+      "question": "What is overfitting?",
+      "options": [
+        "Good generalization",
+        "Poor training",
+        "Model memorizes training data",
+        "No testing"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 36,
+      "category": "AI Data Science",
+      "question": "Which function splits dataset into train and test?",
+      "options": [
+        "split()",
+        "train_test_split()",
+        "divide()",
+        "separate()"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 37,
+      "category": "AI Data Science",
+      "question": "What is a feature?",
+      "options": [
+        "Output",
+        "Input variable",
+        "Error",
+        "Model"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 38,
+      "category": "AI Data Science",
+      "question": "What is the target variable?",
+      "options": [
+        "Predicted output",
+        "Input",
+        "Feature",
+        "Loop"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 39,
+      "category": "AI Data Science",
+      "question": "Which chart shows correlation?",
+      "options": [
+        "Pie chart",
+        "Scatter plot",
+        "Histogram",
+        "Bar chart"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 40,
+      "category": "AI Data Science",
+      "question": "Which method removes missing values?",
+      "options": [
+        "dropna()",
+        "remove()",
+        "delete()",
+        "clear()"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 41,
+      "category": "Variables",
+      "question": "What is multiple assignment?",
+      "options": [
+        "x,y=1,2",
+        "x=1=2",
+        "y=x= ",
+        "None"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 42,
+      "category": "Variables",
+      "question": "What is the output?\nx=5\nx+=2\nprint(x)",
+      "options": [
+        "5",
+        "7",
+        "2",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 43,
+      "category": "Variables",
+      "question": "Which keyword declares a global variable?",
+      "options": [
+        "global",
+        "public",
+        "var",
+        "static"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 44,
+      "category": "Variables",
+      "question": "What is the output?\nname='AI'\nprint(name[0])",
+      "options": [
+        "A",
+        "I",
+        "AI",
+        "Error"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 45,
+      "category": "Variables",
+      "question": "Which function gets memory address?",
+      "options": [
+        "type()",
+        "id()",
+        "len()",
+        "ord()"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 46,
+      "category": "Data Types",
+      "question": "Which datatype represents decimal numbers?",
+      "options": [
+        "int",
+        "float",
+        "str",
+        "bool"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 47,
+      "category": "Data Types",
+      "question": "What is the output?\nprint(type(True))",
+      "options": [
+        "bool",
+        "int",
+        "str",
+        "float"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 48,
+      "category": "Data Types",
+      "question": "Which datatype is ordered and immutable?",
+      "options": [
+        "set",
+        "dict",
+        "tuple",
+        "list"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 49,
+      "category": "Data Types",
+      "question": "What is the output?\nprint(len('Python'))",
+      "options": [
+        "5",
+        "6",
+        "7",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 50,
+      "category": "Data Types",
+      "question": "Which function converts to integer?",
+      "options": [
+        "str()",
+        "int()",
+        "float()",
+        "bool()"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 51,
+      "category": "Operators",
+      "question": "What is the output?\nprint(2+3*2)",
+      "options": [
+        "10",
+        "12",
+        "8",
+        "6"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 52,
+      "category": "Operators",
+      "question": "Which operator performs logical OR?",
+      "options": [
+        "&&",
+        "or",
+        "||",
+        "&"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 53,
+      "category": "Operators",
+      "question": "What is the output?\nprint(5>2)",
+      "options": [
+        "True",
+        "False",
+        "5",
+        "2"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 54,
+      "category": "Operators",
+      "question": "Which operator checks membership?",
+      "options": [
+        "in",
+        "is",
+        "=",
+        "not"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 55,
+      "category": "Operators",
+      "question": "What is the output?\nprint(not True)",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 56,
+      "category": "Conditions",
+      "question": "What is nested if?",
+      "options": [
+        "if inside if",
+        "loop inside if",
+        "function inside if",
+        "none"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 57,
+      "category": "Conditions",
+      "question": "What is the output?\nx=10\nif x<5:\n print('A')\nelse:\n print('B')",
+      "options": [
+        "A",
+        "B",
+        "AB",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 58,
+      "category": "Conditions",
+      "question": "Which condition always executes if previous fail?",
+      "options": [
+        "elif",
+        "else",
+        "if",
+        "for"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 59,
+      "category": "Conditions",
+      "question": "Which keyword combines conditions?",
+      "options": [
+        "join",
+        "merge",
+        "and",
+        "union"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 60,
+      "category": "Conditions",
+      "question": "What is the output?\nprint(5==5 and 3<2)",
+      "options": [
+        "True",
+        "False",
+        "5",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 61,
+      "category": "Loops",
+      "question": "Which loop runs until condition becomes false?",
+      "options": [
+        "for",
+        "while",
+        "repeat",
+        "foreach"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 62,
+      "category": "Loops",
+      "question": "What is range(5)?",
+      "options": [
+        "1-5",
+        "0-4",
+        "0-5",
+        "1-4"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 63,
+      "category": "Loops",
+      "question": "Which keyword does nothing?",
+      "options": [
+        "continue",
+        "break",
+        "pass",
+        "skip"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 64,
+      "category": "Loops",
+      "question": "What is infinite loop?",
+      "options": [
+        "Ends quickly",
+        "Never stops",
+        "Runs once",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 65,
+      "category": "Loops",
+      "question": "What is the output?\nfor i in 'AI':\n print(i)",
+      "options": [
+        "A I",
+        "AI",
+        "Error",
+        "0 1"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 66,
+      "category": "Functions",
+      "question": "What is a parameter?",
+      "options": [
+        "Passed value",
+        "Variable in function definition",
+        "Datatype",
+        "Loop"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 67,
+      "category": "Functions",
+      "question": "What is recursion?",
+      "options": [
+        "Loop",
+        "Function calling itself",
+        "Condition",
+        "Class"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 68,
+      "category": "Functions",
+      "question": "What is lambda?",
+      "options": [
+        "Loop",
+        "Anonymous function",
+        "Datatype",
+        "Class"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 69,
+      "category": "Functions",
+      "question": "What is the output?\nadd=lambda x:x+2\nprint(add(3))",
+      "options": [
+        "3",
+        "5",
+        "6",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 70,
+      "category": "Functions",
+      "question": "Which statement exits a function?",
+      "options": [
+        "break",
+        "continue",
+        "return",
+        "pass"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 71,
+      "category": "AI Data Science",
+      "question": "Which algorithm is used for classification?",
+      "options": [
+        "Linear Regression",
+        "Logistic Regression",
+        "K-Means",
+        "Apriori"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 72,
+      "category": "AI Data Science",
+      "question": "Which algorithm groups similar data?",
+      "options": [
+        "K-Means",
+        "Linear Regression",
+        "CNN",
+        "RNN"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 73,
+      "category": "AI Data Science",
+      "question": "Which metric measures classification performance?",
+      "options": [
+        "MSE",
+        "Accuracy",
+        "RMSE",
+        "MAE"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 74,
+      "category": "AI Data Science",
+      "question": "What does CSV stand for?",
+      "options": [
+        "Common Separated Value",
+        "Comma Separated Values",
+        "Column Save Variable",
+        "Computer Stored Values"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 75,
+      "category": "AI Data Science",
+      "question": "Which function reads CSV in Pandas?",
+      "options": [
+        "open_csv()",
+        "read.csv()",
+        "pd.read_csv()",
+        "csv.read()"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 76,
+      "category": "Variables",
+      "question": "What is the output?\na,b=2,3\nprint(a+b)",
+      "options": [
+        "5",
+        "6",
+        "23",
+        "Error"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 77,
+      "category": "Data Types",
+      "question": "What is the output?\nprint(type({1,2,3}))",
+      "options": [
+        "list",
+        "tuple",
+        "set",
+        "dict"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 78,
+      "category": "Operators",
+      "question": "What is the output?\nprint(4!=5)",
+      "options": [
+        "True",
+        "False",
+        "4",
+        "5"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 79,
+      "category": "Conditions",
+      "question": "What is the output?\nif 1:\n print('Yes')",
+      "options": [
+        "Yes",
+        "No",
+        "Error",
+        "0"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 80,
+      "category": "Loops",
+      "question": "How many times will loop run?\nfor i in range(2)",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "Infinite"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 81,
+      "category": "Functions",
+      "question": "Can a function return multiple values?",
+      "options": [
+        "Yes",
+        "No",
+        "Only list",
+        "Only tuple"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 82,
+      "category": "AI Data Science",
+      "question": "Which library is used for visualization?",
+      "options": [
+        "Matplotlib",
+        "NumPy",
+        "Flask",
+        "TensorFlow"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 83,
+      "category": "AI Data Science",
+      "question": "What is supervised learning?",
+      "options": [
+        "Learning with labels",
+        "Without labels",
+        "Random learning",
+        "No training"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 84,
+      "category": "AI Data Science",
+      "question": "What is unsupervised learning?",
+      "options": [
+        "With labels",
+        "Without labels",
+        "Only regression",
+        "Only CNN"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 85,
+      "category": "Variables",
+      "question": "Which function takes user input?",
+      "options": [
+        "print()",
+        "scan()",
+        "input()",
+        "read()"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 86,
+      "category": "Data Types",
+      "question": "What is the output?\nprint(type('AI'))",
+      "options": [
+        "str",
+        "int",
+        "float",
+        "bool"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 87,
+      "category": "Operators",
+      "question": "What is the output?\nprint(3<5 or 2>4)",
+      "options": [
+        "True",
+        "False",
+        "Error",
+        "None"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 88,
+      "category": "Conditions",
+      "question": "Which symbol means NOT equal?",
+      "options": [
+        "<>",
+        "!=",
+        "==",
+        "="
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 89,
+      "category": "Loops",
+      "question": "What is loop nesting?",
+      "options": [
+        "Loop inside loop",
+        "Loop inside function",
+        "Function inside loop",
+        "None"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 90,
+      "category": "Functions",
+      "question": "What is the output?\ndef f():\n return 10\nprint(f())",
+      "options": [
+        "f",
+        "10",
+        "None",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 91,
+      "category": "AI Data Science",
+      "question": "Which neural network is used for images?",
+      "options": [
+        "CNN",
+        "RNN",
+        "GAN",
+        "SVM"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 92,
+      "category": "AI Data Science",
+      "question": "Which neural network handles sequence data?",
+      "options": [
+        "CNN",
+        "RNN",
+        "KNN",
+        "Decision Tree"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 93,
+      "category": "Variables",
+      "question": "What is constant variable?",
+      "options": [
+        "Never changes",
+        "Always changes",
+        "Loop variable",
+        "Function variable"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 94,
+      "category": "Data Types",
+      "question": "Which datatype is unordered?",
+      "options": [
+        "list",
+        "tuple",
+        "set",
+        "str"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 95,
+      "category": "Operators",
+      "question": "What is the output?\nprint(8/2)",
+      "options": [
+        "4",
+        "4.0",
+        "2",
+        "8"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 96,
+      "category": "Conditions",
+      "question": "Which statement is correct?",
+      "options": [
+        "if x=5",
+        "if x==5",
+        "if x===5",
+        "if x:=5"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 97,
+      "category": "Loops",
+      "question": "What is the output?\nfor i in range(1,4):\n print(i)",
+      "options": [
+        "0 1 2",
+        "1 2 3",
+        "1 2 3 4",
+        "0 1 2 3"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 98,
+      "category": "Functions",
+      "question": "Which function prints output?",
+      "options": [
+        "show()",
+        "echo()",
+        "print()",
+        "write()"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 99,
+      "category": "AI Data Science",
+      "question": "What does AI stand for?",
+      "options": [
+        "Automatic Intelligence",
+        "Artificial Intelligence",
+        "Advanced Internet",
+        "Applied Information"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 100,
+      "category": "AI Data Science",
+      "question": "Which stage comes first in Data Science?",
+      "options": [
+        "Model Deployment",
+        "Data Collection",
+        "Visualization",
+        "Prediction"
+      ],
+      "answer": "b"
+    }
+  ]
+}

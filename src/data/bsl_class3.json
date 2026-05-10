@@ -1,0 +1,1204 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "category": "Machine Learning",
+      "question": "What is the 'Kernel Trick' in Support Vector Machines (SVM)?",
+      "options": [
+        "Speed up",
+        "High-dim mapping for linear separator",
+        "Feature selection",
+        "Regularization"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 2,
+      "category": "Machine Learning",
+      "question": "What does 'Random State' control?",
+      "options": [
+        "Speed",
+        "Reproducibility of stochastic elements",
+        "Memory",
+        "Trees"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 3,
+      "category": "Machine Learning",
+      "question": "Imbalanced classes - most misleading metric?",
+      "options": [
+        "Precision",
+        "Recall",
+        "Accuracy",
+        "F1"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 4,
+      "category": "Visualization",
+      "question": "Seaborn function for comprehensive overview of pairs?",
+      "options": [
+        "heatmap",
+        "pairplot",
+        "jointplot",
+        "relplot"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 5,
+      "category": "Machine Learning",
+      "question": "Lasso (L1) vs Ridge (L2)?",
+      "options": [
+        "Complexity increase",
+        "L1 shrinks coeffs to zero (selection)",
+        "Outliers",
+        "Speed"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 6,
+      "category": "Machine Learning",
+      "question": "Gradient vanishing in DL?",
+      "options": [
+        "Large gradients",
+        "Gradients close to zero slowing learning",
+        "Loss",
+        "No data"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 7,
+      "category": "Machine Learning",
+      "question": "SGD vs Batch Gradient Descent?",
+      "options": [
+        "Accuracy",
+        "SGD updates after each example (faster/large data)",
+        "Batch faster",
+        "Memory"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 8,
+      "category": "Machine Learning",
+      "question": "Algorithm sensitive to feature scaling?",
+      "options": [
+        "Decision Tree",
+        "KNN",
+        "Naive Bayes",
+        "Random Forest"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 9,
+      "category": "Visualization",
+      "question": "Hue parameter in Seaborn?",
+      "options": [
+        "Palette",
+        "Map semantic variable to colors",
+        "Brightness",
+        "Labels"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 10,
+      "category": "Machine Learning",
+      "question": "PCA preserves what?",
+      "options": [
+        "Labels",
+        "Maximum variance",
+        "Names",
+        "Outliers"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 11,
+      "category": "Machine Learning",
+      "question": "Curse of dimensionality?",
+      "options": [
+        "Few features",
+        "Sparsity/Distance meaninglessness in high-dim",
+        "Bias",
+        "Small data error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 12,
+      "category": "Machine Learning",
+      "question": "Bagging vs Boosting?",
+      "options": [
+        "Sequential/Parallel",
+        "Bagging: Parallel (variance), Boosting: Sequential (bias)",
+        "Same",
+        "Regression only"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 13,
+      "category": "Machine Learning",
+      "question": "Multi-class output activation?",
+      "options": [
+        "ReLU",
+        "Sigmoid",
+        "Softmax",
+        "Tanh"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 14,
+      "category": "Machine Learning",
+      "question": "Data Augmentation definition?",
+      "options": [
+        "Delete",
+        "Synthesize modified versions of data",
+        "Normalize",
+        "Merge"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 15,
+      "category": "Machine Learning",
+      "question": "Hyperparameter vs Parameter?",
+      "options": [
+        "Hyper: Learned",
+        "Hyper: Set before training, Para: Learned during",
+        "Same",
+        "Para only for DL"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 16,
+      "category": "Visualization",
+      "question": "Box plot advantage?",
+      "options": [
+        "Exact points",
+        "Quartiles/Outliers visualization",
+        "Correlations",
+        "Time series"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 17,
+      "category": "Machine Learning",
+      "question": "F1-Score?",
+      "options": [
+        "Harmonic mean (P/R)",
+        "Error avg",
+        "Accuracy",
+        "Max error"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 18,
+      "category": "Machine Learning",
+      "question": "Drop neurons during training?",
+      "options": [
+        "Regularization",
+        "Dropout",
+        "Batch Norm",
+        "Early Stopping"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 19,
+      "category": "Machine Learning",
+      "question": "Naive in Naive Bayes?",
+      "options": [
+        "Simple",
+        "Strong independence assumption",
+        "No math",
+        "Binary only"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 20,
+      "category": "Machine Learning",
+      "question": "K-Means goal?",
+      "options": [
+        "Predict target",
+        "Partition observations into clusters with nearest mean",
+        "Classify",
+        "Dim reduction"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 21,
+      "category": "Machine Learning",
+      "question": "What is 'precision'?",
+      "options": [
+        "TP / (TP + FP)",
+        "TP / (TP + FN)",
+        "Accuracy",
+        "Recall"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 22,
+      "category": "Machine Learning",
+      "question": "What is 'recall'?",
+      "options": [
+        "TP / (TP + FP)",
+        "TP / (TP + FN)",
+        "Accuracy",
+        "Precision"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 23,
+      "category": "Machine Learning",
+      "question": "AUC-ROC curve represents?",
+      "options": [
+        "Tradeoff between TPR and FPR",
+        "Error over time",
+        "Learning rate",
+        "Model size"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 24,
+      "category": "Machine Learning",
+      "question": "What is Cross-Validation?",
+      "options": [
+        "Data cleaning",
+        "Evaluating generalization performance",
+        "Scaling",
+        "Feature engineering"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 25,
+      "category": "Machine Learning",
+      "question": "Scenario: Overfitting detected. Immediate fix?",
+      "options": [
+        "More data",
+        "Regularization/Dropout",
+        "Bigger model",
+        "Both a and b"
+      ],
+      "answer": "d"
+    },
+    {
+      "id": 26,
+      "category": "Visualization",
+      "question": "Heatmap purpose?",
+      "options": [
+        "Relationship",
+        "Visualizing matrix intensity",
+        "Distribution",
+        "Trends"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 27,
+      "category": "Machine Learning",
+      "question": "What is an ensemble?",
+      "options": [
+        "Single model",
+        "Combining multiple models for better prediction",
+        "Data group",
+        "Error type"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 28,
+      "category": "Machine Learning",
+      "question": "What is Naive Bayes used for?",
+      "options": [
+        "Regression",
+        "Classification (Text mining)",
+        "Clustering",
+        "Scaling"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 29,
+      "category": "Machine Learning",
+      "question": "What is SVM?",
+      "options": [
+        "Support Vector Machine",
+        "Static Value Method",
+        "Scalar Variable Map",
+        "Super Value Machine"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 30,
+      "category": "Machine Learning",
+      "question": "K in KNN stands for?",
+      "options": [
+        "Clusters",
+        "Number of neighbors",
+        "Learning rate",
+        "Depth"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 31,
+      "category": "Machine Learning",
+      "question": "Scenario: Predicting probability of a binary event. Best algorithm?",
+      "options": [
+        "Linear Regression",
+        "Logistic Regression",
+        "K-Means",
+        "PCA"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 32,
+      "category": "Machine Learning",
+      "question": "Which algorithm is used for regression problems?",
+      "options": [
+        "Linear Regression",
+        "K-Means",
+        "Apriori",
+        "PCA"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 33,
+      "category": "Machine Learning",
+      "question": "Which algorithm is unsupervised?",
+      "options": [
+        "K-Means",
+        "Logistic Regression",
+        "Decision Tree",
+        "SVM"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 34,
+      "category": "Machine Learning",
+      "question": "What is feature engineering?",
+      "options": [
+        "Creating useful input features",
+        "Deleting data",
+        "Training model",
+        "Scaling output"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 35,
+      "category": "Machine Learning",
+      "question": "What is normalization?",
+      "options": [
+        "Scaling data into range",
+        "Removing nulls",
+        "Encoding labels",
+        "Splitting dataset"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 36,
+      "category": "Machine Learning",
+      "question": "Which algorithm works best for image classification?",
+      "options": [
+        "CNN",
+        "Linear Regression",
+        "KNN",
+        "Apriori"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 37,
+      "category": "Machine Learning",
+      "question": "What is transfer learning?",
+      "options": [
+        "Using pre-trained models",
+        "Deleting layers",
+        "Scaling images",
+        "Cleaning data"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 38,
+      "category": "Machine Learning",
+      "question": "What is recall useful for?",
+      "options": [
+        "Finding all positive cases",
+        "Reducing speed",
+        "Feature scaling",
+        "Data encoding"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 39,
+      "category": "Machine Learning",
+      "question": "Which optimizer is commonly used in deep learning?",
+      "options": [
+        "Adam",
+        "CSV",
+        "NumPy",
+        "Tkinter"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 40,
+      "category": "Machine Learning",
+      "question": "What is learning rate?",
+      "options": [
+        "Controls step size in optimization",
+        "Dataset size",
+        "Number of layers",
+        "Accuracy score"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 41,
+      "category": "Machine Learning",
+      "question": "Which metric combines precision and recall?",
+      "options": [
+        "F1-score",
+        "Accuracy",
+        "MSE",
+        "ROC"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 42,
+      "category": "Machine Learning",
+      "question": "What is bias in ML?",
+      "options": [
+        "Error due to wrong assumptions",
+        "Dataset size",
+        "Training speed",
+        "Feature count"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 43,
+      "category": "Machine Learning",
+      "question": "What is variance in ML?",
+      "options": [
+        "Model sensitivity to training data",
+        "Loss function",
+        "Learning rate",
+        "Output size"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 44,
+      "category": "Machine Learning",
+      "question": "Which method reduces overfitting?",
+      "options": [
+        "Dropout",
+        "More noise",
+        "Removing labels",
+        "Reducing rows"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 45,
+      "category": "Machine Learning",
+      "question": "What is epoch in deep learning?",
+      "options": [
+        "One full pass over dataset",
+        "Single neuron",
+        "Prediction",
+        "Feature"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 46,
+      "category": "Machine Learning",
+      "question": "What is batch size?",
+      "options": [
+        "Samples processed before update",
+        "Learning rate",
+        "Feature count",
+        "Output layer"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 47,
+      "category": "Machine Learning",
+      "question": "What is early stopping?",
+      "options": [
+        "Stopping training to avoid overfitting",
+        "Deleting model",
+        "Scaling features",
+        "Reducing rows"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 48,
+      "category": "Machine Learning",
+      "question": "Which algorithm uses decision boundaries?",
+      "options": [
+        "SVM",
+        "Apriori",
+        "PCA",
+        "K-Means"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 49,
+      "category": "Machine Learning",
+      "question": "What is anomaly detection?",
+      "options": [
+        "Finding unusual patterns",
+        "Feature scaling",
+        "Regression",
+        "Clustering"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 50,
+      "category": "Machine Learning",
+      "question": "Which algorithm is popular for anomaly detection?",
+      "options": [
+        "Isolation Forest",
+        "Linear Regression",
+        "KNN",
+        "PCA"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 51,
+      "category": "Visualization",
+      "question": "Which chart is best for trends over time?",
+      "options": [
+        "Line chart",
+        "Pie chart",
+        "Histogram",
+        "Box plot"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 52,
+      "category": "Visualization",
+      "question": "Which plot is best for distributions?",
+      "options": [
+        "Histogram",
+        "Scatter",
+        "Pie",
+        "Bar"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 53,
+      "category": "Visualization",
+      "question": "Which plot is best for outlier detection?",
+      "options": [
+        "Box plot",
+        "Pie chart",
+        "Line chart",
+        "Area chart"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 54,
+      "category": "Visualization",
+      "question": "Which plot shows relationships between variables?",
+      "options": [
+        "Scatter plot",
+        "Pie chart",
+        "Histogram",
+        "Bar chart"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 55,
+      "category": "Machine Learning",
+      "question": "What is dimensionality reduction?",
+      "options": [
+        "Reducing number of features",
+        "Adding rows",
+        "Scaling output",
+        "Training model"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 56,
+      "category": "Machine Learning",
+      "question": "Which technique selects important features?",
+      "options": [
+        "Feature selection",
+        "Clustering",
+        "Normalization",
+        "Encoding"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 57,
+      "category": "Machine Learning",
+      "question": "What is one-hot encoding?",
+      "options": [
+        "Encoding categorical variables",
+        "Scaling features",
+        "Reducing rows",
+        "Prediction"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 58,
+      "category": "Machine Learning",
+      "question": "Which algorithm uses Bayes theorem?",
+      "options": [
+        "Naive Bayes",
+        "KNN",
+        "K-Means",
+        "PCA"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 59,
+      "category": "Machine Learning",
+      "question": "What is entropy in Decision Trees?",
+      "options": [
+        "Measure of impurity",
+        "Learning rate",
+        "Prediction score",
+        "Dataset size"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 60,
+      "category": "Machine Learning",
+      "question": "What is Gini Index?",
+      "options": [
+        "Impurity measure",
+        "Accuracy score",
+        "Optimization method",
+        "Scaling method"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 61,
+      "category": "Machine Learning",
+      "question": "What is reinforcement learning?",
+      "options": [
+        "Learning using rewards",
+        "Learning with labels",
+        "Clustering data",
+        "Feature scaling"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 62,
+      "category": "Machine Learning",
+      "question": "What is Q-learning?",
+      "options": [
+        "Reinforcement learning algorithm",
+        "Regression",
+        "Clustering",
+        "Visualization"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 63,
+      "category": "Machine Learning",
+      "question": "Which framework is used for deep learning?",
+      "options": [
+        "TensorFlow",
+        "Tkinter",
+        "Flask",
+        "Requests"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 64,
+      "category": "Machine Learning",
+      "question": "Which framework is developed by Facebook?",
+      "options": [
+        "PyTorch",
+        "Django",
+        "NumPy",
+        "Pandas"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 65,
+      "category": "Machine Learning",
+      "question": "What is model deployment?",
+      "options": [
+        "Using model in production",
+        "Deleting dataset",
+        "Scaling output",
+        "Cleaning features"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 66,
+      "category": "Machine Learning",
+      "question": "What is inference in ML?",
+      "options": [
+        "Making predictions",
+        "Training model",
+        "Cleaning data",
+        "Scaling features"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 67,
+      "category": "Machine Learning",
+      "question": "What is concept drift?",
+      "options": [
+        "Data changes over time",
+        "Learning rate",
+        "Model size",
+        "Feature count"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 68,
+      "category": "Machine Learning",
+      "question": "Which model works best for sequential data?",
+      "options": [
+        "RNN",
+        "CNN",
+        "SVM",
+        "KNN"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 69,
+      "category": "Machine Learning",
+      "question": "Which model works best for image data?",
+      "options": [
+        "CNN",
+        "RNN",
+        "Linear Regression",
+        "Apriori"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 70,
+      "category": "Machine Learning",
+      "question": "What is explainable AI?",
+      "options": [
+        "Understanding model decisions",
+        "Faster training",
+        "Scaling data",
+        "Reducing features"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 71,
+      "category": "Machine Learning",
+      "question": "What is AutoML?",
+      "options": [
+        "Automatic ML pipeline",
+        "Manual training",
+        "Database",
+        "Visualization tool"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 72,
+      "category": "Machine Learning",
+      "question": "What is TP in confusion matrix?",
+      "options": [
+        "True Positive",
+        "Training Point",
+        "Tensor Processing",
+        "Target Prediction"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 73,
+      "category": "Machine Learning",
+      "question": "What is FP in confusion matrix?",
+      "options": [
+        "False Positive",
+        "Final Prediction",
+        "Feature Point",
+        "Fast Process"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 74,
+      "category": "Machine Learning",
+      "question": "What is FN in confusion matrix?",
+      "options": [
+        "False Negative",
+        "Feature Number",
+        "Final Node",
+        "Fast Network"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 75,
+      "category": "Machine Learning",
+      "question": "What is TN in confusion matrix?",
+      "options": [
+        "True Negative",
+        "Training Node",
+        "Tensor Number",
+        "Target Node"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 76,
+      "category": "Machine Learning",
+      "question": "Which metric measures classification threshold performance?",
+      "options": [
+        "ROC Curve",
+        "MSE",
+        "MAE",
+        "RMSE"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 77,
+      "category": "Machine Learning",
+      "question": "What is MAE?",
+      "options": [
+        "Mean Absolute Error",
+        "Maximum Accuracy Error",
+        "Matrix Average Error",
+        "Mean Accuracy Evaluation"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 78,
+      "category": "Machine Learning",
+      "question": "What is MSE?",
+      "options": [
+        "Mean Squared Error",
+        "Maximum Square Evaluation",
+        "Matrix Standard Error",
+        "Mean Sample Error"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 79,
+      "category": "Machine Learning",
+      "question": "Which algorithm is best for recommendations?",
+      "options": [
+        "Collaborative Filtering",
+        "PCA",
+        "KNN",
+        "SVM"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 80,
+      "category": "Machine Learning",
+      "question": "What is collaborative filtering?",
+      "options": [
+        "Recommendation based on user behavior",
+        "Scaling method",
+        "Feature engineering",
+        "Classification"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 81,
+      "category": "Machine Learning",
+      "question": "What is data leakage?",
+      "options": [
+        "Using future information in training",
+        "Scaling data",
+        "Encoding labels",
+        "Visualization"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 82,
+      "category": "Machine Learning",
+      "question": "Which technique handles imbalanced data?",
+      "options": [
+        "SMOTE",
+        "PCA",
+        "Apriori",
+        "Bagging"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 83,
+      "category": "Machine Learning",
+      "question": "What is SMOTE?",
+      "options": [
+        "Synthetic minority oversampling",
+        "Scaling method",
+        "Optimization",
+        "Visualization"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 84,
+      "category": "Machine Learning",
+      "question": "What is a loss function?",
+      "options": [
+        "Measures prediction error",
+        "Stores data",
+        "Scales features",
+        "Creates labels"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 85,
+      "category": "Machine Learning",
+      "question": "Which loss is common for regression?",
+      "options": [
+        "MSE",
+        "Cross Entropy",
+        "Hinge Loss",
+        "Log Loss"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 86,
+      "category": "Machine Learning",
+      "question": "Which loss is common for classification?",
+      "options": [
+        "Cross Entropy",
+        "MSE",
+        "RMSE",
+        "MAE"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 87,
+      "category": "Machine Learning",
+      "question": "What is cosine similarity used for?",
+      "options": [
+        "Measuring vector similarity",
+        "Scaling data",
+        "Reducing dimensions",
+        "Encoding labels"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 88,
+      "category": "Machine Learning",
+      "question": "What is NLP?",
+      "options": [
+        "Natural Language Processing",
+        "Neural Learning Process",
+        "Node Logic Program",
+        "Numeric Language Parsing"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 89,
+      "category": "Machine Learning",
+      "question": "Which library is widely used for NLP?",
+      "options": [
+        "NLTK",
+        "Tkinter",
+        "Flask",
+        "Pillow"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 90,
+      "category": "Machine Learning",
+      "question": "What is tokenization?",
+      "options": [
+        "Splitting text into tokens",
+        "Scaling data",
+        "Encoding labels",
+        "Reducing features"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 91,
+      "category": "Machine Learning",
+      "question": "What is stemming?",
+      "options": [
+        "Reducing words to root form",
+        "Scaling data",
+        "Encoding labels",
+        "Clustering"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 92,
+      "category": "Machine Learning",
+      "question": "What is lemmatization?",
+      "options": [
+        "Converting words to dictionary form",
+        "Scaling data",
+        "Classification",
+        "Regression"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 93,
+      "category": "Machine Learning",
+      "question": "What is TF-IDF?",
+      "options": [
+        "Text feature extraction",
+        "Scaling method",
+        "Clustering method",
+        "Visualization"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 94,
+      "category": "Machine Learning",
+      "question": "Which model is used in transformers?",
+      "options": [
+        "Attention mechanism",
+        "Decision tree",
+        "KNN",
+        "Naive Bayes"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 95,
+      "category": "Machine Learning",
+      "question": "What is attention mechanism?",
+      "options": [
+        "Focus on important input parts",
+        "Scaling",
+        "Clustering",
+        "Encoding"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 96,
+      "category": "Machine Learning",
+      "question": "What is generative AI?",
+      "options": [
+        "AI that creates content",
+        "Scaling algorithm",
+        "Regression model",
+        "Visualization tool"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 97,
+      "category": "Machine Learning",
+      "question": "Which company created TensorFlow?",
+      "options": [
+        "Google",
+        "Microsoft",
+        "Meta",
+        "Amazon"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 98,
+      "category": "Machine Learning",
+      "question": "Which company created PyTorch?",
+      "options": [
+        "Meta",
+        "Apple",
+        "Netflix",
+        "IBM"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 99,
+      "category": "Machine Learning",
+      "question": "Main goal of AI?",
+      "options": [
+        "Simulate human intelligence",
+        "Only store data",
+        "Create databases",
+        "Build websites"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 100,
+      "category": "Final",
+      "question": "Final ML Question: Difference between supervised and unsupervised?",
+      "options": [
+        "Labeled vs Unlabeled data",
+        "Speed",
+        "Complexity",
+        "Accuracy"
+      ],
+      "answer": "a"
+    }
+  ]
+}
