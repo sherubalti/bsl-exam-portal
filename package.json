@@ -1,7 +1,7 @@
 {
-  "name": "navttc-exam-portal",
+  "name": "bsl-exam-portal",
   "version": "1.0.0",
-  "description": "NAVTTC AI Course Exam Portal",
+  "description": "BSL Data Science & AI Final Exam Portal",
   "private": true,
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
