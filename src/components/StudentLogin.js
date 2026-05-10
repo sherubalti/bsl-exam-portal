@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { db } from '../firebase';
 import { ref, get, child } from "firebase/database";
 
@@ -39,42 +39,77 @@ const StudentLogin = ({ onLogin }) => {
   };
 
   return (
-    <div className="auth-container">
-      <h2>BSL Student Login</h2>
-      {error && <div style={{ color: 'red', marginBottom: '15px' }}>{error}</div>}
-      
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>User ID / Username:</label>
-          <input
-            type="text"
-            className="form-control"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
-            placeholder="Enter your assigned ID"
-            required
-          />
+    <div className="login-page-wrapper">
+      <div className="login-card">
+        {/* Left Side: Description */}
+        <div className="login-info-section">
+          <h1 className="main-title">Welcome to BSL</h1>
+          <p className="subtitle">Baltistan Silicon Lab</p>
+          <p className="description">
+            Empowering the next generation with industry-level training in <strong>Artificial Intelligence</strong> and <strong>Data Science</strong>.
+          </p>
+          
+          <div className="features-grid">
+            <div className="feature-card dark-feature">
+              <span className="feature-icon">🚀</span>
+              <div>
+                <h4>Industry-Ready Skills</h4>
+                <p>Master cutting-edge technologies like Machine Learning and AI through hands-on projects.</p>
+              </div>
+            </div>
+            <div className="feature-card dark-feature">
+              <span className="feature-icon">💡</span>
+              <div>
+                <h4>Expert Mentorship</h4>
+                <p>Learn directly from seasoned professionals and receive guidance to excel globally.</p>
+              </div>
+            </div>
+          </div>
         </div>
-        
-        <div className="form-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            className="form-control"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
-            required
-          />
+
+        {/* Right Side: Login Form */}
+        <div className="login-form-section">
+          <div className="auth-container">
+            <h2>Student Portal</h2>
+            <p className="login-prompt">Please login to access your dashboard</p>
+            
+            {error && <div className="error-msg">{error}</div>}
+            
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label>User ID / Username</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={userId}
+                  onChange={(e) => setUserId(e.target.value)}
+                  placeholder="Enter your assigned ID"
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
+              
+              <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '16px', padding: '14px' }}>
+                Login to Dashboard
+              </button>
+            </form>
+            
+            <div className="notice-box">
+              <strong>Notice:</strong> Accounts are assigned by the BSL administration. If you do not have your credentials, please contact your instructor.
+            </div>
+          </div>
         </div>
-        
-        <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '10px' }}>
-          Login to Portal
-        </button>
-      </form>
-      
-      <div style={{ marginTop: '30px', padding: '15px', background: '#f8f9fa', borderRadius: '8px', fontSize: '0.9rem' }}>
-        <strong>Notice:</strong> Accounts are assigned by Baltistan Silicon Lab administration. If you do not have your credentials, please contact your instructor.
       </div>
     </div>
   );
