@@ -2,548 +2,104 @@
   "questions": [
     {
       "id": 1,
-      "category": "Variables",
-      "question": "What is the output?\nx = [1,2]\ny = x\ny.append(3)\nprint(x)",
+      "category": "Data Types",
+      "question": "Which of the following is immutable in Python?",
       "options": [
-        "[1,2]",
-        "[1,2,3]",
-        "[3]",
-        "Error"
+        "list",
+        "dict",
+        "tuple",
+        "set"
       ],
-      "answer": "b"
+      "answer": "c"
     },
     {
       "id": 2,
-      "category": "Variables",
-      "question": "Which statement about Python variables is correct?",
+      "category": "Data Types",
+      "question": "What is the output?\nprint(type([1,2,3]))",
       "options": [
-        "Variables store fixed datatype",
-        "Variables are dynamically typed",
-        "Variables cannot change",
-        "Variables require declaration"
+        "<class 'tuple'>",
+        "<class 'list'>",
+        "<class 'set'>",
+        "<class 'dict'>"
       ],
       "answer": "b"
     },
     {
       "id": 3,
-      "category": "Variables",
-      "question": "What is the output?\na = 5\nb = 5\nprint(a is b)",
-      "options": [
-        "True",
-        "False",
-        "Error",
-        "None"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 4,
-      "category": "Variables",
-      "question": "Which function returns memory address identity?",
-      "options": [
-        "type()",
-        "id()",
-        "len()",
-        "ord()"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 5,
-      "category": "Variables",
-      "question": "What is variable shadowing?",
-      "options": [
-        "Deleting variable",
-        "Local variable hides global variable",
-        "Creating loop",
-        "Renaming class"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 6,
       "category": "Data Types",
-      "question": "Which datatype is immutable?",
+      "question": "Which data type stores unique values?",
       "options": [
         "list",
-        "dict",
-        "set",
-        "tuple"
-      ],
-      "answer": "d"
-    },
-    {
-      "id": 7,
-      "category": "Data Types",
-      "question": "What is the output?\nprint(type({}))",
-      "options": [
-        "set",
         "tuple",
-        "dict",
-        "list"
-      ],
-      "answer": "c"
-    },
-    {
-      "id": 8,
-      "category": "Data Types",
-      "question": "Which datatype stores unordered unique values?",
-      "options": [
-        "tuple",
-        "list",
         "set",
         "dict"
       ],
       "answer": "c"
     },
     {
+      "id": 4,
+      "category": "Data Types",
+      "question": "What is the output?\nprint(type({}))",
+      "options": [
+        "<class 'set'>",
+        "<class 'dict'>",
+        "<class 'list'>",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 5,
+      "category": "Data Types",
+      "question": "Which is mutable and ordered?",
+      "options": [
+        "tuple",
+        "str",
+        "list",
+        "frozenset"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 6,
+      "category": "Data Types",
+      "question": "What is bool('0')?",
+      "options": [
+        "False",
+        "True",
+        "Error",
+        "None"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 7,
+      "category": "Data Types",
+      "question": "What will be printed?\nprint({1,2,2,3})",
+      "options": [
+        "{1,2,2,3}",
+        "{1,2,3}",
+        "Error",
+        "[1,2,3]"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 8,
+      "category": "Data Types",
+      "question": "Which data type is used for key-value pairs?",
+      "options": [
+        "list",
+        "tuple",
+        "dict",
+        "set"
+      ],
+      "answer": "c"
+    },
+    {
       "id": 9,
       "category": "Data Types",
-      "question": "What is the output?\nprint(bool([]))",
-      "options": [
-        "True",
-        "False",
-        "None",
-        "Error"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 10,
-      "category": "Data Types",
-      "question": "Which datatype is commonly used for key-value mapping?",
-      "options": [
-        "dict",
-        "tuple",
-        "set",
-        "float"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 11,
-      "category": "Operators",
-      "question": "What is the output?\nprint(15 // 4)",
-      "options": [
-        "3",
-        "3.75",
-        "4",
-        "Error"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 12,
-      "category": "Operators",
-      "question": "Which operator checks object identity?",
-      "options": [
-        "==",
-        "=",
-        "is",
-        "!="
-      ],
-      "answer": "c"
-    },
-    {
-      "id": 13,
-      "category": "Operators",
-      "question": "What is the output?\nprint(2 ** 3 ** 2)",
-      "options": [
-        "64",
-        "512",
-        "256",
-        "Error"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 14,
-      "category": "Operators",
-      "question": "Which operator has highest precedence?",
-      "options": [
-        "+",
-        "*",
-        "**",
-        "//"
-      ],
-      "answer": "c"
-    },
-    {
-      "id": 15,
-      "category": "Operators",
-      "question": "What is the output?\nprint(True or False and False)",
-      "options": [
-        "True",
-        "False",
-        "Error",
-        "None"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 16,
-      "category": "Conditions",
-      "question": "Which keyword is used for multiple conditional branches?",
-      "options": [
-        "switch",
-        "elif",
-        "case",
-        "default"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 17,
-      "category": "Conditions",
-      "question": "What is the output?\nx=7\nif x>5:\n print('A')\nelif x>10:\n print('B')",
-      "options": [
-        "A",
-        "B",
-        "AB",
-        "None"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 18,
-      "category": "Conditions",
-      "question": "Which condition evaluates to False?",
-      "options": [
-        "bool(1)",
-        "bool('AI')",
-        "bool([])",
-        "bool(5)"
-      ],
-      "answer": "c"
-    },
-    {
-      "id": 19,
-      "category": "Conditions",
-      "question": "Nested if means:",
-      "options": [
-        "if inside loop",
-        "if inside if",
-        "loop inside if",
-        "None"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 20,
-      "category": "Conditions",
-      "question": "What is short-circuit evaluation?",
-      "options": [
-        "Stops evaluation when result known",
-        "Infinite loop",
-        "Condition error",
-        "Fast variable"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 21,
-      "category": "Loops",
-      "question": "What is the output?\nfor i in range(1,5,2):\n print(i)",
-      "options": [
-        "1 3",
-        "1 2 3 4",
-        "0 2 4",
-        "Error"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 22,
-      "category": "Loops",
-      "question": "Which loop is best when iterations count is unknown?",
-      "options": [
-        "for",
-        "while",
-        "nested",
-        "None"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 23,
-      "category": "Loops",
-      "question": "What does continue keyword do?",
-      "options": [
-        "Stops program",
-        "Skips current iteration",
-        "Ends loop",
-        "Restarts program"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 24,
-      "category": "Loops",
-      "question": "What is loop nesting?",
-      "options": [
-        "Function inside loop",
-        "Loop inside loop",
-        "Condition inside function",
-        "None"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 25,
-      "category": "Loops",
-      "question": "What is the output?\nfor i in range(3):\n for j in range(2):\n  print(j)",
-      "options": [
-        "0 1 repeated 3 times",
-        "0 1 2",
-        "Infinite",
-        "Error"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 26,
-      "category": "Functions",
-      "question": "Which keyword returns value from function?",
-      "options": [
-        "yield",
-        "return",
-        "break",
-        "pass"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 27,
-      "category": "Functions",
-      "question": "What is recursion?",
-      "options": [
-        "Loop",
-        "Function calling itself",
-        "Condition",
-        "Class"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 28,
-      "category": "Functions",
-      "question": "What is lambda function?",
-      "options": [
-        "Named function",
-        "Anonymous function",
-        "Loop function",
-        "Recursive class"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 29,
-      "category": "Functions",
-      "question": "What is the output?\ndef f(x=[]):\n x.append(1)\n return x\nprint(f())\nprint(f())",
-      "options": [
-        "[1] [1]",
-        "[1] [1,1]",
-        "Error",
-        "[] []"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 30,
-      "category": "Functions",
-      "question": "What is *args used for?",
-      "options": [
-        "Keyword arguments",
-        "Variable positional arguments",
-        "Comments",
-        "Loops"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 31,
-      "category": "AI Data Science",
-      "question": "Which library is mainly used for numerical computing?",
-      "options": [
-        "Flask",
-        "NumPy",
-        "Django",
-        "Tkinter"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 32,
-      "category": "AI Data Science",
-      "question": "Which library is best for tabular data analysis?",
-      "options": [
-        "Pandas",
-        "pygame",
-        "Kivy",
-        "Requests"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 33,
-      "category": "AI Data Science",
-      "question": "Which algorithm is supervised learning?",
-      "options": [
-        "K-Means",
-        "Apriori",
-        "Linear Regression",
-        "DBSCAN"
-      ],
-      "answer": "c"
-    },
-    {
-      "id": 34,
-      "category": "AI Data Science",
-      "question": "What is overfitting?",
-      "options": [
-        "Good generalization",
-        "Model memorizes training data",
-        "Data cleaning",
-        "Feature scaling"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 35,
-      "category": "AI Data Science",
-      "question": "Which metric is best for imbalanced classification?",
-      "options": [
-        "Accuracy",
-        "F1-Score",
-        "Mean",
-        "Variance"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 36,
-      "category": "AI Data Science",
-      "question": "What is feature scaling used for?",
-      "options": [
-        "Delete data",
-        "Normalize feature ranges",
-        "Increase rows",
-        "Drop columns"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 37,
-      "category": "AI Data Science",
-      "question": "Which algorithm is commonly used for clustering?",
-      "options": [
-        "Logistic Regression",
-        "K-Means",
-        "CNN",
-        "Decision Tree"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 38,
-      "category": "AI Data Science",
-      "question": "What does train_test_split() do?",
-      "options": [
-        "Deletes dataset",
-        "Splits data into training/testing",
-        "Scales data",
-        "Creates plots"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 39,
-      "category": "AI Data Science",
-      "question": "Which chart is best for correlation analysis?",
-      "options": [
-        "Pie Chart",
-        "Scatter Plot",
-        "Histogram",
-        "Bar Chart"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 40,
-      "category": "AI Data Science",
-      "question": "What is a confusion matrix?",
-      "options": [
-        "Optimization table",
-        "Classification evaluation table",
-        "Dataframe",
-        "Loop table"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 41,
-      "category": "Variables",
-      "question": "What is the output?\na=10\nb=20\na,b=b,a\nprint(a,b)",
-      "options": [
-        "10 20",
-        "20 10",
-        "Error",
-        "None"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 42,
-      "category": "Variables",
-      "question": "Which keyword modifies global variable inside function?",
-      "options": [
-        "global",
-        "public",
-        "static",
-        "var"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 43,
-      "category": "Variables",
-      "question": "What is unpacking in Python?",
-      "options": [
-        "Deleting variables",
-        "Assigning iterable values into variables",
-        "Scaling",
-        "Looping"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 44,
-      "category": "Variables",
-      "question": "What is the output?\nx='AI'\nprint(x*2)",
-      "options": [
-        "AI2",
-        "AIAI",
-        "Error",
-        "4"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 45,
-      "category": "Variables",
-      "question": "What is scope of variable defined inside function?",
-      "options": [
-        "Global",
-        "Local",
-        "Universal",
-        "Static"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 46,
-      "category": "Data Types",
-      "question": "What is the output?\nprint(type(3+4j))",
+      "question": "What is the type of 5 + 3j?",
       "options": [
         "float",
         "complex",
@@ -553,235 +109,487 @@
       "answer": "b"
     },
     {
-      "id": 47,
+      "id": 10,
       "category": "Data Types",
-      "question": "Which datatype supports slicing?",
+      "question": "frozenset is an:",
       "options": [
-        "int",
-        "float",
-        "str",
-        "bool"
-      ],
-      "answer": "c"
-    },
-    {
-      "id": 48,
-      "category": "Data Types",
-      "question": "What is the output?\nprint({1,1,2,2})",
-      "options": [
-        "{1,1,2,2}",
-        "{1,2}",
-        "Error",
-        "[1,2]"
+        "Mutable set",
+        "Immutable set",
+        "Ordered dict",
+        "Tuple"
       ],
       "answer": "b"
     },
     {
-      "id": 49,
-      "category": "Data Types",
-      "question": "Which datatype is ordered and mutable?",
-      "options": [
-        "tuple",
-        "set",
-        "list",
-        "frozenset"
-      ],
-      "answer": "c"
-    },
-    {
-      "id": 50,
-      "category": "Data Types",
-      "question": "What does len() function return?",
-      "options": [
-        "Datatype",
-        "Memory size",
-        "Number of items",
-        "ASCII"
-      ],
-      "answer": "c"
-    },
-    {
-      "id": 51,
+      "id": 11,
       "category": "Operators",
-      "question": "What is the output?\nprint(5 & 3)",
+      "question": "What is the output?\nprint(17 // 3)",
       "options": [
-        "1",
-        "7",
+        "5.666",
+        "5",
+        "6",
+        "5.0"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 12,
+      "category": "Operators",
+      "question": "Which operator is used for power?",
+      "options": [
+        "^",
+        "**",
+        "*",
+        "//"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 13,
+      "category": "Operators",
+      "question": "What is 5 & 3 (bitwise)?",
+      "options": [
         "8",
-        "0"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 52,
-      "category": "Operators",
-      "question": "Which operator checks membership?",
-      "options": [
-        "is",
-        "in",
-        "==",
-        "="
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 53,
-      "category": "Operators",
-      "question": "What is the output?\nprint(10 > 5 and 2 < 1)",
-      "options": [
-        "True",
-        "False",
+        "7",
         "1",
         "0"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 54,
-      "category": "Operators",
-      "question": "What is modulo operator used for?",
-      "options": [
-        "Multiplication",
-        "Exponent",
-        "Remainder",
-        "Division"
       ],
       "answer": "c"
     },
     {
-      "id": 55,
+      "id": 14,
       "category": "Operators",
-      "question": "What is the output?\nprint(4==4.0)",
+      "question": "Which checks object identity?",
+      "options": [
+        "==",
+        "is",
+        "=",
+        "in"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 15,
+      "category": "Operators",
+      "question": "What is 2 ** 3 ** 2?",
+      "options": [
+        "64",
+        "512",
+        "256",
+        "81"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 16,
+      "category": "Operators",
+      "question": "'in' operator is used for?",
+      "options": [
+        "Identity",
+        "Membership",
+        "Assignment",
+        "Comparison"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 17,
+      "category": "Operators",
+      "question": "What is 10 > 5 and 3 > 8?",
       "options": [
         "True",
         "False",
         "Error",
         "None"
       ],
-      "answer": "a"
+      "answer": "b"
     },
     {
-      "id": 56,
-      "category": "Conditions",
-      "question": "Which keyword handles exceptions?",
+      "id": 18,
+      "category": "Operators",
+      "question": "% operator gives?",
       "options": [
-        "except",
-        "if",
+        "Quotient",
+        "Remainder",
+        "Product",
+        "Power"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 19,
+      "category": "Operators",
+      "question": "4 == 4.0 returns?",
+      "options": [
+        "False",
+        "True",
+        "Error",
+        "None"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 20,
+      "category": "Operators",
+      "question": "Highest precedence operator?",
+      "options": [
+        "+",
+        "**",
+        "*",
+        "//"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 21,
+      "category": "Conditions",
+      "question": "Which is used for multiple conditions?",
+      "options": [
+        "switch",
         "elif",
-        "pass"
+        "case",
+        "for"
       ],
-      "answer": "a"
+      "answer": "b"
     },
     {
-      "id": 57,
+      "id": 22,
       "category": "Conditions",
-      "question": "What is ternary operator syntax?",
+      "question": "bool([]) is?",
       "options": [
-        "x if c else y",
-        "if else x",
-        "?:",
-        "switch case"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 58,
-      "category": "Conditions",
-      "question": "What is the output?\nprint('A' if 5>2 else 'B')",
-      "options": [
-        "A",
-        "B",
-        "AB",
-        "Error"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 59,
-      "category": "Conditions",
-      "question": "Which condition is truthy?",
-      "options": [
-        "0",
-        "[]",
-        "'AI'",
-        "False"
-      ],
-      "answer": "c"
-    },
-    {
-      "id": 60,
-      "category": "Conditions",
-      "question": "What is the output?\nif None:\n print('Yes')\nelse:\n print('No')",
-      "options": [
-        "Yes",
-        "No",
+        "True",
+        "False",
         "None",
         "Error"
       ],
       "answer": "b"
     },
     {
-      "id": 61,
-      "category": "Loops",
-      "question": "What does enumerate() return?",
+      "id": 23,
+      "category": "Conditions",
+      "question": "Ternary operator syntax is?",
       "options": [
-        "Only values",
-        "Index-value pairs",
-        "Dictionary",
-        "Boolean"
+        "if else",
+        "x if cond else y",
+        "?:",
+        "switch"
       ],
       "answer": "b"
     },
     {
-      "id": 62,
-      "category": "Loops",
-      "question": "What is the output?\nfor i,v in enumerate(['a','b']):\n print(i,v)",
+      "id": 24,
+      "category": "Conditions",
+      "question": "What is printed?\nprint('A' if 5>2 else 'B')",
       "options": [
-        "0 a and 1 b",
-        "a b",
-        "0 1",
-        "Error"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 63,
-      "category": "Loops",
-      "question": "What is list comprehension?",
-      "options": [
-        "Loop shortcut for lists",
-        "Dictionary",
-        "Function",
-        "Condition"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 64,
-      "category": "Loops",
-      "question": "What is the output?\nprint([x*x for x in range(3)])",
-      "options": [
-        "[1,4,9]",
-        "[0,1,4]",
-        "[0,1,2]",
+        "B",
+        "A",
+        "AB",
         "Error"
       ],
       "answer": "b"
     },
     {
-      "id": 65,
-      "category": "Loops",
-      "question": "Which loop is memory efficient for large datasets?",
+      "id": 25,
+      "category": "Conditions",
+      "question": "Which is falsy?",
       "options": [
-        "Generator loop",
+        "'False'",
+        "0",
+        "'0'",
+        "1"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 26,
+      "category": "Conditions",
+      "question": "Short-circuit evaluation means?",
+      "options": [
+        "Evaluate all",
+        "Stop when result known",
+        "Only loops",
+        "Syntax error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 27,
+      "category": "Conditions",
+      "question": "if None: will execute?",
+      "options": [
+        "Yes",
+        "No",
+        "Error",
+        "Print None"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 28,
+      "category": "Conditions",
+      "question": "Nested if means?",
+      "options": [
+        "if in loop",
+        "if inside if",
+        "Multiple elif",
+        "for inside if"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 29,
+      "category": "Conditions",
+      "question": "bool(0.0) returns?",
+      "options": [
+        "True",
+        "False",
+        "0.0",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 30,
+      "category": "Conditions",
+      "question": "pass statement is used for?",
+      "options": [
+        "Return value",
+        "Do nothing",
+        "Break loop",
+        "Continue"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 31,
+      "category": "Loops",
+      "question": "What is output of range(3)?",
+      "options": [
+        "1 2 3",
+        "0 1 2",
+        "0 1 2 3",
+        "1 2"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 32,
+      "category": "Loops",
+      "question": "Best loop when iteration count is unknown?",
+      "options": [
+        "for",
+        "while",
+        "do while",
+        "foreach"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 33,
+      "category": "Loops",
+      "question": "continue keyword does?",
+      "options": [
+        "Exit loop",
+        "Skip current iteration",
+        "Restart loop",
+        "Stop program"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 34,
+      "category": "Loops",
+      "question": "enumerate() returns?",
+      "options": [
+        "Values only",
+        "Index and value",
+        "Keys only",
+        "Dictionary"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 35,
+      "category": "Loops",
+      "question": "break keyword is used to?",
+      "options": [
+        "Skip iteration",
+        "Exit loop",
+        "Continue next",
+        "Restart"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 36,
+      "category": "Loops",
+      "question": "List comprehension is used for?",
+      "options": [
+        "Creating lists quickly",
+        "Looping slowly",
+        "Only conditions",
+        "Functions"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 37,
+      "category": "Loops",
+      "question": "for i in range(1,6,2): prints?",
+      "options": [
+        "1 2 3 4 5",
+        "1 3 5",
+        "0 2 4",
+        "2 4 6"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 38,
+      "category": "Loops",
+      "question": "while True: creates?",
+      "options": [
+        "Finite loop",
         "Infinite loop",
-        "Nested loop",
-        "None"
+        "Syntax error",
+        "No loop"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 39,
+      "category": "Loops",
+      "question": "else with for loop executes when?",
+      "options": [
+        "break used",
+        "No break",
+        "Always",
+        "Never"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 40,
+      "category": "Loops",
+      "question": "zip() function is used to?",
+      "options": [
+        "Pair iterables",
+        "Unzip",
+        "Loop only",
+        "Filter"
       ],
       "answer": "a"
     },
     {
-      "id": 66,
+      "id": 41,
+      "category": "Functions",
+      "question": "Keyword to define function?",
+      "options": [
+        "func",
+        "def",
+        "function",
+        "lambda"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 42,
+      "category": "Functions",
+      "question": "return keyword is used to?",
+      "options": [
+        "Print value",
+        "Return value from function",
+        "Loop",
+        "Define variable"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 43,
+      "category": "Functions",
+      "question": "Lambda is?",
+      "options": [
+        "Named function",
+        "Anonymous function",
+        "Recursive",
+        "Generator"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 44,
+      "category": "Functions",
+      "question": "*args is used for?",
+      "options": [
+        "Keyword args",
+        "Variable positional args",
+        "Global",
+        "Default"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 45,
+      "category": "Functions",
+      "question": "**kwargs is used for?",
+      "options": [
+        "Positional",
+        "Variable keyword args",
+        "List",
+        "Tuple"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 46,
+      "category": "Functions",
+      "question": "Recursion means?",
+      "options": [
+        "Loop",
+        "Function calls itself",
+        "Nested loop",
+        "Lambda"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 47,
+      "category": "Functions",
+      "question": "Generator function uses?",
+      "options": [
+        "return",
+        "yield",
+        "print",
+        "lambda"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 48,
+      "category": "Functions",
+      "question": "Default mutable argument issue occurs with?",
+      "options": [
+        "int",
+        "str",
+        "list",
+        "tuple"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 49,
+      "category": "Functions",
+      "question": "Function without return returns?",
+      "options": [
+        "0",
+        "None",
+        "Error",
+        "False"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 50,
       "category": "Functions",
       "question": "What is closure in Python?",
       "options": [
@@ -793,213 +601,525 @@
       "answer": "b"
     },
     {
-      "id": 67,
-      "category": "Functions",
-      "question": "What does **kwargs represent?",
+      "id": 51,
+      "category": "Data Types",
+      "question": "Strings support?",
       "options": [
-        "Variable positional args",
-        "Variable keyword args",
+        "Negative indexing",
+        "Only positive",
+        "No indexing",
+        "Only slicing"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 52,
+      "category": "Data Types",
+      "question": "dict.keys() returns?",
+      "options": [
+        "List",
+        "View",
+        "Tuple",
+        "Set"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 53,
+      "category": "Operators",
+      "question": "~5 (bitwise NOT) is?",
+      "options": [
+        "5",
+        "-6",
+        "-5",
+        "6"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 54,
+      "category": "Conditions",
+      "question": "All non-zero values are?",
+      "options": [
+        "Falsy",
+        "Truthy",
+        "None",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 55,
+      "category": "Loops",
+      "question": "reversed() returns?",
+      "options": [
+        "List",
+        "Reverse iterator",
+        "Tuple",
+        "Set"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 56,
+      "category": "Functions",
+      "question": "global keyword is used to?",
+      "options": [
+        "Create local",
+        "Modify global variable",
+        "Import",
+        "Define class"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 57,
+      "category": "Data Types",
+      "question": "Which can be used as dictionary key?",
+      "options": [
+        "list",
+        "tuple",
+        "dict",
+        "set"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 58,
+      "category": "Operators",
+      "question": "5 ^ 3 (XOR) equals?",
+      "options": [
+        "6",
+        "7",
+        "1",
+        "8"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 59,
+      "category": "Conditions",
+      "question": "try-except is used for?",
+      "options": [
+        "Normal code",
+        "Exception handling",
+        "Looping",
+        "Function"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 60,
+      "category": "Loops",
+      "question": "[x*2 for x in range(4)] gives?",
+      "options": [
+        "[0,2,4,6]",
+        "[1,2,3,4]",
+        "[2,4,6,8]",
+        "Error"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 61,
+      "category": "Functions",
+      "question": "Decorator is used to?",
+      "options": [
+        "Modify function",
+        "Create loop",
+        "Handle error",
+        "Define variable"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 62,
+      "category": "Data Types",
+      "question": "'hello' * 3 gives?",
+      "options": [
+        "hellohellohello",
+        "Error",
+        "9",
+        "hello3"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 63,
+      "category": "Operators",
+      "question": "and operator returns?",
+      "options": [
+        "Always True",
+        "First falsy value",
+        "True/False",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 64,
+      "category": "Conditions",
+      "question": "assert is used for?",
+      "options": [
+        "Debugging",
         "Loop",
-        "Datatype"
+        "Return",
+        "Print"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 65,
+      "category": "Loops",
+      "question": "for loop is ideal for?",
+      "options": [
+        "Unknown count",
+        "Iterating sequences",
+        "Only conditions",
+        "Recursion"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 66,
+      "category": "Functions",
+      "question": "map() is used to?",
+      "options": [
+        "Apply function to each item",
+        "Filter",
+        "Reduce",
+        "Sort"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 67,
+      "category": "Data Types",
+      "question": "What is bytearray?",
+      "options": [
+        "Immutable",
+        "Mutable sequence of bytes",
+        "String",
+        "List"
       ],
       "answer": "b"
     },
     {
       "id": 68,
-      "category": "Functions",
-      "question": "What is higher-order function?",
+      "category": "Operators",
+      "question": "a += 5 is same as?",
       "options": [
-        "Nested loop",
-        "Function accepting function as argument",
-        "Class",
-        "Datatype"
+        "a = 5",
+        "a = a + 5",
+        "a == 5",
+        "a - 5"
       ],
       "answer": "b"
     },
     {
       "id": 69,
-      "category": "Functions",
-      "question": "What is decorator in Python?",
+      "category": "Conditions",
+      "question": "Empty string '' is?",
       "options": [
-        "Loop",
-        "Function modifying another function behavior",
-        "Datatype",
-        "Class"
+        "Truthy",
+        "Falsy",
+        "Error",
+        "1"
       ],
       "answer": "b"
     },
     {
       "id": 70,
-      "category": "Functions",
-      "question": "What is generator function?",
+      "category": "Loops",
+      "question": "iter() returns?",
       "options": [
-        "Function with yield",
-        "Function with return",
-        "Loop",
-        "Class"
+        "List",
+        "Iterator object",
+        "Next value",
+        "Range"
       ],
-      "answer": "a"
+      "answer": "b"
     },
     {
       "id": 71,
-      "category": "AI Data Science",
-      "question": "Which algorithm is sensitive to feature scaling?",
+      "category": "Functions",
+      "question": "Higher-order function accepts?",
       "options": [
-        "Decision Tree",
-        "KNN",
-        "Random Forest",
-        "Naive Bayes"
+        "Only int",
+        "Function as argument",
+        "Only string",
+        "Only list"
       ],
       "answer": "b"
     },
     {
       "id": 72,
-      "category": "AI Data Science",
-      "question": "What is bias-variance tradeoff?",
+      "category": "Data Types",
+      "question": "len() on set returns?",
       "options": [
-        "Balancing underfitting and overfitting",
-        "Cleaning data",
-        "Scaling",
-        "Loop optimization"
+        "Memory",
+        "Number of unique elements",
+        "Keys",
+        "Values"
       ],
-      "answer": "a"
+      "answer": "b"
     },
     {
       "id": 73,
-      "category": "AI Data Science",
-      "question": "Which activation function is common in hidden layers?",
+      "category": "Operators",
+      "question": "not False is?",
       "options": [
-        "Softmax",
-        "ReLU",
-        "Linear",
-        "Sigmoid only"
+        "False",
+        "True",
+        "0",
+        "1"
       ],
       "answer": "b"
     },
     {
       "id": 74,
-      "category": "AI Data Science",
-      "question": "What does PCA do?",
+      "category": "Conditions",
+      "question": "match-case statement was added in?",
       "options": [
-        "Classification",
-        "Dimensionality reduction",
-        "Clustering",
-        "Regression"
+        "Python 2.7",
+        "Python 3.10",
+        "Python 3.6",
+        "Python 3.8"
       ],
       "answer": "b"
     },
     {
       "id": 75,
-      "category": "AI Data Science",
-      "question": "Which metric is used for regression evaluation?",
+      "category": "Loops",
+      "question": "for loop with else runs else when?",
       "options": [
-        "Accuracy",
-        "F1-score",
-        "MSE",
-        "Recall"
+        "break is used",
+        "Loop completes without break",
+        "Always",
+        "Never"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 76,
+      "category": "Functions",
+      "question": "Local variable scope is?",
+      "options": [
+        "Global",
+        "Inside function only",
+        "Outside only",
+        "Everywhere"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 77,
+      "category": "Data Types",
+      "question": "Which is ordered?",
+      "options": [
+        "set",
+        "dict (before 3.7)",
+        "list",
+        "frozenset"
       ],
       "answer": "c"
     },
     {
-      "id": 76,
-      "category": "AI Data Science",
-      "question": "What is gradient descent?",
-      "options": [
-        "Optimization algorithm",
-        "Visualization",
-        "Database",
-        "Loop"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 77,
-      "category": "AI Data Science",
-      "question": "Which library is used for deep learning?",
-      "options": [
-        "TensorFlow",
-        "Requests",
-        "Flask",
-        "BeautifulSoup"
-      ],
-      "answer": "a"
-    },
-    {
       "id": 78,
-      "category": "AI Data Science",
-      "question": "What is dropout in neural networks?",
+      "category": "Operators",
+      "question": "Comparison operators return type?",
       "options": [
-        "Deleting dataset",
-        "Regularization technique",
-        "Scaling",
-        "Feature selection"
+        "int",
+        "bool",
+        "str",
+        "float"
       ],
       "answer": "b"
     },
     {
       "id": 79,
-      "category": "AI Data Science",
-      "question": "Which algorithm is used for binary classification probability prediction?",
+      "category": "Conditions",
+      "question": "if-elif-else is for?",
       "options": [
-        "Linear Regression",
-        "Logistic Regression",
-        "KMeans",
-        "Apriori"
+        "Looping",
+        "Decision making",
+        "Repeating",
+        "Function"
       ],
       "answer": "b"
     },
     {
       "id": 80,
-      "category": "AI Data Science",
-      "question": "What is confusion matrix used for?",
+      "category": "Loops",
+      "question": "What does next() do?",
       "options": [
-        "Clustering",
-        "Classification evaluation",
-        "Scaling",
-        "Visualization only"
+        "Starts loop",
+        "Gets next item from iterator",
+        "Breaks",
+        "Continues"
       ],
       "answer": "b"
     },
     {
       "id": 81,
-      "category": "Variables",
-      "question": "What is the output?\nx=[1,2]\ny=x.copy()\ny.append(3)\nprint(x)",
+      "category": "Functions",
+      "question": "@staticmethod is?",
       "options": [
-        "[1,2,3]",
-        "[1,2]",
-        "[3]",
-        "Error"
+        "Instance method",
+        "Method without self",
+        "Private",
+        "Lambda"
       ],
       "answer": "b"
     },
     {
       "id": 82,
       "category": "Data Types",
-      "question": "What is frozenset?",
+      "question": "What is NoneType?",
       "options": [
-        "Mutable set",
-        "Immutable set",
-        "Dictionary",
-        "Tuple"
+        "Type of None",
+        "Type of null",
+        "Empty list",
+        "Error"
       ],
-      "answer": "b"
+      "answer": "a"
     },
     {
       "id": 83,
       "category": "Operators",
-      "question": "What is the output?\nprint(~1)",
+      "question": "is vs == difference is?",
       "options": [
-        "1",
-        "-2",
-        "2",
-        "0"
+        "Value vs Identity",
+        "Both same",
+        "Only for numbers",
+        "Only for strings"
       ],
-      "answer": "b"
+      "answer": "a"
     },
     {
       "id": 84,
       "category": "Conditions",
-      "question": "What is the output?\nprint(bool(None))",
+      "question": "except block handles?",
+      "options": [
+        "Normal flow",
+        "Exceptions",
+        "Loops",
+        "Print"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 85,
+      "category": "Loops",
+      "question": "Nested loop means?",
+      "options": [
+        "Loop inside loop",
+        "if inside loop",
+        "Function inside loop",
+        "break inside"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 86,
+      "category": "Functions",
+      "question": "yield makes function a?",
+      "options": [
+        "Normal function",
+        "Generator",
+        "Decorator",
+        "Lambda"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 87,
+      "category": "Data Types",
+      "question": "set.add() is used to?",
+      "options": [
+        "Add element",
+        "Add multiple",
+        "Replace",
+        "Remove"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 88,
+      "category": "Operators",
+      "question": "or operator returns first?",
+      "options": [
+        "Falsy value",
+        "Truthy value",
+        "Always True",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 89,
+      "category": "Conditions",
+      "question": "Any([]) returns?",
+      "options": [
+        "True",
+        "False",
+        "Error",
+        "None"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 90,
+      "category": "Loops",
+      "question": "range(10,0,-2) generates?",
+      "options": [
+        "10 to 0",
+        "Even numbers descending",
+        "Odd numbers",
+        "Error"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 91,
+      "category": "Functions",
+      "question": "Function can return?",
+      "options": [
+        "Only one value",
+        "Multiple values (tuple)",
+        "Only int",
+        "Only list"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 92,
+      "category": "Data Types",
+      "question": "dict.get('key') returns?",
+      "options": [
+        "Error if not found",
+        "None if not found",
+        "KeyError",
+        "Empty"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 93,
+      "category": "Operators",
+      "question": "2 * 3 + 4 equals?",
+      "options": [
+        "10",
+        "14",
+        "18",
+        "24"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 94,
+      "category": "Conditions",
+      "question": "bool({}) returns?",
       "options": [
         "True",
         "False",
@@ -1009,196 +1129,76 @@
       "answer": "b"
     },
     {
-      "id": 85,
-      "category": "Loops",
-      "question": "Which function creates iterator object?",
-      "options": [
-        "iter()",
-        "next()",
-        "range()",
-        "loop()"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 86,
-      "category": "Functions",
-      "question": "What is memoization?",
-      "options": [
-        "Caching function results",
-        "Looping",
-        "Scaling",
-        "Sorting"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 87,
-      "category": "AI Data Science",
-      "question": "What is ensemble learning?",
-      "options": [
-        "Single model",
-        "Combining multiple models",
-        "Scaling",
-        "Cleaning"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 88,
-      "category": "AI Data Science",
-      "question": "Which algorithm uses decision boundaries?",
-      "options": [
-        "SVM",
-        "KMeans",
-        "Apriori",
-        "PCA"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 89,
-      "category": "AI Data Science",
-      "question": "What is underfitting?",
-      "options": [
-        "Model performs poorly on train/test",
-        "Perfect fit",
-        "Only test issue",
-        "None"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 90,
-      "category": "AI Data Science",
-      "question": "What is ROC curve?",
-      "options": [
-        "Optimization curve",
-        "Classification performance curve",
-        "Regression line",
-        "Scatter plot"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 91,
-      "category": "AI Data Science",
-      "question": "Which neural network is best for image processing?",
-      "options": [
-        "RNN",
-        "CNN",
-        "KNN",
-        "SVM"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 92,
-      "category": "AI Data Science",
-      "question": "Which neural network is suitable for sequential data?",
-      "options": [
-        "CNN",
-        "RNN",
-        "Decision Tree",
-        "KMeans"
-      ],
-      "answer": "b"
-    },
-    {
-      "id": 93,
-      "category": "AI Data Science",
-      "question": "What is feature engineering?",
-      "options": [
-        "Creating useful input features",
-        "Deleting features",
-        "Visualization",
-        "Scaling only"
-      ],
-      "answer": "a"
-    },
-    {
-      "id": 94,
-      "category": "AI Data Science",
-      "question": "What is normalization?",
-      "options": [
-        "Feature scaling",
-        "Clustering",
-        "Classification",
-        "Encoding"
-      ],
-      "answer": "a"
-    },
-    {
       "id": 95,
-      "category": "AI Data Science",
-      "question": "Which library creates visualizations in Python?",
+      "category": "Loops",
+      "question": "filter() function is used to?",
       "options": [
-        "Matplotlib",
-        "NumPy",
-        "TensorFlow",
-        "Flask"
+        "Apply function",
+        "Filter elements",
+        "Map values",
+        "Reduce"
       ],
-      "answer": "a"
+      "answer": "b"
     },
     {
       "id": 96,
-      "category": "AI Data Science",
-      "question": "What is hyperparameter tuning?",
+      "category": "Functions",
+      "question": "What is memoization?",
       "options": [
-        "Optimizing model settings",
-        "Cleaning data",
-        "Deleting columns",
-        "Scaling"
+        "Caching results",
+        "Looping",
+        "Exception",
+        "Variable"
       ],
       "answer": "a"
     },
     {
       "id": 97,
-      "category": "AI Data Science",
-      "question": "What does Naive Bayes assume?",
+      "category": "Data Types",
+      "question": "Which is unordered?",
       "options": [
-        "Feature independence",
-        "Correlation",
-        "Clustering",
-        "Regression"
+        "list",
+        "tuple",
+        "set",
+        "str"
       ],
-      "answer": "a"
+      "answer": "c"
     },
     {
       "id": 98,
-      "category": "AI Data Science",
-      "question": "What is data leakage?",
+      "category": "Operators",
+      "question": "True + True equals?",
       "options": [
-        "Training with future information",
-        "Missing data",
-        "Visualization issue",
-        "Scaling error"
+        "1",
+        "2",
+        "True",
+        "Error"
       ],
-      "answer": "a"
+      "answer": "b"
     },
     {
       "id": 99,
-      "category": "AI Data Science",
-      "question": "Which technique prevents overfitting?",
+      "category": "Conditions",
+      "question": "else if is written as?",
       "options": [
-        "Dropout",
-        "More noise",
-        "Infinite epochs",
-        "Removing validation"
+        "elseif",
+        "elif",
+        "else if",
+        "if else"
       ],
-      "answer": "a"
+      "answer": "b"
     },
     {
       "id": 100,
-      "category": "AI Data Science",
-      "question": "In a real interview, which is most important for a Data Scientist?",
+      "category": "Functions",
+      "question": "Understanding mutable default arguments is important because?",
       "options": [
-        "Only coding",
-        "Only math",
-        "Problem solving and data understanding",
-        "Only visualization"
+        "It can cause bugs",
+        "It is never used",
+        "Only for lists",
+        "Only for beginners"
       ],
-      "answer": "c"
+      "answer": "a"
     }
   ]
 }
