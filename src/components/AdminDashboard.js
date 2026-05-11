@@ -9,7 +9,8 @@ const AdminDashboard = () => {
   const [students, setStudents] = useState([]);
   const [results, setResults] = useState([]);
   const [projects, setProjects] = useState([]);
-  const [activeTab, setActiveTab] = useState('students');
+  const [activeTab, setActiveTab] = useState('results');
+  const [selectedResult, setSelectedResult] = useState(null);
   const [examSchedule, setExamSchedule] = useState({
     duration: 75,
     slots: []
@@ -36,7 +37,8 @@ const AdminDashboard = () => {
     get(child(dbRef, 'examResults')).then((snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        const list = Object.values(data);
+        // Include the key (userKey) for deletion purposes
+        const list = Object.keys(data).map(key => ({ ...data[key], userKey: key }));
         setResults(list);
       }
     });
@@ -91,6 +93,15 @@ const AdminDashboard = () => {
     }
   };
 
+  const deleteResult = (userKey) => {
+    if (window.confirm(`Are you sure you want to PERMANENTLY remove this exam result?`)) {
+      remove(ref(db, 'examResults/' + userKey)).then(() => {
+        setResults(prev => prev.filter(r => r.userKey !== userKey));
+        alert('Result deleted successfully');
+      }).catch(err => alert('Error deleting result: ' + err.message));
+    }
+  };
+
   const handleSlotChange = (index, field, value) => {
     const newSlots = [...examSchedule.slots];
     let processedValue = value;
@@ -134,113 +145,216 @@ const AdminDashboard = () => {
       <h1>Admin Dashboard</h1>
       
       <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', borderBottom: '1px solid #ddd', paddingBottom: '10px' }}>
-        <button className={activeTab === 'students' ? 'btn btn-primary' : 'btn'} onClick={() => setActiveTab('students')}>Manage Students</button>
-        <button className={activeTab === 'results' ? 'btn btn-primary' : 'btn'} onClick={() => setActiveTab('results')}>Exam Results</button>
-        <button className={activeTab === 'projects' ? 'btn btn-primary' : 'btn'} onClick={() => setActiveTab('projects')}>Projects</button>
-        <button className={activeTab === 'schedule' ? 'btn btn-primary' : 'btn'} onClick={() => setActiveTab('schedule')}>Exam Settings</button>
+        <button className={activeTab === 'students' ? 'btn btn-primary' : 'btn'} onClick={() => { setActiveTab('students'); setSelectedResult(null); }}>Manage Students</button>
+        <button className={activeTab === 'results' ? 'btn btn-primary' : 'btn'} onClick={() => { setActiveTab('results'); setSelectedResult(null); }}>Exam Results</button>
+        <button className={activeTab === 'schedule' ? 'btn btn-primary' : 'btn'} onClick={() => { setActiveTab('schedule'); setSelectedResult(null); }}>Exam Settings</button>
       </div>
 
       {activeTab === 'students' && (
         <div className="card">
-          <h2>Student Management</h2>
-          <form onSubmit={handleAddStudent} style={{ background: '#f8f9fa', padding: '20px', borderRadius: '8px', marginBottom: '20px', textAlign: 'left' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '15px' }}>
+          <h2>Assign Student Login IDs</h2>
+          <p style={{ color: '#666', marginBottom: '20px' }}>Create new student accounts for login access.</p>
+          
+          <form onSubmit={handleAddStudent} style={{ background: '#f8f9fa', padding: '24px', borderRadius: '12px', marginBottom: '30px', textAlign: 'left', border: '1px solid #e2e8f0' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
               <div>
-                <label>User ID:</label>
-                <input type="text" className="form-control" value={newStudent.userId} onChange={e => setNewStudent({...newStudent, userId: e.target.value})} required />
+                <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '8px' }}>Login User ID:</label>
+                <input 
+                  type="text" 
+                  className="form-control" 
+                  placeholder="e.g. bsl-2024-001"
+                  value={newStudent.userId} 
+                  onChange={e => setNewStudent({...newStudent, userId: e.target.value})} 
+                  required 
+                />
               </div>
               <div>
-                <label>Full Name:</label>
-                <input type="text" className="form-control" value={newStudent.name} onChange={e => setNewStudent({...newStudent, name: e.target.value})} />
+                <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '8px' }}>Full Name:</label>
+                <input 
+                  type="text" 
+                  className="form-control" 
+                  placeholder="Student Full Name"
+                  value={newStudent.name} 
+                  onChange={e => setNewStudent({...newStudent, name: e.target.value})} 
+                />
               </div>
               <div>
-                <label>Password:</label>
-                <input type="password" className="form-control" value={newStudent.password} onChange={e => setNewStudent({...newStudent, password: e.target.value})} required />
+                <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '8px' }}>Login Password:</label>
+                <input 
+                  type="password" 
+                  className="form-control" 
+                  placeholder="Assign Password"
+                  value={newStudent.password} 
+                  onChange={e => setNewStudent({...newStudent, password: e.target.value})} 
+                  required 
+                />
               </div>
             </div>
-            <button type="submit" className="btn btn-success" style={{ marginTop: '15px' }}>Add Student Account</button>
+            <button type="submit" className="btn btn-success" style={{ marginTop: '20px', width: '100%', maxWidth: '250px' }}>Create Student Account</button>
           </form>
 
-          <table className="table">
-            <thead>
-              <tr>
-                <th>User ID</th>
-                <th>Name</th>
-                <th>Password</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {students.map(s => (
-                <tr key={s.userId}>
-                  <td>{s.userId}</td>
-                  <td>{s.name}</td>
-                  <td><code>{s.password}</code></td>
-                  <td><button className="btn btn-small btn-danger" onClick={() => deleteStudent(s.userId)}>Delete</button></td>
+          <h3>Registered Student Accounts</h3>
+          <div style={{ overflowX: 'auto' }}>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>User ID</th>
+                  <th>Full Name</th>
+                  <th>Password</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {students.map(s => (
+                  <tr key={s.userId}>
+                    <td style={{ fontWeight: '600' }}>{s.userId}</td>
+                    <td>{s.name}</td>
+                    <td><code>{s.password}</code></td>
+                    <td>
+                      <button className="btn btn-small btn-danger" onClick={() => deleteStudent(s.userId)}>Delete</button>
+                    </td>
+                  </tr>
+                ))}
+                {students.length === 0 && (
+                  <tr>
+                    <td colSpan="4" style={{ textAlign: 'center', color: '#999', padding: '30px' }}>No student accounts created yet.</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
-      {activeTab === 'results' && (
+      {activeTab === 'results' && !selectedResult && (
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-            <h2>Exam Results</h2>
-            <button className="btn btn-success" onClick={() => exportResultsToExcel(results)}>Export</button>
+            <h2>Exam Results & Projects</h2>
+            <button className="btn btn-success" onClick={() => exportResultsToExcel(results)}>Export to Excel</button>
           </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>ID</th>
-                <th>Score</th>
-                <th>%</th>
-                <th>Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              {results.map((r, i) => (
-                <tr key={i}>
-                  <td>{r.studentName}</td>
-                  <td>{r.email}</td>
-                  <td>{r.score}/{r.totalQuestions}</td>
-                  <td>{r.percentage}%</td>
-                  <td>{r.timeTaken}</td>
+          <div style={{ overflowX: 'auto' }}>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Full Name</th>
+                  <th>User ID</th>
+                  <th>Topic</th>
+                  <th>Score</th>
+                  <th>%</th>
+                  <th>Project File</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {results.map((r, i) => {
+                  const project = projects.find(p => p.email === r.email);
+                  return (
+                    <tr key={i}>
+                      <td>{r.studentName}</td>
+                      <td>{r.email}</td>
+                      <td style={{ textTransform: 'capitalize' }}>{r.course?.replace('_', ' ') || 'General'}</td>
+                      <td>{r.score}/{r.totalQuestions}</td>
+                      <td style={{ fontWeight: 'bold', color: r.percentage >= 50 ? '#4CAF50' : '#f44336' }}>
+                        {r.percentage}%
+                      </td>
+                      <td>
+                        {project ? (
+                          <div style={{ fontSize: '0.85rem' }}>
+                            <div style={{ fontWeight: 'bold' }}>{project.title}</div>
+                            <div style={{ color: '#666' }}>{project.fileName} ({project.fileSize})</div>
+                          </div>
+                        ) : (
+                          <span style={{ color: '#999', fontStyle: 'italic' }}>No Project</span>
+                        )}
+                      </td>
+                      <td>
+                        <div style={{ display: 'flex', gap: '5px' }}>
+                          <button 
+                            className="btn btn-small btn-primary" 
+                            onClick={() => setSelectedResult(r)}
+                          >
+                            Details
+                          </button>
+                          <button 
+                            className="btn btn-small btn-danger" 
+                            onClick={() => deleteResult(r.userKey)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
-      {activeTab === 'projects' && (
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-            <h2>Projects</h2>
-            <button className="btn btn-success" onClick={() => exportProjectsToExcel(projects)}>Export</button>
+      {activeTab === 'results' && selectedResult && (
+        <div className="card" style={{ textAlign: 'left' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '2px solid #eee', paddingBottom: '10px' }}>
+            <h2>Exam Details: {selectedResult.studentName}</h2>
+            <button className="btn btn-small" onClick={() => setSelectedResult(null)}>Back to List</button>
           </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Student</th>
-                <th>Title</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {projects.map((p, i) => (
-                <tr key={i}>
-                  <td>{p.studentName}</td>
-                  <td>{p.title}</td>
-                  <td>{p.submissionDate}</td>
-                </tr>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '30px' }}>
+            <div style={{ background: '#f8f9fa', padding: '15px', borderRadius: '8px' }}>
+              <h4>Student Information</h4>
+              <p><strong>Full Name:</strong> {selectedResult.studentName}</p>
+              <p><strong>User ID:</strong> {selectedResult.email}</p>
+              <p><strong>Topic:</strong> <span style={{ textTransform: 'capitalize' }}>{selectedResult.course?.replace('_', ' ') || 'General'}</span></p>
+              <p><strong>Date:</strong> {selectedResult.date}</p>
+            </div>
+            <div style={{ background: '#f8f9fa', padding: '15px', borderRadius: '8px' }}>
+              <h4>Performance Summary</h4>
+              <p><strong>Score:</strong> {selectedResult.score} / {selectedResult.totalQuestions}</p>
+              <p><strong>Percentage:</strong> {selectedResult.percentage}%</p>
+              <p><strong>Time Taken:</strong> {selectedResult.timeTaken}</p>
+              <p><strong>Violations:</strong> {selectedResult.violationCount || 0}</p>
+            </div>
+          </div>
+
+          <h3>Question Breakdown</h3>
+          {selectedResult.details ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+              {selectedResult.details.map((q, idx) => (
+                <div key={idx} style={{ 
+                  padding: '15px', 
+                  borderRadius: '8px', 
+                  border: `1px solid ${q.isCorrect ? '#c8e6c9' : '#ffcdd2'}`,
+                  background: q.isCorrect ? '#f1f8e9' : '#fff9f9'
+                }}>
+                  <p style={{ fontWeight: 'bold', margin: '0 0 10px 0' }}>Q{idx + 1}: {q.question}</p>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '0.9rem' }}>
+                    <div>
+                      <span style={{ color: '#666' }}>Student Answer:</span> 
+                      <span style={{ 
+                        marginLeft: '5px', 
+                        fontWeight: 'bold', 
+                        color: q.isCorrect ? '#2e7d32' : '#c62828' 
+                      }}>
+                        {q.userAnswer ? q.userAnswer.toUpperCase() : 'None'}
+                      </span>
+                    </div>
+                    <div>
+                      <span style={{ color: '#666' }}>Correct Answer:</span> 
+                      <span style={{ marginLeft: '5px', fontWeight: 'bold', color: '#2e7d32' }}>
+                        {q.correctAnswer.toUpperCase()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+          ) : (
+            <p>No question details available for this result.</p>
+          )}
         </div>
       )}
+
+      {/* Projects Tab Removed as it is now integrated into Results */}
 
       {activeTab === 'schedule' && (
         <div className="card">

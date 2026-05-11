@@ -9,8 +9,9 @@ export const exportToExcel = (data, filename) => {
 
 export const exportResultsToExcel = (results) => {
   const exportData = results.map(result => ({
-    'Student Name': result.studentName,
-    'Email': result.email,
+    'Full Name': result.studentName,
+    'User ID': result.email,
+    'Topic': result.course || 'General',
     'Score': result.score,
     'Total Questions': result.totalQuestions,
     'Percentage': `${result.percentage}%`,
