@@ -180,15 +180,18 @@ const Exam = ({ user }) => {
 
         setScheduleStatus(currentStatus);
 
-        if (currentStatus === 'active' && activeSlot) {
-          const duration = activeSlot.duration || schedule.duration || 60;
-          setTimeLeft(duration * 60);
+        if (currentStatus === 'active') {
+          const slotToUse = activeSlot || activeList[0];
+          if (slotToUse) {
+            const duration = slotToUse.duration || schedule.duration || 60;
+            setTimeLeft(duration * 60);
 
-          // Load dynamic MCQs based on selection IN THE SLOT
-          const course = activeSlot.course || 'web';
-          const selectedMcqData = mcqModules[course] || mcqModules.web;
-          const shuffledQuestions = shuffleArray(selectedMcqData.questions);
-          setQuestions(shuffledQuestions);
+            // Load dynamic MCQs based on selection IN THE SLOT
+            const course = slotToUse.course || 'web';
+            const selectedMcqData = mcqModules[course] || mcqModules.web;
+            const shuffledQuestions = shuffleArray(selectedMcqData.questions);
+            setQuestions(shuffledQuestions);
+          }
         }
       }
     };
