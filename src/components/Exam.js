@@ -22,6 +22,7 @@ const Exam = ({ user }) => {
   const [showWarning, setShowWarning] = useState(false);
   const [scheduleStatus, setScheduleStatus] = useState('active'); // 'active', 'upcoming', 'ended'
   const [activeSlot, setActiveSlot] = useState(null);
+  const [activeSlots, setActiveSlots] = useState([]);
   const [currentSchedule, setCurrentSchedule] = useState(examSchedule);
   const [loadingTime, setLoadingTime] = useState(true);
   const [startTimePKT, setStartTimePKT] = useState(null);
@@ -147,44 +148,44 @@ const Exam = ({ user }) => {
         setLoadingTime(false);
 
         let currentStatus = 'upcoming';
-        let foundSlot = null;
+        // Check all slots for active ones
+        const activeList = schedule.slots.filter(slot => {
+          const start = new Date(slot.start);
+          const end = new Date(slot.end);
+          return now >= start && now <= end;
+        });
 
-        // Check all slots
-        const allStarts = schedule.slots.map(s => new Date(s.start));
-        const allEnds = schedule.slots.map(s => new Date(s.end));
-
-        const earliestStart = new Date(Math.min(...allStarts));
-        const latestEnd = new Date(Math.max(...allEnds));
-
-        if (now < earliestStart) {
-          currentStatus = 'upcoming';
-        } else if (now > latestEnd) {
-          currentStatus = 'ended';
+        if (activeList.length > 0) {
+          currentStatus = 'active';
+          setActiveSlots(activeList);
+          // If only one active, select it by default
+          if (activeList.length === 1) {
+            setActiveSlot(activeList[0]);
+          }
         } else {
-          // We are within the overall timeframe, check for an active slot
-          foundSlot = schedule.slots.find(slot => {
-            const start = new Date(slot.start);
-            const end = new Date(slot.end);
-            return now >= start && now <= end;
-          });
+          // Check if upcoming or ended
+          const allStarts = schedule.slots.map(s => new Date(s.start));
+          const allEnds = schedule.slots.map(s => new Date(s.end));
+          const earliestStart = new Date(Math.min(...allStarts));
+          const latestEnd = new Date(Math.max(...allEnds));
 
-          if (foundSlot) {
-            currentStatus = 'active';
+          if (now < earliestStart) {
+            currentStatus = 'upcoming';
+          } else if (now > latestEnd) {
+            currentStatus = 'ended';
           } else {
-            // Between slots
             currentStatus = 'upcoming';
           }
         }
 
         setScheduleStatus(currentStatus);
-        setActiveSlot(foundSlot);
 
-        if (currentStatus === 'active') {
-          const duration = foundSlot.duration || schedule.duration || 60;
+        if (currentStatus === 'active' && activeSlot) {
+          const duration = activeSlot.duration || schedule.duration || 60;
           setTimeLeft(duration * 60);
 
           // Load dynamic MCQs based on selection IN THE SLOT
-          const course = foundSlot.course || 'web';
+          const course = activeSlot.course || 'web';
           const selectedMcqData = mcqModules[course] || mcqModules.web;
           const shuffledQuestions = shuffleArray(selectedMcqData.questions);
           setQuestions(shuffledQuestions);
@@ -321,6 +322,16 @@ const Exam = ({ user }) => {
     setExamStarted(true);
   };
 
+  const selectSlot = (slot) => {
+    setActiveSlot(slot);
+    const duration = slot.duration || currentSchedule.duration || 60;
+    setTimeLeft(duration * 60);
+    const course = slot.course || 'web';
+    const selectedMcqData = mcqModules[course] || mcqModules.web;
+    const shuffledQuestions = shuffleArray(selectedMcqData.questions);
+    setQuestions(shuffledQuestions);
+  };
+
   // Schedule Checks
   if (loadingTime) {
     return <div className="container">Synchronizing Pakistan Time...</div>;
@@ -375,6 +386,33 @@ const Exam = ({ user }) => {
     );
   }
 
+  if (scheduleStatus === 'active' && !activeSlot) {
+    return (
+      <div className="container">
+        <div className="card">
+          <h2 style={{ color: '#1976d2' }}>Multiple Exams Active</h2>
+          <p>Please select the class you want to take the exam for:</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginTop: '20px' }}>
+            {activeSlots.map((slot, index) => (
+              <button 
+                key={index} 
+                className="btn btn-outline" 
+                style={{ padding: '20px', textAlign: 'left', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                onClick={() => selectSlot(slot)}
+              >
+                <div>
+                  <strong style={{ fontSize: '1.2rem' }}>{(slot.course || 'General').replace('_', ' ').toUpperCase()}</strong>
+                  <div style={{ fontSize: '0.9rem', opacity: 0.8 }}>Duration: {slot.duration} mins</div>
+                </div>
+                <span style={{ fontWeight: 'bold', color: '#4CAF50' }}>Select & Continue →</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (questions.length === 0) {
     return <div className="container">Loading questions...</div>;
   }
@@ -386,7 +424,9 @@ const Exam = ({ user }) => {
     return (
       <div className="container">
         <div className="card">
-          <h2 style={{ color: '#1976d2', marginBottom: '10px' }}>Welcome to {courseName}</h2>
+          <div style={{ background: '#e3f2fd', padding: '15px', borderRadius: '10px', marginBottom: '25px', borderLeft: '8px solid #1976d2' }}>
+            <h2 style={{ color: '#1976d2', margin: 0 }}>Exam: {courseName}</h2>
+          </div>
           <h3 style={{ marginBottom: '20px' }}>Exam Instructions</h3>
           <ul style={{ textAlign: 'left', marginBottom: '25px', lineHeight: '1.8' }}>
             <li><strong>Total Questions:</strong> {questions.length}</li>
