@@ -1,0 +1,124 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "category": "Machine Learning",
+      "question": "Which of the following is a supervised learning algorithm?",
+      "options": [
+        "K-Means Clustering",
+        "Principal Component Analysis (PCA)",
+        "Random Forest",
+        "Autoencoders"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 2,
+      "category": "Deep Learning",
+      "question": "What is the primary purpose of an activation function in a neural network?",
+      "options": [
+        "To reduce the number of parameters",
+        "To introduce non-linearity into the model",
+        "To normalize the input data",
+        "To speed up the training process"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 3,
+      "category": "Data Science",
+      "question": "What does the 'p-value' represent in statistical hypothesis testing?",
+      "options": [
+        "The probability that the null hypothesis is true",
+        "The probability of observing the data given that the null hypothesis is true",
+        "The probability of making a Type II error",
+        "The strength of the alternative hypothesis"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 4,
+      "category": "AI Industry",
+      "question": "Which architecture is primarily used in state-of-the-art Large Language Models (LLMs) like GPT-4?",
+      "options": [
+        "Recurrent Neural Networks (RNN)",
+        "Convolutional Neural Networks (CNN)",
+        "Transformer Architecture",
+        "Long Short-Term Memory (LSTM)"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 5,
+      "category": "Data Engineering",
+      "question": "In the context of Big Data, what does the term 'ETL' stand for?",
+      "options": [
+        "Extract, Transform, Load",
+        "Encrypt, Transfer, List",
+        "Evaluate, Test, Log",
+        "Entry, Transition, Level"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 6,
+      "category": "Machine Learning",
+      "question": "What is 'Overfitting' in a machine learning model?",
+      "options": [
+        "When the model performs well on training data but poorly on unseen data",
+        "When the model is too simple to capture the underlying patterns",
+        "When the model has too few parameters",
+        "When the training data is too small"
+      ],
+      "answer": "a"
+    },
+    {
+      "id": 7,
+      "category": "Deep Learning",
+      "question": "Which optimizer is known for using adaptive learning rates for each parameter?",
+      "options": [
+        "Stochastic Gradient Descent (SGD)",
+        "Adam (Adaptive Moment Estimation)",
+        "RMSprop",
+        "Adagrad"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 8,
+      "category": "Computer Vision",
+      "question": "What is the main operation used in Convolutional Neural Networks to extract spatial features?",
+      "options": [
+        "Matrix Multiplication",
+        "Pooling",
+        "Convolution",
+        "Backpropagation"
+      ],
+      "answer": "c"
+    },
+    {
+      "id": 9,
+      "category": "Data Science",
+      "question": "What is the purpose of a 'Confusion Matrix'?",
+      "options": [
+        "To visualize the correlation between features",
+        "To evaluate the performance of a classification model",
+        "To handle missing values in a dataset",
+        "To perform dimensionality reduction"
+      ],
+      "answer": "b"
+    },
+    {
+      "id": 10,
+      "category": "AI Ethics",
+      "question": "What is 'Algorithmic Bias'?",
+      "options": [
+        "A mathematical error in the code",
+        "Systematic and unfair discrimination in the outputs of an AI system",
+        "The preference for one programming language over another",
+        "The speed difference between two algorithms"
+      ],
+      "answer": "b"
+    }
+  ]
+}

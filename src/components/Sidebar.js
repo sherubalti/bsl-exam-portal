@@ -38,6 +38,7 @@ const Sidebar = ({ currentUser, isAdmin, onLogout, isOnline }) => {
       <button
         className={`mobile-menu-btn ${isOpen ? 'open' : ''}`}
         onClick={() => setIsOpen(!isOpen)}
+        aria-label="Toggle Menu"
       >
         <span></span>
         <span></span>
@@ -51,17 +52,26 @@ const Sidebar = ({ currentUser, isAdmin, onLogout, isOnline }) => {
 
       <div className={`sidebar ${isMobile ? 'mobile' : ''} ${isOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
-          <img src={logo} alt="Baltistan Silicon Labs" className="sidebar-logo" />
+          <Link to="/" className="sidebar-brand" onClick={handleLinkClick}>
+            <img src={logo} alt="BSL Academy" className="sidebar-logo" />
+            <span className="brand-name">BSL Portal</span>
+          </Link>
           
           {currentUser && (
-            <p className="welcome-msg">
-              Welcome, {isAdmin ? 'Admin' : currentUser.name}
-            </p>
+            <div className="user-profile-section">
+              <div className="user-avatar">
+                {isAdmin ? 'AD' : currentUser.name.charAt(0).toUpperCase()}
+              </div>
+              <div className="user-info">
+                <div className="user-name">{isAdmin ? 'Administrator' : currentUser.name}</div>
+                <div className="user-role">{isAdmin ? 'System Access' : 'Student Portal'}</div>
+              </div>
+            </div>
           )}
-          
+
           <div className={`connection-status ${isOnline ? 'online' : 'offline'}`}>
             <span className={`status-dot ${isOnline ? 'online' : 'offline'}`}></span>
-            {isOnline ? 'Cloud Connected' : 'Cloud Offline'}
+            {isOnline ? 'System Secure' : 'Connection Lost'}
           </div>
         </div>
 
@@ -73,14 +83,14 @@ const Sidebar = ({ currentUser, isAdmin, onLogout, isOnline }) => {
                 className={location.pathname === '/student-login' ? 'active' : ''}
                 onClick={handleLinkClick}
               >
-                Student Login
+                <span>🔑</span> Student Portal
               </Link>
               <Link
                 to="/admin-login"
                 className={location.pathname === '/admin-login' ? 'active' : ''}
                 onClick={handleLinkClick}
               >
-                Admin Login
+                <span>🛡️</span> Admin Access
               </Link>
             </>
           ) : isAdmin ? (
@@ -90,10 +100,10 @@ const Sidebar = ({ currentUser, isAdmin, onLogout, isOnline }) => {
                 className={location.pathname === '/admin-dashboard' ? 'active' : ''}
                 onClick={handleLinkClick}
               >
-                Dashboard
+                <span>📊</span> Dashboard
               </Link>
               <button onClick={handleLogout} className="logout-btn">
-                Logout
+                <span>🚪</span> Sign Out
               </button>
             </>
           ) : (
@@ -103,31 +113,31 @@ const Sidebar = ({ currentUser, isAdmin, onLogout, isOnline }) => {
                 className={location.pathname === '/student-dashboard' ? 'active' : ''}
                 onClick={handleLinkClick}
               >
-                Dashboard
+                <span>🏠</span> Dashboard
               </Link>
               <Link
                 to="/exam"
                 className={location.pathname === '/exam' ? 'active' : ''}
                 onClick={handleLinkClick}
               >
-                Take Exam
+                <span>📝</span> Take Exam
               </Link>
               <Link
                 to="/result"
                 className={location.pathname === '/result' ? 'active' : ''}
                 onClick={handleLinkClick}
               >
-                My Results
+                <span>🏆</span> My Results
               </Link>
               <Link
                 to="/project-upload"
                 className={location.pathname === '/project-upload' ? 'active' : ''}
                 onClick={handleLinkClick}
               >
-                Upload Project
+                <span>📁</span> Projects
               </Link>
               <button onClick={handleLogout} className="logout-btn">
-                Logout
+                <span>🚪</span> Sign Out
               </button>
             </>
           )}
@@ -138,3 +148,4 @@ const Sidebar = ({ currentUser, isAdmin, onLogout, isOnline }) => {
 };
 
 export default Sidebar;
+

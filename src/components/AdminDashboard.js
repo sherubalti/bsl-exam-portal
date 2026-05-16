@@ -4,6 +4,7 @@ import { getCurrentPKTTime, formatForDateTimeInput } from '../utils/timeUtility'
 import examScheduleConfig from '../data/examSchedule';
 import { db } from '../firebase';
 import { ref, set, get, child, update, remove } from "firebase/database";
+import '../AdminDashboard.css';
 
 const AdminDashboard = () => {
   const [students, setStudents] = useState([]);
@@ -37,7 +38,6 @@ const AdminDashboard = () => {
     get(child(dbRef, 'examResults')).then((snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        // Include the key (userKey) for deletion purposes
         const list = Object.keys(data).map(key => ({ ...data[key], userKey: key }));
         setResults(list);
       }
@@ -78,9 +78,8 @@ const AdminDashboard = () => {
 
     set(ref(db, 'students/' + newStudent.userId), studentData)
       .then(() => {
-        alert('Student account created in Cloud!');
+        alert('Student account created successfully!');
         setNewStudent({ userId: '', name: '', password: '' });
-        // Refresh local state
         setStudents(prev => [...prev, { userId: newStudent.userId, ...studentData }]);
       });
   };
@@ -136,29 +135,53 @@ const AdminDashboard = () => {
 
   const handleSaveSchedule = () => {
     set(ref(db, 'examSchedule'), examSchedule).then(() => {
-      alert('Settings saved to Cloud successfully!');
+      alert('Settings saved successfully!');
     });
   };
 
   return (
-    <div className="container">
-      <h1>Admin Dashboard</h1>
+    <div className="container admin-dashboard-container">
+      <header className="admin-header">
+        <h1>Admin Control Panel</h1>
+        <div className="header-actions">
+          <span className="ai-gradient-text" style={{ fontWeight: 700 }}>BSL Systems</span>
+        </div>
+      </header>
       
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', borderBottom: '1px solid #ddd', paddingBottom: '10px' }}>
-        <button className={activeTab === 'students' ? 'btn btn-primary' : 'btn'} onClick={() => { setActiveTab('students'); setSelectedResult(null); }}>Manage Students</button>
-        <button className={activeTab === 'results' ? 'btn btn-primary' : 'btn'} onClick={() => { setActiveTab('results'); setSelectedResult(null); }}>Exam Results</button>
-        <button className={activeTab === 'schedule' ? 'btn btn-primary' : 'btn'} onClick={() => { setActiveTab('schedule'); setSelectedResult(null); }}>Exam Settings</button>
+      <div className="admin-tabs">
+        <button 
+          className={`tab-btn ${activeTab === 'results' ? 'active' : ''}`} 
+          onClick={() => { setActiveTab('results'); setSelectedResult(null); }}
+        >
+          Exam Results
+        </button>
+        <button 
+          className={`tab-btn ${activeTab === 'students' ? 'active' : ''}`} 
+          onClick={() => { setActiveTab('students'); setSelectedResult(null); }}
+        >
+          Student Registry
+        </button>
+        <button 
+          className={`tab-btn ${activeTab === 'schedule' ? 'active' : ''}`} 
+          onClick={() => { setActiveTab('schedule'); setSelectedResult(null); }}
+        >
+          Global Settings
+        </button>
       </div>
 
       {activeTab === 'students' && (
-        <div className="card">
-          <h2>Assign Student Login IDs</h2>
-          <p style={{ color: '#666', marginBottom: '20px' }}>Create new student accounts for login access.</p>
+        <div className="card-premium">
+          <div className="admin-card-header">
+            <div>
+              <h2>User Management</h2>
+              <p className="text-muted">Create and manage student access credentials.</p>
+            </div>
+          </div>
           
-          <form onSubmit={handleAddStudent} style={{ background: '#f8f9fa', padding: '24px', borderRadius: '12px', marginBottom: '30px', textAlign: 'left', border: '1px solid #e2e8f0' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
-              <div>
-                <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '8px' }}>Login User ID:</label>
+          <form onSubmit={handleAddStudent} className="detail-section" style={{ marginBottom: '40px' }}>
+            <div className="admin-form-grid">
+              <div className="form-group">
+                <label>Access ID</label>
                 <input 
                   type="text" 
                   className="form-control" 
@@ -168,58 +191,58 @@ const AdminDashboard = () => {
                   required 
                 />
               </div>
-              <div>
-                <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '8px' }}>Full Name:</label>
+              <div className="form-group">
+                <label>Full Name</label>
                 <input 
                   type="text" 
                   className="form-control" 
-                  placeholder="Student Full Name"
+                  placeholder="Full legal name"
                   value={newStudent.name} 
                   onChange={e => setNewStudent({...newStudent, name: e.target.value})} 
                 />
               </div>
-              <div>
-                <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '8px' }}>Login Password:</label>
+              <div className="form-group">
+                <label>Security Password</label>
                 <input 
                   type="password" 
                   className="form-control" 
-                  placeholder="Assign Password"
+                  placeholder="Assign secure password"
                   value={newStudent.password} 
                   onChange={e => setNewStudent({...newStudent, password: e.target.value})} 
                   required 
                 />
               </div>
             </div>
-            <button type="submit" className="btn btn-success" style={{ marginTop: '20px', width: '100%', maxWidth: '250px' }}>Create Student Account</button>
+            <button type="submit" className="btn btn-primary">Initialize Account</button>
           </form>
 
-          <h3>Registered Student Accounts</h3>
-          <div style={{ overflowX: 'auto' }}>
-            <table className="table">
+          <h3>Active Students</h3>
+          <div className="admin-table-container">
+            <table className="admin-table">
               <thead>
                 <tr>
-                  <th>User ID</th>
-                  <th>Full Name</th>
-                  <th>Password</th>
-                  <th>Actions</th>
+                  <th>Student Profile</th>
+                  <th>Security Key</th>
+                  <th>Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {students.map(s => (
                   <tr key={s.userId}>
-                    <td style={{ fontWeight: '600' }}>{s.userId}</td>
-                    <td>{s.name}</td>
-                    <td><code>{s.password}</code></td>
                     <td>
-                      <button className="btn btn-small btn-danger" onClick={() => deleteStudent(s.userId)}>Delete</button>
+                      <div className="user-info-block">
+                        <span className="user-info-name">{s.name}</span>
+                        <span className="user-info-id">{s.userId}</span>
+                      </div>
+                    </td>
+                    <td><code style={{ background: 'var(--bg-subtle)', padding: '4px 8px', borderRadius: '4px', color: 'var(--text-main)', fontWeight: 600 }}>{s.password}</code></td>
+                    <td><span className="status-badge pass">Active</span></td>
+                    <td>
+                      <button className="btn btn-outline" style={{ color: '#ef4444', borderColor: '#fee2e2' }} onClick={() => deleteStudent(s.userId)}>Remove</button>
                     </td>
                   </tr>
                 ))}
-                {students.length === 0 && (
-                  <tr>
-                    <td colSpan="4" style={{ textAlign: 'center', color: '#999', padding: '30px' }}>No student accounts created yet.</td>
-                  </tr>
-                )}
               </tbody>
             </table>
           </div>
@@ -227,21 +250,24 @@ const AdminDashboard = () => {
       )}
 
       {activeTab === 'results' && !selectedResult && (
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-            <h2>Exam Results & Projects</h2>
-            <button className="btn btn-success" onClick={() => exportResultsToExcel(results)}>Export to Excel</button>
+        <div className="card-premium">
+          <div className="admin-card-header">
+            <div>
+              <h2>Examination Analytics</h2>
+              <p className="text-muted">Review student performance across all test modules.</p>
+            </div>
+            <button className="btn btn-primary" onClick={() => exportResultsToExcel(results)}>Export Data (.xlsx)</button>
           </div>
-          <div style={{ overflowX: 'auto' }}>
-            <table className="table">
+
+          <div className="admin-table-container">
+            <table className="admin-table">
               <thead>
                 <tr>
-                  <th>Full Name</th>
-                  <th>User ID</th>
-                  <th>Topic</th>
+                  <th>Student</th>
+                  <th>Module</th>
                   <th>Score</th>
-                  <th>%</th>
-                  <th>Project File</th>
+                  <th>Status</th>
+                  <th>Project Delivery</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -250,37 +276,37 @@ const AdminDashboard = () => {
                   const project = projects.find(p => p.email === r.email);
                   return (
                     <tr key={i}>
-                      <td>{r.studentName}</td>
-                      <td>{r.email}</td>
-                      <td style={{ textTransform: 'capitalize' }}>{r.course?.replace('_', ' ') || 'General'}</td>
-                      <td>{r.score}/{r.totalQuestions}</td>
-                      <td style={{ fontWeight: 'bold', color: r.percentage >= 50 ? '#4CAF50' : '#f44336' }}>
-                        {r.percentage}%
+                      <td>
+                        <div className="user-info-block">
+                          <span className="user-info-name">{r.studentName}</span>
+                          <span className="user-info-id">{r.email}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <span style={{ fontWeight: 600, fontSize: '0.85rem' }}>
+                          {r.course?.replace('_', ' ').toUpperCase() || 'CORE'}
+                        </span>
+                      </td>
+                      <td style={{ fontWeight: 700 }}>{r.score} <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 500 }}>/ {r.totalQuestions}</span></td>
+                      <td>
+                        <span className={`status-badge ${r.percentage >= 50 ? 'pass' : 'fail'}`}>
+                          {r.percentage >= 50 ? 'PASS' : 'FAIL'} • {r.percentage}%
+                        </span>
                       </td>
                       <td>
                         {project ? (
-                          <div style={{ fontSize: '0.85rem' }}>
-                            <div style={{ fontWeight: 'bold' }}>{project.title}</div>
-                            <div style={{ color: '#666' }}>{project.fileName} ({project.fileSize})</div>
+                          <div style={{ fontSize: '0.8rem' }}>
+                            <div style={{ fontWeight: 600, color: '#2563eb' }}>{project.title}</div>
+                            <div className="text-muted">{project.fileName}</div>
                           </div>
                         ) : (
-                          <span style={{ color: '#999', fontStyle: 'italic' }}>No Project</span>
+                          <span className="text-muted" style={{ fontStyle: 'italic' }}>Pending</span>
                         )}
                       </td>
                       <td>
-                        <div style={{ display: 'flex', gap: '5px' }}>
-                          <button 
-                            className="btn btn-small btn-primary" 
-                            onClick={() => setSelectedResult(r)}
-                          >
-                            Details
-                          </button>
-                          <button 
-                            className="btn btn-small btn-danger" 
-                            onClick={() => deleteResult(r.userKey)}
-                          >
-                            Delete
-                          </button>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <button className="btn btn-outline" onClick={() => setSelectedResult(r)}>Report</button>
+                          <button className="btn btn-outline" style={{ color: '#ef4444' }} onClick={() => deleteResult(r.userKey)}>Delete</button>
                         </div>
                       </td>
                     </tr>
@@ -293,105 +319,122 @@ const AdminDashboard = () => {
       )}
 
       {activeTab === 'results' && selectedResult && (
-        <div className="card" style={{ textAlign: 'left' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '2px solid #eee', paddingBottom: '10px' }}>
-            <h2>Exam Details: {selectedResult.studentName}</h2>
-            <button className="btn btn-small" onClick={() => setSelectedResult(null)}>Back to List</button>
+        <div className="card-premium">
+          <div className="admin-card-header">
+            <div>
+              <h2>Performance Insight</h2>
+              <p className="text-muted">Detailed breakdown for {selectedResult.studentName}.</p>
+            </div>
+            <button className="btn btn-outline" onClick={() => setSelectedResult(null)}>Return to List</button>
           </div>
           
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '30px' }}>
-            <div style={{ background: '#f8f9fa', padding: '15px', borderRadius: '8px' }}>
-              <h4>Student Information</h4>
-              <p><strong>Full Name:</strong> {selectedResult.studentName}</p>
-              <p><strong>User ID:</strong> {selectedResult.email}</p>
-              <p><strong>Topic:</strong> <span style={{ textTransform: 'capitalize' }}>{selectedResult.course?.replace('_', ' ') || 'General'}</span></p>
-              <p><strong>Date:</strong> {selectedResult.date}</p>
+          <div className="metrics-dashboard mb-10">
+            <div className="metric-card">
+              <span className="metric-label">Candidate Name</span>
+              <span className="metric-value">{selectedResult.studentName}</span>
+              <span className="metric-subtext">{selectedResult.email}</span>
             </div>
-            <div style={{ background: '#f8f9fa', padding: '15px', borderRadius: '8px' }}>
-              <h4>Performance Summary</h4>
-              <p><strong>Score:</strong> {selectedResult.score} / {selectedResult.totalQuestions}</p>
-              <p><strong>Percentage:</strong> {selectedResult.percentage}%</p>
-              <p><strong>Time Taken:</strong> {selectedResult.timeTaken}</p>
-              <p><strong>Violations:</strong> {selectedResult.violationCount || 0}</p>
+            <div className="metric-card">
+              <span className="metric-label">Final Score</span>
+              <span className="metric-value highlight">{selectedResult.score} / {selectedResult.totalQuestions}</span>
+              <span className="metric-subtext">Completion: {selectedResult.percentage}%</span>
+            </div>
+            <div className="metric-card">
+              <span className="metric-label">Time Utilization</span>
+              <span className="metric-value">{selectedResult.timeTaken}</span>
+              <span className="metric-subtext">Session Date: {selectedResult.date}</span>
+            </div>
+            <div className="metric-card">
+              <span className="metric-label">Integrity Status</span>
+              <span className={`metric-value ${selectedResult.violationCount > 0 ? 'warning' : 'secure'}`}>
+                {selectedResult.violationCount || 0} Alerts
+              </span>
+              <span className="metric-subtext">Proctoring System</span>
             </div>
           </div>
 
-          <h3>Question Breakdown</h3>
+          <h3 className="mb-6">Question Audit Log</h3>
           {selectedResult.details ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+            <div className="question-audit-list">
               {selectedResult.details.map((q, idx) => (
-                <div key={idx} style={{ 
-                  padding: '15px', 
-                  borderRadius: '8px', 
-                  border: `1px solid ${q.isCorrect ? '#c8e6c9' : '#ffcdd2'}`,
-                  background: q.isCorrect ? '#f1f8e9' : '#fff9f9'
-                }}>
-                  <p style={{ fontWeight: 'bold', margin: '0 0 10px 0' }}>Q{idx + 1}: {q.question}</p>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '0.9rem' }}>
-                    <div>
-                      <span style={{ color: '#666' }}>Student Answer:</span> 
-                      <span style={{ 
-                        marginLeft: '5px', 
-                        fontWeight: 'bold', 
-                        color: q.isCorrect ? '#2e7d32' : '#c62828' 
-                      }}>
-                        {q.userAnswer ? q.userAnswer.toUpperCase() : 'None'}
+                <div key={idx} className={`audit-item ${q.isCorrect ? 'audit-pass' : 'audit-fail'}`}>
+                  <div className="audit-header">
+                    <span className="q-number">Q{idx + 1}</span>
+                    <p className="q-text">{q.question}</p>
+                  </div>
+                  <div className="audit-details">
+                    <div className="audit-row">
+                      <span className="audit-label">Candidate Response:</span> 
+                      <span className={`audit-response ${q.isCorrect ? 'text-success' : 'text-danger'}`}>
+                        {q.userAnswer ? q.userAnswer.toUpperCase() : 'NO RESPONSE'}
                       </span>
                     </div>
-                    <div>
-                      <span style={{ color: '#666' }}>Correct Answer:</span> 
-                      <span style={{ marginLeft: '5px', fontWeight: 'bold', color: '#2e7d32' }}>
-                        {q.correctAnswer.toUpperCase()}
-                      </span>
-                    </div>
+                    {!q.isCorrect && (
+                      <div className="audit-row">
+                        <span className="audit-label">System Validation:</span> 
+                        <span className="audit-response text-success">
+                          {q.correctAnswer.toUpperCase()}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <p>No question details available for this result.</p>
+            <div className="empty-state">
+              <p className="text-muted">No granular metrics available for this session archive.</p>
+            </div>
           )}
         </div>
       )}
 
-      {/* Projects Tab Removed as it is now integrated into Results */}
-
       {activeTab === 'schedule' && (
-        <div className="card">
-          <h2>Exam Scheduling</h2>
-          <div style={{ textAlign: 'left' }}>
+        <div className="card-premium">
+          <div className="admin-card-header">
+            <div>
+              <h2>BSL Exam Schedule</h2>
+              <p className="text-muted">Configure active slots and session durations for Skardu center.</p>
+            </div>
+          </div>
+          
+          <div className="slots-container">
             {examSchedule.slots.map((slot, index) => (
-              <div key={index} style={{ background: '#f8f9fa', padding: '15px', borderRadius: '8px', marginBottom: '15px', border: '1px solid #ddd' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                  <strong>Slot #{index + 1}</strong>
-                  <button className="btn btn-small btn-danger" onClick={() => removeSlot(index)}>Remove</button>
+              <div key={index} className="slot-card">
+                <div className="slot-card-header">
+                  <strong>Slot Config #{index + 1}</strong>
+                  <button className="btn btn-outline" style={{ color: '#ef4444' }} onClick={() => removeSlot(index)}>Remove Slot</button>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                <div className="admin-form-grid">
                   <div className="form-group">
-                    <label>Class:</label>
+                    <label>Assigned Module</label>
                     <select className="form-control" value={slot.course} onChange={e => handleSlotChange(index, 'course', e.target.value)}>
-                      <option value="bsl_class1">BSL Class 1 (Python Var-Func)</option>
-                      <option value="bsl_class2">BSL Class 2 (NumPy/Pandas)</option>
-                      <option value="bsl_class3">BSL Class 3 (ML/Viz)</option>
+                      <option value="python_ai">Python for AI & Data Science</option>
+                      <option value="advanced_ai">Advanced Artificial Intelligence</option>
+                      <option value="data_science">Professional Data Science</option>
+                      <option value="web_adv">Advanced Web Development</option>
+                      <option value="dsa">Data Structures & Algorithms</option>
                     </select>
                   </div>
                   <div className="form-group">
-                    <label>Duration (Min):</label>
+                    <label>Duration (Minutes)</label>
                     <input type="number" className="form-control" value={slot.duration || ''} onChange={e => handleSlotChange(index, 'duration', e.target.value)} />
                   </div>
                   <div className="form-group">
-                    <label>Start (PKT):</label>
+                    <label>Activation Time (PKT)</label>
                     <input type="datetime-local" className="form-control" value={slot.start} onChange={e => handleSlotChange(index, 'start', e.target.value)} />
                   </div>
                   <div className="form-group">
-                    <label>End (PKT):</label>
+                    <label>Termination Time (PKT)</label>
                     <input type="datetime-local" className="form-control" value={slot.end} onChange={e => handleSlotChange(index, 'end', e.target.value)} />
                   </div>
                 </div>
               </div>
             ))}
-            <button className="btn btn-primary" onClick={addSlot} style={{ marginRight: '10px' }}>Add Slot</button>
-            <button className="btn btn-success" onClick={handleSaveSchedule}>Save Settings</button>
+            <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
+              <button className="btn btn-outline" onClick={addSlot}>Append New Slot</button>
+              <button className="btn btn-primary" onClick={handleSaveSchedule}>Commit Settings</button>
+            </div>
           </div>
         </div>
       )}
@@ -400,3 +443,4 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+

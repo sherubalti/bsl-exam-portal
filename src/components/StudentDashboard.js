@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { ref, get, child } from "firebase/database";
 import { getCurrentPKTTime } from '../utils/timeUtility';
+import '../StudentDashboard.css';
 
 const StudentDashboard = ({ user }) => {
   const [userData, setUserData] = useState(null);
@@ -21,15 +22,12 @@ const StudentDashboard = ({ user }) => {
           setUserData(snapshot.val());
         }
 
-        // Load exam history from Firebase
         const historySnapshot = await get(child(dbRef, `examResults/${userKey}`));
         if (historySnapshot.exists()) {
           const historyData = historySnapshot.val();
-          // If old format (single object), wrap in array
           if (historyData.score !== undefined) {
             setExamHistory([historyData]);
           } else {
-            // New format (object of attempts), convert to sorted array
             const list = Object.values(historyData).sort((a, b) => 
               new Date(b.date) - new Date(a.date)
             );
@@ -37,7 +35,6 @@ const StudentDashboard = ({ user }) => {
           }
         }
 
-        // Load schedule from Firebase
         const scheduleSnapshot = await get(child(dbRef, 'examSchedule'));
         let currentSchedule = { slots: [] };
         if (scheduleSnapshot.exists()) {
@@ -45,7 +42,6 @@ const StudentDashboard = ({ user }) => {
           setSchedule(currentSchedule);
         }
 
-        // Check if any exam is active right now in PKT
         const nowPKT = await getCurrentPKTTime();
         setPktTime(nowPKT);
         
@@ -67,154 +63,107 @@ const StudentDashboard = ({ user }) => {
   }, [user.email, user.name]);
 
   if (loading) {
-    return <div>Loading your dashboard...</div>;
+    return (
+      <div className="container" style={{ textAlign: 'center', paddingTop: '100px' }}>
+        <div className="ai-gradient-text" style={{ fontSize: '1.2rem', fontWeight: 700 }}>Synchronizing Dashboard...</div>
+      </div>
+    );
   }
 
-  // Ensure nested objects exist to prevent crashes
   const attendance = userData?.attendance || { present: 0, absent: 0, leave: 0 };
   const assignments = userData?.assignments || { submitted: 0, total: 0 };
-  
   const totalClasses = (attendance.present || 0) + (attendance.absent || 0) + (attendance.leave || 0);
   const attendanceRate = totalClasses > 0 ? Math.round((attendance.present / totalClasses) * 100) : 0;
 
   return (
-    <div className="container">
-      <h1>Student Dashboard</h1>
-      <p>Welcome back, {user.name}!</p>
+    <div className="container student-dashboard-container">
+      <header className="student-header">
+        <h1>Welcome, {user.name.split(' ')[0]}</h1>
+        <p>Monitor your academic progress and upcoming assessments.</p>
+      </header>
       
-      <div className="dashboard-grid">
-        <div className="dashboard-card">
+      <div className="stat-grid">
+        <div className="stat-card">
           <h3>{userData?.progress || 0}%</h3>
-          <p>Overall Progress</p>
+          <p>Course Progress</p>
         </div>
-        
-        <div className="dashboard-card">
-          <h3>{attendance.present}/30</h3>
-          <p>Classes Attended</p>
+        <div className="stat-card">
+          <h3>{attendanceRate}%</h3>
+          <p>Attendance</p>
         </div>
-        
-        <div className="dashboard-card">
+        <div className="stat-card">
           <h3>{assignments.submitted}/{assignments.total}</h3>
-          <p>Assignments Submitted</p>
+          <p>Assignments</p>
         </div>
-        
-        <div className="dashboard-card">
+        <div className="stat-card">
           <h3>{userData?.averageScore || 0}%</h3>
-          <p>Average Score</p>
+          <p>Academic Rating</p>
         </div>
       </div>
 
-      <div className="card">
-        <h3>Attendance Summary</h3>
-        <div className="dashboard-grid">
-          <div className="dashboard-card">
-            <h3>{attendance.present}</h3>
-            <p>Present</p>
-          </div>
-          <div className="dashboard-card">
-            <h3>{attendance.absent}</h3>
-            <p>Absent</p>
-          </div>
-          <div className="dashboard-card">
-            <h3>{attendance.leave}</h3>
-            <p>Leave</p>
-          </div>
-          <div className="dashboard-card">
-            <h3>{attendanceRate}%</h3>
-            <p>Attendance Rate</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="card">
-        <h3>Exam Schedule</h3>
-        <div style={{ textAlign: 'left' }}>
+      <div className="dashboard-section">
+        <h3><span>📅</span> Examination Schedule</h3>
+        <div className="schedule-list">
           {(() => {
             const slots = schedule.slots || [];
-            
-            if (slots.length === 0) {
-              return <p>No exams currently scheduled.</p>;
-            }
+            if (slots.length === 0) return <div className="card text-muted">No exams are currently scheduled for your batch.</div>;
 
-            return (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {slots.map((slot, index) => {
-                  const start = new Date(slot.start);
-                  const end = new Date(slot.end);
-                  const isActive = pktTime >= start && pktTime <= end;
-                  const isUpcoming = pktTime < start;
+            return slots.map((slot, index) => {
+              const start = new Date(slot.start);
+              const end = new Date(slot.end);
+              const isActive = pktTime >= start && pktTime <= end;
+              const isUpcoming = pktTime < start;
 
-                  return (
-                    <div key={index} style={{ 
-                      padding: '15px', 
-                      borderRadius: '8px', 
-                      borderLeft: `5px solid ${isActive ? '#4CAF50' : isUpcoming ? '#2196F3' : '#9e9e9e'}`,
-                      background: '#f9f9f9',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center'
-                    }}>
-                      <div>
-                        <strong style={{ fontSize: '1.1rem' }}>{(slot.course || 'General').replace('_', ' ').toUpperCase()}</strong>
-                        <div style={{ fontSize: '0.9rem', color: '#666' }}>
-                          Start: {start.toLocaleString()} | End: {end.toLocaleString()}
-                        </div>
-                        {isActive && <span style={{ color: '#4CAF50', fontWeight: 'bold', fontSize: '0.8rem' }}>● ACTIVE NOW</span>}
-                        {isUpcoming && <span style={{ color: '#2196F3', fontWeight: 'bold', fontSize: '0.8rem' }}>UPCOMING</span>}
-                      </div>
-                      {isActive ? (
-                        <a href="/exam" className="btn btn-small btn-success">Join Exam</a>
-                      ) : (
-                        <button className="btn btn-small" disabled style={{ opacity: 0.5 }}>Unavailable</button>
-                      )}
+              return (
+                <div key={index} className={`schedule-item ${isActive ? 'active' : isUpcoming ? 'upcoming' : ''}`}>
+                  <div className="schedule-info">
+                    <span className="module-name">{(slot.course || 'General').replace('_', ' ').toUpperCase()}</span>
+                    <div className="module-time">
+                      Window: {start.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })} — {end.toLocaleString([], { timeStyle: 'short' })}
                     </div>
-                  );
-                })}
-              </div>
-            );
+                    {isActive && <span style={{ color: '#10b981', fontWeight: 800, fontSize: '0.75rem' }}>● SESSION LIVE</span>}
+                  </div>
+                  {isActive ? (
+                    <a href="/exam" className="btn btn-primary">Join Session</a>
+                  ) : (
+                    <button className="btn btn-outline" disabled>{isUpcoming ? 'Scheduled' : 'Closed'}</button>
+                  )}
+                </div>
+              );
+            });
           })()}
         </div>
       </div>
 
-      <div className="card">
-        <h3>My Last Exam Result</h3>
+      <div className="dashboard-section">
+        <h3><span>🏆</span> Latest Performance</h3>
         {!examHistory[0] ? (
-          <p>No past exams found.</p>
+          <div className="card text-muted">Assessment records will appear here after your first exam.</div>
         ) : (
-          <div style={{ background: '#f8f9fa', padding: '20px', borderRadius: '8px', borderLeft: '5px solid #4CAF50' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <h4 style={{ margin: '0' }}>{examHistory[0].course?.replace('_', ' ').toUpperCase() || 'GENERAL'}</h4>
-                <p style={{ margin: '5px 0', color: '#666' }}>Date: {examHistory[0].date}</p>
-              </div>
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1976d2' }}>{examHistory[0].percentage}%</div>
-                <div style={{ 
-                  color: examHistory[0].percentage >= 50 ? '#4CAF50' : '#f44336',
-                  fontWeight: 'bold',
-                  fontSize: '0.8rem'
-                }}>
-                  {examHistory[0].percentage >= 50 ? 'PASSED' : 'FAILED'}
-                </div>
+          <div className="result-preview-card">
+            <div className="result-info">
+              <h4>{examHistory[0].course?.replace('_', ' ').toUpperCase() || 'GENERAL ASSESSMENT'}</h4>
+              <p>Session Date: {examHistory[0].date}</p>
+              <div style={{ marginTop: '16px' }}>
+                <a href="/result" className="btn btn-primary" style={{ background: '#3b82f6', color: 'white', border: 'none' }}>View Detailed Report</a>
               </div>
             </div>
-            <div style={{ marginTop: '15px' }}>
-              <a href="/result" className="btn btn-small btn-primary">View Full Report & Download PDF</a>
+            <div className="result-score-badge">
+              <div className="score-percent">{examHistory[0].percentage}%</div>
+              <div className="score-status" style={{ color: examHistory[0].percentage >= 50 ? '#10b981' : '#ef4444' }}>
+                {examHistory[0].percentage >= 50 ? 'PASSED' : 'UNSUCCESSFUL'}
+              </div>
             </div>
           </div>
         )}
       </div>
 
-      <div className="card">
-        <h3>Quick Actions</h3>
-        <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-          {isExamActive ? (
-            <a href="/exam" className="btn btn-primary">Take Exam</a>
-          ) : (
-            <button className="btn btn-primary" disabled style={{ opacity: 0.5, cursor: 'not-allowed' }}>Take Exam (Disabled)</button>
-          )}
-          <a href="/result" className="btn btn-success">Download Last Result</a>
-          <a href="/project-upload" className="btn">Upload Project</a>
+      <div className="dashboard-section">
+        <h3><span>⚡</span> Quick Actions</h3>
+        <div className="action-grid">
+          <a href="/project-upload" className="btn btn-outline">Submit Project</a>
+          <a href="/result" className="btn btn-outline">Academic Transcript</a>
+          <a href="https://wa.me/923426930403" target="_blank" rel="noreferrer" className="btn btn-outline">Support Desk</a>
         </div>
       </div>
     </div>
@@ -222,3 +171,4 @@ const StudentDashboard = ({ user }) => {
 };
 
 export default StudentDashboard;
+

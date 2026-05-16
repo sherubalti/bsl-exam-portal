@@ -10,25 +10,24 @@ import examSchedule from '../data/examSchedule';
 import { getCurrentPKTTime } from '../utils/timeUtility';
 import { db } from '../firebase';
 import { ref, get, child, set, update } from "firebase/database";
+import '../Exam.css';
 
 const Exam = ({ user }) => {
   const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [timeLeft, setTimeLeft] = useState(60 * 60); // Default 60 minutes
+  const [timeLeft, setTimeLeft] = useState(60 * 60); 
   const [examStarted, setExamStarted] = useState(false);
   const [violationCount, setViolationCount] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
-  const [scheduleStatus, setScheduleStatus] = useState('active'); // 'active', 'upcoming', 'ended'
+  const [scheduleStatus, setScheduleStatus] = useState('active'); 
   const [activeSlot, setActiveSlot] = useState(null);
   const [activeSlots, setActiveSlots] = useState([]);
   const [currentSchedule, setCurrentSchedule] = useState(examSchedule);
   const [loadingTime, setLoadingTime] = useState(true);
-  const [startTimePKT, setStartTimePKT] = useState(null);
   const [examSubmitted, setExamSubmitted] = useState(false);
 
-  // Map exam type to data
   const mcqModules = {
     web: webMcqs,
     new_ai: pythonDsaMcqs,
@@ -38,7 +37,6 @@ const Exam = ({ user }) => {
     bsl_class3: bslClass3
   };
 
-  // Function to shuffle array
   const shuffleArray = (array) => {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -49,14 +47,14 @@ const Exam = ({ user }) => {
   };
 
   const handleSubmit = useCallback(async (isAutoSubmit = false) => {
-    // Check if all questions are answered
+    if (examSubmitted) return;
+    
     const unansweredCount = questions.length - Object.keys(answers).length;
     if (unansweredCount > 0 && !isAutoSubmit) {
-      const confirmSubmit = window.confirm(`You have ${unansweredCount} unanswered questions. Are you sure you want to submit?`);
+      const confirmSubmit = window.confirm(`You have ${unansweredCount} unanswered questions. Submit anyway?`);
       if (!confirmSubmit) return;
     }
 
-    if (examSubmitted) return;
     setExamSubmitted(true);
     let score = 0;
     const results = [];
@@ -64,7 +62,6 @@ const Exam = ({ user }) => {
     questions.forEach((question, index) => {
       const isCorrect = answers[index] === question.answer;
       if (isCorrect) score++;
-
       results.push({
         question: question.question || 'N/A',
         options: question.options || [],
@@ -76,7 +73,6 @@ const Exam = ({ user }) => {
     });
 
     const nowPKT = await getCurrentPKTTime();
-
     const finalResult = {
       studentName: user.name,
       email: user.email,
@@ -85,18 +81,14 @@ const Exam = ({ user }) => {
       percentage: Math.round((score / questions.length) * 100),
       date: nowPKT.toLocaleString('en-PK', { dateStyle: 'medium' }),
       course: activeSlot?.course || 'General',
-      startTime: activeSlot ? new Date(activeSlot.start).toLocaleTimeString('en-PK', { hour: '2-digit', minute: '2-digit', hour12: true }) : 'N/A',
-      endTime: activeSlot ? new Date(activeSlot.end).toLocaleTimeString('en-PK', { hour: '2-digit', minute: '2-digit', hour12: true }) : 'N/A',
       timeTaken: formatTime((activeSlot?.duration || 60) * 60 - timeLeft),
       details: results,
       violationCount: violationCount
     };
 
-    // Save result to Firebase (Single record per student as requested)
     const userKey = user.email.replace(/\./g, ',');
     await set(ref(db, `examResults/${userKey}`), finalResult);
 
-    // Update user's average score in Firebase
     try {
       const studentSnapshot = await get(child(ref(db), `students/${userKey}`));
       if (studentSnapshot.exists()) {
@@ -116,476 +108,191 @@ const Exam = ({ user }) => {
   useEffect(() => {
     const checkSchedule = async () => {
       const dbRef = ref(db);
+      const userKey = user.email.replace(/\./g, ',');
       
-      // Check if user has already attempted in Firebase (Strict Single Attempt)
-      try {
-        const userKey = user.email.replace(/\./g, ',');
-        const attemptSnapshot = await get(child(dbRef, `examResults/${userKey}`));
-        if (attemptSnapshot.exists()) {
-          alert('ACCESS DENIED: You have already attempted this exam. Multiple attempts are not allowed for the same User ID.');
-          navigate('/result');
-          return;
-        }
-      } catch (e) {
-        console.error("Error checking attempts:", e);
+      const attemptSnapshot = await get(child(dbRef, `examResults/${userKey}`));
+      if (attemptSnapshot.exists()) {
+        navigate('/result');
+        return;
       }
 
-      // Check exam schedule from Firebase
       let schedule = examSchedule;
-      try {
-        const scheduleSnapshot = await get(child(dbRef, 'examSchedule'));
-        if (scheduleSnapshot.exists()) {
-          schedule = scheduleSnapshot.val();
-          setCurrentSchedule(schedule);
-        }
-      } catch (e) {
-        console.error("Error fetching schedule:", e);
+      const scheduleSnapshot = await get(child(dbRef, 'examSchedule'));
+      if (scheduleSnapshot.exists()) {
+        schedule = scheduleSnapshot.val();
+        setCurrentSchedule(schedule);
       }
 
-      if (schedule && schedule.slots) {
-        setLoadingTime(true);
-        const now = await getCurrentPKTTime();
-        setLoadingTime(false);
+      const now = await getCurrentPKTTime();
+      setLoadingTime(false);
 
-        let currentStatus = 'upcoming';
-        // Check all slots for active ones
-        const activeList = schedule.slots.filter(slot => {
-          const start = new Date(slot.start);
-          const end = new Date(slot.end);
-          return now >= start && now <= end;
-        });
+      const activeList = schedule.slots.filter(slot => {
+        const start = new Date(slot.start);
+        const end = new Date(slot.end);
+        return now >= start && now <= end;
+      });
 
-        if (activeList.length > 0) {
-          currentStatus = 'active';
-          setActiveSlots(activeList);
-          // If only one active, select it by default
-          if (activeList.length === 1) {
-            setActiveSlot(activeList[0]);
-          }
-        } else {
-          // Check if upcoming or ended
-          const allStarts = schedule.slots.map(s => new Date(s.start));
-          const allEnds = schedule.slots.map(s => new Date(s.end));
-          const earliestStart = new Date(Math.min(...allStarts));
-          const latestEnd = new Date(Math.max(...allEnds));
-
-          if (now < earliestStart) {
-            currentStatus = 'upcoming';
-          } else if (now > latestEnd) {
-            currentStatus = 'ended';
-          } else {
-            currentStatus = 'upcoming';
-          }
-        }
-
-        setScheduleStatus(currentStatus);
-
-        if (currentStatus === 'active') {
-          const slotToUse = activeSlot || activeList[0];
-          if (slotToUse) {
-            const duration = slotToUse.duration || schedule.duration || 60;
-            setTimeLeft(duration * 60);
-
-            // Load dynamic MCQs based on selection IN THE SLOT
-            const course = slotToUse.course || 'web';
-            const selectedMcqData = mcqModules[course] || mcqModules.web;
-            const shuffledQuestions = shuffleArray(selectedMcqData.questions);
-            setQuestions(shuffledQuestions);
-          }
-        }
+      if (activeList.length > 0) {
+        setScheduleStatus('active');
+        setActiveSlots(activeList);
+        if (activeList.length === 1) selectSlot(activeList[0]);
+      } else {
+        const latestEnd = new Date(Math.max(...schedule.slots.map(s => new Date(s.end))));
+        setScheduleStatus(now > latestEnd ? 'ended' : 'upcoming');
       }
     };
-
     checkSchedule();
   }, [user.email, navigate]);
 
-  // Tab switching detection
   useEffect(() => {
     if (!examStarted || examSubmitted) return;
-
-    const triggerAutoSubmit = (currentCount) => {
-      if (currentCount >= 3) {
-        alert('Exam terminated due to multiple tab violations (3/3). Your progress has been saved.');
-        handleSubmit(true);
-      }
-    };
-
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        setViolationCount(prev => {
-          const newCount = prev + 1;
-          setShowWarning(true);
-          setTimeout(() => setShowWarning(false), 3000);
-          triggerAutoSubmit(newCount);
-          return newCount;
-        });
-      }
-    };
-
-    const handleBlur = () => {
+    const handleViolation = () => {
       setViolationCount(prev => {
-        const newCount = prev + 1;
+        const next = prev + 1;
         setShowWarning(true);
         setTimeout(() => setShowWarning(false), 3000);
-        triggerAutoSubmit(newCount);
-        return newCount;
+        if (next >= 3) handleSubmit(true);
+        return next;
       });
     };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    const handleVisibility = () => { if (document.hidden) handleViolation(); };
+    const handleBlur = () => handleViolation();
+    document.addEventListener('visibilitychange', handleVisibility);
     window.addEventListener('blur', handleBlur);
-
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      document.removeEventListener('visibilitychange', handleVisibility);
       window.removeEventListener('blur', handleBlur);
     };
   }, [examStarted, examSubmitted, handleSubmit]);
 
-  // Prevent right-click, copy, paste, etc.
   useEffect(() => {
     if (!examStarted) return;
-
-    const disableRightClick = (e) => {
-      e.preventDefault();
-      return false;
-    };
-
-    const disableKeys = (e) => {
-      // Disable F12, Ctrl+Shift+I, Ctrl+Shift+C, etc.
-      if (
-        e.keyCode === 123 || // F12
-        (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
-        (e.ctrlKey && e.shiftKey && e.keyCode === 74) || // Ctrl+Shift+J
-        (e.ctrlKey && e.keyCode === 85) // Ctrl+U
-      ) {
-        e.preventDefault();
-        return false;
-      }
-    };
-
-    document.addEventListener('contextmenu', disableRightClick);
-    document.addEventListener('keydown', disableKeys);
-
-    return () => {
-      document.removeEventListener('contextmenu', disableRightClick);
-      document.removeEventListener('keydown', disableKeys);
-    };
-  }, [examStarted]);
-
-  // Timer effect
-  useEffect(() => {
-    if (!examStarted) return;
-
     const timer = setInterval(() => {
-      setTimeLeft(prevTime => {
-        if (prevTime <= 1) {
-          clearInterval(timer);
-          handleSubmit();
-          return 0;
-        }
-        return prevTime - 1;
+      setTimeLeft(prev => {
+        if (prev <= 1) { clearInterval(timer); handleSubmit(true); return 0; }
+        return prev - 1;
       });
     }, 1000);
-
     return () => clearInterval(timer);
-  }, [examStarted]);
-
-  const handleAnswer = (questionIndex, answer) => {
-    setAnswers(prev => ({
-      ...prev,
-      [questionIndex]: answer
-    }));
-  };
-
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
-  };
-
-  const startExam = async () => {
-    setLoadingTime(true);
-    const now = await getCurrentPKTTime();
-    setLoadingTime(false);
-
-    // One last check to ensure the slot is still active
-    const isStillActive = currentSchedule.slots.some(slot => {
-      const start = new Date(slot.start);
-      const end = new Date(slot.end);
-      return now >= start && now <= end;
-    });
-
-    if (!isStillActive) {
-      alert('This exam slot has ended or is not yet active.');
-      window.location.reload();
-      return;
-    }
-
-    setStartTimePKT(now);
-    setExamStarted(true);
-  };
+  }, [examStarted, handleSubmit]);
 
   const selectSlot = (slot) => {
     setActiveSlot(slot);
-    const duration = slot.duration || currentSchedule.duration || 60;
-    setTimeLeft(duration * 60);
+    setTimeLeft((slot.duration || 60) * 60);
     const course = slot.course || 'web';
-    const selectedMcqData = mcqModules[course] || mcqModules.web;
-    const shuffledQuestions = shuffleArray(selectedMcqData.questions);
-    setQuestions(shuffledQuestions);
+    setQuestions(shuffleArray(mcqModules[course]?.questions || webMcqs.questions));
   };
 
-  // Schedule Checks
-  if (loadingTime) {
-    return <div className="container">Synchronizing Pakistan Time...</div>;
-  }
+  const formatTime = (seconds) => {
+    const min = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+  };
 
-  if (scheduleStatus === 'upcoming') {
+  if (loadingTime) return (
+    <div className="exam-container">
+      <div className="card-premium" style={{ textAlign: 'center' }}>
+        <div className="badge-premium mb-4">Security Protocol</div>
+        <h3>Initializing Secure Environment...</h3>
+        <p className="text-muted">Please wait while we verify your session and load the assessment.</p>
+      </div>
+    </div>
+  );
+
+  if (scheduleStatus !== 'active' || (scheduleStatus === 'active' && !activeSlot)) {
     return (
-      <div className="container">
-        <div className="card">
-          <h2>No Active Exam Slot</h2>
-          <p>There is no exam scheduled for the current time.</p>
-          <div style={{ margin: '20px 0', textAlign: 'left' }}>
-            <h4>Available Time Slots:</h4>
-            {currentSchedule.slots.map((slot, index) => (
-              <div key={index} style={{ padding: '12px', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                  <strong>{new Date(slot.start).toLocaleString()}</strong><br />
-                  <small>to {new Date(slot.end).toLocaleString()}</small>
+      <div className="exam-container">
+        <div className="instruction-card">
+          <div className="badge-premium mb-4">Exam Portal</div>
+          <h2>{scheduleStatus === 'upcoming' ? 'Upcoming Assessments' : scheduleStatus === 'ended' ? 'Assessment Window Closed' : 'Select Specialized Track'}</h2>
+          <div className="slots-list">
+            {(scheduleStatus === 'active' ? activeSlots : currentSchedule.slots).map((slot, i) => (
+              <div key={i} className="slot-item" onClick={() => scheduleStatus === 'active' && selectSlot(slot)}>
+                <div className="slot-info">
+                  <strong>{(slot.course || 'General').replace('_', ' ').toUpperCase()}</strong>
+                  <span>{new Date(slot.start).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} - {new Date(slot.end).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
                 </div>
-                <div style={{ background: '#e3f2fd', padding: '4px 8px', borderRadius: '4px', textTransform: 'uppercase', fontSize: '12px', fontWeight: 'bold', color: '#1976d2' }}>
-                  {(slot.course || 'web').replace('_', ' ')}
-                </div>
+                {scheduleStatus === 'active' && <button className="select-btn">Start →</button>}
               </div>
             ))}
           </div>
-          <p>Please come back during one of the scheduled times.</p>
-          <button className="btn btn-primary" onClick={() => window.location.reload()}>
-            Refresh Page
-          </button>
         </div>
       </div>
     );
-  }
-
-  if (scheduleStatus === 'ended') {
-    return (
-      <div className="container">
-        <div className="card">
-          <h2>Exam Schedule Has Ended</h2>
-          <p>All scheduled time slots for this exam have passed.</p>
-          <div style={{ margin: '20px 0', opacity: 0.7 }}>
-            <h4>Past Slots:</h4>
-            {currentSchedule.slots.map((slot, index) => (
-              <div key={index} style={{ textDecoration: 'line-through' }}>
-                {new Date(slot.start).toLocaleString()}
-              </div>
-            ))}
-          </div>
-          <p>You can no longer attempt this exam.</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (scheduleStatus === 'active' && !activeSlot) {
-    return (
-      <div className="container">
-        <div className="card">
-          <h2 style={{ color: '#1976d2' }}>Multiple Exams Active</h2>
-          <p>Please select the class you want to take the exam for:</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginTop: '20px' }}>
-            {activeSlots.map((slot, index) => (
-              <button 
-                key={index} 
-                className="btn btn-outline" 
-                style={{ padding: '20px', textAlign: 'left', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-                onClick={() => selectSlot(slot)}
-              >
-                <div>
-                  <strong style={{ fontSize: '1.2rem' }}>{(slot.course || 'General').replace('_', ' ').toUpperCase()}</strong>
-                  <div style={{ fontSize: '0.9rem', opacity: 0.8 }}>Duration: {slot.duration} mins</div>
-                </div>
-                <span style={{ fontWeight: 'bold', color: '#4CAF50' }}>Select & Continue →</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (questions.length === 0) {
-    return <div className="container">Loading questions...</div>;
   }
 
   if (!examStarted) {
-    const courseName = activeSlot?.course?.replace('_', ' ').toUpperCase() || 'General';
-    const duration = activeSlot?.duration || Math.floor(timeLeft / 60);
-
     return (
-      <div className="container">
-        <div className="card">
-          <div style={{ background: '#e3f2fd', padding: '15px', borderRadius: '10px', marginBottom: '25px', borderLeft: '8px solid #1976d2' }}>
-            <h2 style={{ color: '#1976d2', margin: 0 }}>Exam: {courseName}</h2>
+      <div className="exam-container">
+        <div className="instruction-card">
+          <div className="badge-premium mb-4">Ready for Assessment?</div>
+          <h1>{activeSlot.course.replace('_', ' ').toUpperCase()}</h1>
+          <div className="exam-meta-grid">
+            <div className="meta-box"><span>Questions</span><strong>{questions.length}</strong></div>
+            <div className="meta-box"><span>Duration</span><strong>{activeSlot.duration}m</strong></div>
           </div>
-          <h3 style={{ marginBottom: '20px' }}>Exam Instructions</h3>
-          <ul style={{ textAlign: 'left', marginBottom: '25px', lineHeight: '1.8' }}>
-            <li><strong>Total Questions:</strong> {questions.length}</li>
-            <li><strong>Time Allowed:</strong> {duration} minutes</li>
-            <li>Each question has 4 options</li>
-            <li>You cannot go back once submitted</li>
-            <li>Exam will auto-submit when time expires</li>
-            <li><strong>Warning:</strong> Switching tabs/windows will result in automatic submission after 3 violations</li>
-            <li>Right-click and developer tools are disabled during exam</li>
-          </ul>
-          <button className="btn btn-primary btn-lg" onClick={startExam} style={{ padding: '15px 40px', fontSize: '1.2rem' }}>
-            Start Exam
+          <button className="btn btn-primary" style={{ width: '100%' }} onClick={() => setExamStarted(true)}>
+            Begin Professional Assessment
           </button>
         </div>
       </div>
     );
   }
 
+  const q = questions[currentQuestion];
   return (
-    <div className="container">
-      {/* Warning Modal */}
-      {showWarning && (
-        <div className="warning-modal">
-          <div className="warning-content">
-            <h3>⚠️ Warning!</h3>
-            <p>Switching tabs/windows is not allowed during the exam.</p>
-            <p>Violation {violationCount} of 3. Exam will be submitted on next violation.</p>
-          </div>
+    <div className="exam-active-page">
+      {showWarning && <div className="violation-alert">Violation {violationCount}/3: Browser Focus Lost!</div>}
+      
+      <div className="exam-header-bar">
+        <div className="q-progress">
+          <span className="badge-premium">Question {currentQuestion + 1} of {questions.length}</span>
         </div>
-      )}
-
-      <div className="card">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h2>Exam - Question {currentQuestion + 1} of {questions.length}</h2>
-          <div className="timer">
-            Time Left: {formatTime(timeLeft)}
-            {violationCount > 0 && (
-              <div style={{ fontSize: '12px', color: 'red' }}>
-                Violations: {violationCount}/3
-              </div>
-            )}
-          </div>
+        <div className={`exam-timer ${timeLeft < 300 ? 'timer-low' : ''}`}>
+          <strong>⏱ {formatTime(timeLeft)}</strong>
         </div>
+      </div>
 
-        <div className="question-card">
-          <h3>{questions[currentQuestion].question}</h3>
-          <p><strong>Category:</strong> {questions[currentQuestion].category}</p>
-
-          <div className="options">
-            {questions[currentQuestion].options.map((option, index) => {
-              const letter = String.fromCharCode(97 + index);
-              return (
-                <label key={index} className="option-label">
-                  <input
-                    type="radio"
-                    name={`question-${currentQuestion}`}
-                    value={letter}
-                    checked={answers[currentQuestion] === letter}
-                    onChange={() => handleAnswer(currentQuestion, letter)}
-                  />
-                  <span className="option-text">{letter.toUpperCase()}. {option}</span>
-                </label>
-              );
-            })}
-          </div>
+      <div className="question-area">
+        <div className="progress-bar-container" style={{ width: '100%', height: '4px', background: 'var(--border-light)', marginBottom: '40px', borderRadius: '2px', overflow: 'hidden' }}>
+          <div className="progress-fill" style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%`, height: '100%', background: 'var(--accent)', transition: 'width 0.3s ease' }}></div>
+        </div>
+        <div className="q-category">{q.category}</div>
+        <h2 className="q-text">{q.question}</h2>
+        
+        <div className="options-grid">
+          {q.options.map((opt, i) => {
+            const letter = String.fromCharCode(97 + i);
+            return (
+              <label key={i} className={`option-card ${answers[currentQuestion] === letter ? 'selected' : ''}`}>
+                <input type="radio" name="q" value={letter} checked={answers[currentQuestion] === letter} onChange={() => setAnswers({...answers, [currentQuestion]: letter})} />
+                <span className="opt-letter">{letter.toUpperCase()}</span>
+                <span className="opt-text">{opt}</span>
+              </label>
+            );
+          })}
         </div>
 
-        {/* Progress Bar */}
-        <div style={{ margin: '20px 0' }}>
-          <div style={{
-            width: '100%',
-            backgroundColor: '#f0f0f0',
-            borderRadius: '5px',
-            overflow: 'hidden'
-          }}>
-            <div style={{
-              width: `${((currentQuestion + 1) / questions.length) * 100}%`,
-              height: '10px',
-              backgroundColor: '#4CAF50',
-              transition: 'width 0.3s ease'
-            }} />
-          </div>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            fontSize: '14px',
-            marginTop: '5px',
-            color: '#666'
-          }}>
-            <span>Progress: {currentQuestion + 1}/{questions.length}</span>
-            <span>{Math.round(((currentQuestion + 1) / questions.length) * 100)}%</span>
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
-          <button
-            className="btn"
-            onClick={() => setCurrentQuestion(prev => Math.max(0, prev - 1))}
-            disabled={currentQuestion === 0}
-          >
-            Previous
+        <div className="exam-nav-btns">
+          <button className="btn btn-outline" disabled={currentQuestion === 0} onClick={() => setCurrentQuestion(prev => prev - 1)}>
+            ← Previous
           </button>
-
-          <div>
-            {currentQuestion === questions.length - 1 ? (
-              <button className="btn btn-success" onClick={handleSubmit}>
-                Submit Exam
-              </button>
-            ) : (
-              <button
-                className="btn btn-primary"
-                onClick={() => setCurrentQuestion(prev => Math.min(questions.length - 1, prev + 1))}
-              >
-                Next
-              </button>
-            )}
-          </div>
-
-          <button
-            className="btn btn-danger"
-            onClick={() => {
-              if (window.confirm('Are you sure you want to submit the exam? This action cannot be undone.')) {
-                handleSubmit();
-              }
-            }}
-          >
-            Submit Now
-          </button>
-        </div>
-
-        {/* Question Navigation */}
-        <div style={{ marginTop: '20px' }}>
-          <h4>Question Navigation</h4>
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '5px',
-            justifyContent: 'center'
-          }}>
-            {questions.map((_, index) => (
-              <button
-                key={index}
-                className={`btn-small ${currentQuestion === index ? 'btn-primary' :
-                  answers[index] ? 'btn-success' : 'btn'
-                  }`}
-                onClick={() => setCurrentQuestion(index)}
-                style={{
-                  width: '40px',
-                  height: '40px',
-                  padding: 0
-                }}
-              >
-                {index + 1}
-              </button>
+          
+          <div className="q-dots">
+            {questions.map((_, i) => (
+              <div 
+                key={i} 
+                className={`dot ${currentQuestion === i ? 'active' : answers[i] ? 'answered' : ''}`} 
+                onClick={() => setCurrentQuestion(i)}
+                title={`Question ${i + 1}`}
+              ></div>
             ))}
           </div>
+
+          {currentQuestion === questions.length - 1 ? 
+            <button className="btn btn-primary" onClick={() => handleSubmit()}>Submit Exam</button> :
+            <button className="btn btn-primary" onClick={() => setCurrentQuestion(prev => prev + 1)}>Next Question →</button>
+          }
         </div>
       </div>
     </div>

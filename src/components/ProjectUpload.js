@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { getCurrentPKTTime } from '../utils/timeUtility';
 import { db } from '../firebase';
 import { ref, push } from "firebase/database";
+import '../ProjectUpload.css';
 
 const ProjectUpload = ({ user }) => {
   const [title, setTitle] = useState('');
@@ -34,11 +35,9 @@ const ProjectUpload = ({ user }) => {
       status: 'Submitted'
     };
 
-    // Save project metadata to Firebase
     push(ref(db, 'studentProjects'), newProject)
       .then(() => {
-        setSuccess('Project submitted to Cloud successfully!');
-        // Reset form
+        setSuccess('Project documentation synchronized successfully!');
         setTitle('');
         setDescription('');
         setFile(null);
@@ -55,22 +54,26 @@ const ProjectUpload = ({ user }) => {
   };
 
   return (
-    <div className="container">
-      <div className="card">
-        <h2>Upload Final Project</h2>
+    <div className="container project-upload-container">
+      <header className="upload-header">
+        <h1>Project Submission</h1>
+        <p>Document your technical implementations and submit for evaluation.</p>
+      </header>
 
+      <div className="upload-form-card">
         {success && (
-          <div style={{ color: 'green', marginBottom: '20px', padding: '10px', background: '#d4edda', borderRadius: '4px' }}>
-            {success}
+          <div className="success-banner">
+            <span>✅</span> {success}
           </div>
         )}
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Project Title:</label>
+            <label>Project Nomenclature</label>
             <input
               type="text"
               className="form-control"
+              placeholder="e.g. Neural Network Optimization Project"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
@@ -78,9 +81,10 @@ const ProjectUpload = ({ user }) => {
           </div>
 
           <div className="form-group">
-            <label>Project Description:</label>
+            <label>Abstract / Executive Summary</label>
             <textarea
               className="form-control"
+              placeholder="Briefly describe the technical scope and methodology..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows="4"
@@ -89,34 +93,38 @@ const ProjectUpload = ({ user }) => {
           </div>
 
           <div className="form-group">
-            <label>Upload Project File (PDF/DOC/PPT):</label>
-            <input
-              type="file"
-              className="form-control"
-              onChange={handleFileChange}
-              accept=".pdf,.doc,.docx,.ppt,.pptx"
-              required
-            />
+            <label>Technical Documentation (PDF/DOCX/PPTX)</label>
+            <div className="file-input-wrapper">
+              <span className="upload-icon">📁</span>
+              <strong>{file ? 'Replace Document' : 'Click or Drag File to Upload'}</strong>
+              <p className="text-muted">Maximum file size: 10MB</p>
+              <input
+                type="file"
+                onChange={handleFileChange}
+                accept=".pdf,.doc,.docx,.ppt,.pptx"
+                required
+              />
+            </div>
             {file && (
-              <p style={{ marginTop: '5px', fontSize: '0.9rem', color: '#666' }}>
-                Selected file: {file.name} ({formatFileSize(file.size)})
-              </p>
+              <div className="file-name-display">
+                📎 {file.name} ({formatFileSize(file.size)})
+              </div>
             )}
           </div>
 
-          <button type="submit" className="btn btn-success">
-            Submit Project
+          <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '16px' }}>
+            Commit Submission
           </button>
         </form>
 
-        <div style={{ marginTop: '30px', padding: '15px', background: '#f8f9fa', borderRadius: '5px' }}>
-          <h4>Submission Guidelines:</h4>
-          <ul style={{ textAlign: 'left' }}>
-            <li>File size should not exceed 10MB</li>
-            <li>Accepted formats: PDF, DOC, DOCX, PPT, PPTX</li>
-            <li>Include proper documentation</li>
-            <li>Ensure all team members are credited</li>
-            <li>Submit before the deadline: December 15, 2023</li>
+        <div className="guidelines-box">
+          <h4>Submission Protocol:</h4>
+          <ul>
+            <li>Ensure all source code is properly referenced in the documentation.</li>
+            <li>Supported formats: Adobe PDF, Microsoft Word, or PowerPoint.</li>
+            <li>Documentation must include architecture diagrams and result analysis.</li>
+            <li>Integrity check: Submissions must be original work.</li>
+            <li>Deadline adherence is mandatory for final certification.</li>
           </ul>
         </div>
       </div>
@@ -125,3 +133,4 @@ const ProjectUpload = ({ user }) => {
 };
 
 export default ProjectUpload;
+

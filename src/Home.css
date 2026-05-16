@@ -1,0 +1,203 @@
+.home-container {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+
+
+/* Features Section */
+.features-section {
+  padding: 100px 8%;
+  background: var(--bg-subtle);
+}
+
+.features-grid-home {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  margin-top: 50px;
+}
+
+.feature-item {
+  text-align: left;
+  background: white;
+  border: 1px solid var(--border-light);
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-lg);
+}
+
+.feature-item .icon-wrapper {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  width: 56px;
+  height: 56px;
+  background: var(--accent-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+}
+
+/* Training Section */
+.training-section {
+  padding: 120px 8%;
+  background: #f8fafc;
+}
+
+.training-card-premium {
+  display: flex;
+  align-items: center;
+  gap: 80px;
+}
+
+.perks-list {
+  display: grid;
+  gap: 16px;
+}
+
+.perk {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.perk span {
+  color: var(--success);
+  font-weight: 800;
+}
+
+/* Footer */
+.footer-premium {
+  padding: 100px 5% 40px;
+  background: var(--primary);
+  color: white;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: 1.5fr 3fr;
+  gap: 80px;
+  margin-bottom: 80px;
+}
+
+.footer-brand {
+  max-width: 400px;
+}
+
+.brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer-logo {
+  height: 40px;
+  width: auto;
+}
+
+.brand-name-footer {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.footer-desc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 32px;
+  color: #94a3b8;
+}
+
+.social-links-footer {
+  display: flex;
+  gap: 16px;
+}
+
+.social-links-footer a {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+
+.social-links-footer a:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.footer-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.nav-col h4 {
+  color: white;
+  margin-bottom: 24px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 800;
+}
+
+.nav-col a {
+  display: block;
+  color: #94a3b8;
+  text-decoration: none;
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-col a:hover {
+  color: white;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 40px;
+  text-align: center;
+}
+
+.location-info-footer {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  font-weight: 500;
+  flex-wrap: wrap;
+}
+
+.copyright-text {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+
+
+  .training-card-premium {
+    flex-direction: column;
+    gap: 60px;
+  }
+}
+
+
