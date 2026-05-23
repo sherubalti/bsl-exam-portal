@@ -20,6 +20,7 @@ Professional AI/Data Science Exam Portal with automated scheduling, complex MCQ 
 ## Features
 - **Branding**: Official "Baltistan Silicon Lab" results.
 - **Advanced MCQs**: 100+ complex questions per class.
+- **Class Assignments**: Practical coding assignments with detailed requirements checklist.
 - **Dynamic Scheduling**: Admin-controlled time slots and durations.
 - **Student Dashboard**: Live visibility of upcoming and active exams.
 - **PDF Results**: Professional-grade downloadable result sheets with full Q&A review.

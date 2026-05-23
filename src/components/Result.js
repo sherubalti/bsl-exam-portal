@@ -98,20 +98,64 @@ const Result = ({ user }) => {
         <h2>Question <span>Review</span></h2>
         <div className="review-list">
           {result.details?.map((d, i) => (
-            <div key={i} className={`review-card glass-premium ${d.isCorrect ? 'correct-bg' : 'wrong-bg'}`}>
-              <div className="review-top">
-                <span className="q-num">Question {i + 1}</span>
-                <span className={`status-icon ${d.isCorrect ? 'icon-correct' : 'icon-wrong'}`}>
-                  {d.isCorrect ? '✓' : '✗'}
-                </span>
+            d.type === 'assignment' ? (
+              <div key={i} className="review-card glass-premium assignment-review">
+                <div className="review-top">
+                  <span className="q-num">Assignment {i + 1}</span>
+                  <span className="status-icon icon-submitted">📝 Submitted</span>
+                </div>
+                <h3>{d.title}</h3>
+                <div className="assignment-content">
+                  <div className="question-text">{d.question}</div>
+                  
+                  <div className="requirements-review">
+                    <h4>Requirements:</h4>
+                    <ul className="req-list">
+                      {d.requirements?.map((req, idx) => (
+                        <li key={idx} className={req.startsWith('  -') ? 'sub-req' : ''}>
+                          {req.replace(/^  /, '')}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="concepts-review">
+                    <span className="label">Concepts:</span>
+                    {d.concepts?.map((c, idx) => (
+                      <span key={idx} className="concept-badge">{c}</span>
+                    ))}
+                  </div>
+
+                  <div className="difficulty-review">
+                    Difficulty: <strong>{d.difficulty}</strong>
+                  </div>
+
+                  <div className="submission-box">
+                    <label>Your Submission:</label>
+                    <pre className="code-display">{d.userAnswer || '(No submission)'}</pre>
+                  </div>
+
+                  <div className="submission-meta">
+                    <small>Submitted on: {new Date(d.submittedAt).toLocaleString('en-PK', { dateStyle: 'medium', timeStyle: 'short' })}</small>
+                  </div>
+                </div>
               </div>
-              <h3>{d.question}</h3>
-              <div className="answer-compare">
-                <div className="ans-box"><span>Your Answer:</span><strong>{d.userAnswer || 'None'}</strong></div>
-                <div className="ans-box"><span>Correct Answer:</span><strong>{d.correctAnswer}</strong></div>
+            ) : (
+              <div key={i} className={`review-card glass-premium ${d.isCorrect ? 'correct-bg' : 'wrong-bg'}`}>
+                <div className="review-top">
+                  <span className="q-num">Question {i + 1}</span>
+                  <span className={`status-icon ${d.isCorrect ? 'icon-correct' : 'icon-wrong'}`}>
+                    {d.isCorrect ? '✓' : '✗'}
+                  </span>
+                </div>
+                <h3>{d.question}</h3>
+                <div className="answer-compare">
+                  <div className="ans-box"><span>Your Answer:</span><strong>{d.userAnswer || 'None'}</strong></div>
+                  <div className="ans-box"><span>Correct Answer:</span><strong>{d.correctAnswer}</strong></div>
+                </div>
+                {!d.isCorrect && <div className="explanation-box"><strong>Insight:</strong> {d.explanation}</div>}
               </div>
-              {!d.isCorrect && <div className="explanation-box"><strong>Insight:</strong> {d.explanation}</div>}
-            </div>
+            )
           ))}
         </div>
       </div>

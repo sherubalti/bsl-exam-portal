@@ -6,6 +6,7 @@ import pythonDsaMcqs from '../data/mcqs_python_dsa.json';
 import bslClass1 from '../data/bsl_class1.json';
 import bslClass2 from '../data/bsl_class2.json';
 import bslClass3 from '../data/bsl_class3.json';
+import classAssignments from '../data/class_assignments.json';
 import examSchedule from '../data/examSchedule';
 import { getCurrentPKTTime } from '../utils/timeUtility';
 import { db } from '../firebase';
@@ -25,6 +26,7 @@ const Exam = ({ user }) => {
   const [activeSlot, setActiveSlot] = useState(null);
   const [activeSlots, setActiveSlots] = useState([]);
   const [currentSchedule, setCurrentSchedule] = useState(examSchedule);
+  const [remoteClassAssignments, setRemoteClassAssignments] = useState([]);
   const [loadingTime, setLoadingTime] = useState(true);
   const [examSubmitted, setExamSubmitted] = useState(false);
 
@@ -34,7 +36,8 @@ const Exam = ({ user }) => {
     old_ai: oldMcqs,
     bsl_class1: bslClass1,
     bsl_class2: bslClass2,
-    bsl_class3: bslClass3
+    bsl_class3: bslClass3,
+    class_assignments: classAssignments
   };
 
   const shuffleArray = (array) => {
@@ -60,16 +63,39 @@ const Exam = ({ user }) => {
     const results = [];
 
     questions.forEach((question, index) => {
-      const isCorrect = answers[index] === question.answer;
-      if (isCorrect) score++;
-      results.push({
-        question: question.question || 'N/A',
-        options: question.options || [],
-        userAnswer: answers[index] || '',
-        correctAnswer: question.answer || '',
-        isCorrect: isCorrect,
-        explanation: question.explanation || 'No explanation available.'
-      });
+      if (question.type === 'class_assignment') {
+        // For assignments, store the solution and mark as submitted (not auto-scored)
+        results.push({
+          questionId: question.id,
+          title: question.title,
+          question: question.question || 'N/A',
+          requirements: question.requirements || [],
+          userAnswer: answers[index] || '',
+          type: 'assignment',
+          concepts: question.concepts || [],
+          difficulty: question.difficulty || 'Unknown',
+          submitted: true,
+          submittedAt: new Date().toISOString()
+        });
+        // Assignments are marked as attempted (1 point for submission)
+        if (answers[index] && answers[index].trim().length > 0) {
+          score++;
+        }
+      } else {
+        // For MCQ questions, check if answer is correct
+        const isCorrect = answers[index] === question.answer;
+        if (isCorrect) score++;
+        results.push({
+          questionId: question.id,
+          question: question.question || 'N/A',
+          options: question.options || [],
+          userAnswer: answers[index] || '',
+          correctAnswer: question.answer || '',
+          isCorrect: isCorrect,
+          type: 'mcq',
+          explanation: question.explanation || 'No explanation available.'
+        });
+      }
     });
 
     const nowPKT = await getCurrentPKTTime();
@@ -83,7 +109,8 @@ const Exam = ({ user }) => {
       course: activeSlot?.course || 'General',
       timeTaken: formatTime((activeSlot?.duration || 60) * 60 - timeLeft),
       details: results,
-      violationCount: violationCount
+      violationCount: violationCount,
+      questionTypes: questions.map(q => q.type || 'mcq')
     };
 
     const userKey = user.email.replace(/\./g, ',');
@@ -106,6 +133,31 @@ const Exam = ({ user }) => {
   }, [questions, answers, user, timeLeft, violationCount, navigate, examSubmitted, activeSlot]);
 
   useEffect(() => {
+    const loadRemoteAssignments = async () => {
+      const dbRef = ref(db);
+      const snapshot = await get(child(dbRef, 'classAssignments'));
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const list = Object.keys(data).map(key => ({
+          id: key,
+          type: 'class_assignment',
+          category: 'Object-Oriented Programming',
+          title: data[key].title || 'Class Assignment',
+          question: data[key].question || 'No question text provided.',
+          requirements: data[key].requirements || [],
+          concepts: data[key].concepts || [],
+          difficulty: data[key].difficulty || 'Intermediate',
+          start: data[key].start,
+          end: data[key].end,
+          createdAt: data[key].createdAt || ''
+        }));
+        setRemoteClassAssignments(list);
+      }
+    };
+    loadRemoteAssignments();
+  }, []);
+
+  useEffect(() => {
     const checkSchedule = async () => {
       const dbRef = ref(db);
       const userKey = user.email.replace(/\./g, ',');
@@ -119,7 +171,15 @@ const Exam = ({ user }) => {
       let schedule = examSchedule;
       const scheduleSnapshot = await get(child(dbRef, 'examSchedule'));
       if (scheduleSnapshot.exists()) {
-        schedule = scheduleSnapshot.val();
+        const remoteSchedule = scheduleSnapshot.val();
+        const mergedSlots = [...(remoteSchedule.slots || [])];
+        (examSchedule.slots || []).forEach(localSlot => {
+          const exists = mergedSlots.some(remoteSlot => remoteSlot.course === localSlot.course && remoteSlot.start === localSlot.start && remoteSlot.end === localSlot.end);
+          if (!exists) mergedSlots.push(localSlot);
+        });
+        schedule = { ...remoteSchedule, slots: mergedSlots };
+        setCurrentSchedule(schedule);
+      } else {
         setCurrentSchedule(schedule);
       }
 
@@ -180,7 +240,21 @@ const Exam = ({ user }) => {
     setActiveSlot(slot);
     setTimeLeft((slot.duration || 60) * 60);
     const course = slot.course || 'web';
-    setQuestions(shuffleArray(mcqModules[course]?.questions || webMcqs.questions));
+    const module = course === 'class_assignments'
+      ? (remoteClassAssignments.length ? remoteClassAssignments : mcqModules[course] || classAssignments)
+      : mcqModules[course] || webMcqs;
+
+    const moduleQuestions = Array.isArray(module) ? module : module.questions || [];
+    const normalizedQuestions = moduleQuestions.map(q => ({
+      ...q,
+      type: q.type || 'class_assignment',
+      requirements: q.requirements || [],
+      concepts: q.concepts || []
+    }));
+
+    setQuestions(shuffleArray(normalizedQuestions));
+    setCurrentQuestion(0);
+    setAnswers({});
   };
 
   const formatTime = (seconds) => {
@@ -206,7 +280,7 @@ const Exam = ({ user }) => {
           <div className="badge-premium mb-4">Exam Portal</div>
           <h2>{scheduleStatus === 'upcoming' ? 'Upcoming Assessments' : scheduleStatus === 'ended' ? 'Assessment Window Closed' : 'Select Specialized Track'}</h2>
           <div className="slots-list">
-            {(scheduleStatus === 'active' ? activeSlots : currentSchedule.slots).map((slot, i) => (
+            {(scheduleStatus === 'active' ? activeSlots : (currentSchedule.slots || [])).map((slot, i) => (
               <div key={i} className="slot-item" onClick={() => scheduleStatus === 'active' && selectSlot(slot)}>
                 <div className="slot-info">
                   <strong>{(slot.course || 'General').replace('_', ' ').toUpperCase()}</strong>
@@ -239,6 +313,17 @@ const Exam = ({ user }) => {
     );
   }
 
+  if (questions.length === 0) {
+    return (
+      <div className="exam-container">
+        <div className="instruction-card">
+          <div className="badge-premium mb-4">Loading Questions...</div>
+          <h3>Please wait while we load your assessment content.</h3>
+        </div>
+      </div>
+    );
+  }
+
   const q = questions[currentQuestion];
   return (
     <div className="exam-active-page">
@@ -258,20 +343,65 @@ const Exam = ({ user }) => {
           <div className="progress-fill" style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%`, height: '100%', background: 'var(--accent)', transition: 'width 0.3s ease' }}></div>
         </div>
         <div className="q-category">{q.category}</div>
-        <h2 className="q-text">{q.question}</h2>
         
-        <div className="options-grid">
-          {q.options.map((opt, i) => {
-            const letter = String.fromCharCode(97 + i);
-            return (
-              <label key={i} className={`option-card ${answers[currentQuestion] === letter ? 'selected' : ''}`}>
-                <input type="radio" name="q" value={letter} checked={answers[currentQuestion] === letter} onChange={() => setAnswers({...answers, [currentQuestion]: letter})} />
-                <span className="opt-letter">{letter.toUpperCase()}</span>
-                <span className="opt-text">{opt}</span>
-              </label>
-            );
-          })}
-        </div>
+        {q.type === 'class_assignment' ? (
+          <div className="assignment-section">
+            <h2 className="q-text">{q.title}</h2>
+            <div className="assignment-intro">{q.question}</div>
+            
+            <div className="requirements-section">
+              <h3>Requirements:</h3>
+              <ul className="requirements-list">
+                {(q.requirements || []).map((req, i) => (
+                  <li key={i} className={req.startsWith('  -') ? 'sub-requirement' : ''}>
+                    {req.replace(/^  /, '')}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="concepts-section">
+              <h4>Key Concepts:</h4>
+              <div className="concepts-tags">
+                {(q.concepts || []).map((concept, i) => (
+                  <span key={i} className="concept-tag">{concept}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="difficulty-badge" style={{marginTop: '20px'}}>
+              Difficulty: <strong>{q.difficulty}</strong>
+            </div>
+
+            <div className="assignment-textarea">
+              <label>Your Solution:</label>
+              <textarea 
+                className="solution-input"
+                value={answers[currentQuestion] || ''}
+                onChange={(e) => setAnswers({...answers, [currentQuestion]: e.target.value})}
+                placeholder="Write your code solution here..."
+                rows={8}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="mcq-section">
+            <h2 className="q-text">{q.question}</h2>
+            
+            <div className="options-grid">
+              {(q.options || []).map((opt, i) => {
+                const letter = String.fromCharCode(97 + i);
+                return (
+                  <label key={i} className={`option-card ${answers[currentQuestion] === letter ? 'selected' : ''}`}>
+                    <input type="radio" name="q" value={letter} checked={answers[currentQuestion] === letter} onChange={() => setAnswers({...answers, [currentQuestion]: letter})} />
+                    <span className="opt-letter">{letter.toUpperCase()}</span>
+                    <span className="opt-text">{opt}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         <div className="exam-nav-btns">
           <button className="btn btn-outline" disabled={currentQuestion === 0} onClick={() => setCurrentQuestion(prev => prev - 1)}>

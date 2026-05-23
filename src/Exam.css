@@ -164,4 +164,153 @@
   100% { opacity: 1; }
 }
 
+/* Assignment Question Styles */
+.assignment-section {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.assignment-intro {
+  font-size: 1.1rem;
+  color: var(--text-main);
+  background: var(--bg-subtle);
+  padding: 20px;
+  border-radius: var(--radius-md);
+  margin-bottom: 24px;
+  border-left: 4px solid var(--accent);
+}
+
+.requirements-section {
+  margin-bottom: 32px;
+}
+
+.requirements-section h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.requirements-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.requirements-list li {
+  padding: 10px 0;
+  padding-left: 32px;
+  position: relative;
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+.requirements-list li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.requirements-list li.sub-requirement {
+  padding-left: 56px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.requirements-list li.sub-requirement:before {
+  content: "→";
+  left: 32px;
+}
+
+.concepts-section {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #f0f7ff;
+  border-radius: var(--radius-md);
+  border: 1px solid #d0e5f5;
+}
+
+.concepts-section h4 {
+  margin: 0 0 12px 0;
+  color: var(--primary);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.concepts-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.concept-tag {
+  display: inline-block;
+  padding: 6px 12px;
+  background: var(--accent);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.difficulty-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.assignment-textarea {
+  margin-top: 32px;
+}
+
+.assignment-textarea label {
+  display: block;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+
+.solution-input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-main);
+  background: #fafbfc;
+  resize: vertical;
+  transition: all 0.2s ease;
+}
+
+.solution-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.mcq-section {
+  animation: fadeIn 0.3s ease;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
 

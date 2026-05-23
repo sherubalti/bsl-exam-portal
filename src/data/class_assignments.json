@@ -1,0 +1,63 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "type": "class_assignment",
+      "category": "Object-Oriented Programming",
+      "title": "Student Performance Analysis System",
+      "question": "Design a Python-based system for analyzing student performance in a class.",
+      "requirements": [
+        "Store student data using appropriate data types (list, dictionary)",
+        "Each student should have: Name (string), Marks of 4 subjects (list of integers)",
+        "Create a class named StudentAnalysis that handles all operations",
+        "The class should include the following methods:",
+        "  - A method to add student data (name and marks)",
+        "  - A method to calculate average marks using a loop",
+        "  - A method to find maximum and minimum marks using loops",
+        "  - A method to find the top-performing student based on average marks",
+        "  - A method to display a full report of all students",
+        "Use loops for calculations",
+        "Use functions inside a class",
+        "Use proper data structures (list + dictionary)"
+      ],
+      "concepts": ["Classes", "Methods", "Loops", "Lists", "Dictionaries", "Data Structures"],
+      "difficulty": "Intermediate"
+    },
+    {
+      "id": 2,
+      "type": "class_assignment",
+      "category": "Object-Oriented Programming",
+      "title": "Library Management System",
+      "question": "Create a Python-based library management system using Object-Oriented Programming.",
+      "requirements": [
+        "Design a Book class with properties: title, author, isbn, available_copies",
+        "Design a Library class to manage multiple books",
+        "Implement methods to: add books, remove books, issue books, return books, search books",
+        "Track book availability and maintain a record of issued books",
+        "Display library inventory with available and issued copies",
+        "Use proper error handling for invalid operations",
+        "Use lists and dictionaries to store book and member data"
+      ],
+      "concepts": ["Classes", "Methods", "Lists", "Dictionaries", "Error Handling"],
+      "difficulty": "Intermediate"
+    },
+    {
+      "id": 3,
+      "type": "class_assignment",
+      "category": "Data Structures",
+      "title": "Stack and Queue Implementation",
+      "question": "Implement Stack and Queue data structures from scratch.",
+      "requirements": [
+        "Create a Stack class with push(), pop(), peek(), isEmpty() methods",
+        "Create a Queue class with enqueue(), dequeue(), peek(), isEmpty() methods",
+        "Use lists or linked list concept for internal storage",
+        "Implement size tracking for both structures",
+        "Add input validation and error handling",
+        "Write test cases to demonstrate both structures working correctly",
+        "Include documentation for each method"
+      ],
+      "concepts": ["Data Structures", "Stack", "Queue", "Methods", "Error Handling"],
+      "difficulty": "Intermediate"
+    }
+  ]
+}

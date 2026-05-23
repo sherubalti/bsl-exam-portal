@@ -77,3 +77,44 @@
   }
 }
 
+/* Class Assignments Styles */
+.schedule-item.class-assignment {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 2px solid #667eea;
+  color: white;
+}
+
+.schedule-item.class-assignment:hover {
+  border-color: #764ba2;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+}
+
+.assignment-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  backdrop-filter: blur(10px);
+  margin-bottom: 8px;
+}
+
+.assignment-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: white;
+}
+
+.assignment-count {
+  font-size: 0.95rem;
+  opacity: 0.9;
+  color: white;
+}
+
+.assignment-icon {
+  font-size: 2.5rem;
+  opacity: 0.8;
+}
+

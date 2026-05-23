@@ -16,6 +16,13 @@ const AdminDashboard = () => {
     duration: 75,
     slots: []
   });
+  const [newAssignment, setNewAssignment] = useState({
+    title: '',
+    question: '',
+    start: '',
+    end: ''
+  });
+  const [classAssignments, setClassAssignments] = useState([]);
   const [newStudent, setNewStudent] = useState({
     userId: '',
     name: '',
@@ -57,6 +64,15 @@ const AdminDashboard = () => {
         setExamSchedule(snapshot.val());
       } else {
         setExamSchedule(examScheduleConfig);
+      }
+    });
+
+    // Load class assignments from Firebase
+    get(child(dbRef, 'classAssignments')).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const list = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+        setClassAssignments(list);
       }
     });
   }, []);
@@ -131,6 +147,76 @@ const AdminDashboard = () => {
   const removeSlot = (index) => {
     const newSlots = examSchedule.slots.filter((_, i) => i !== index);
     setExamSchedule(prev => ({ ...prev, slots: newSlots }));
+  };
+
+  const countWords = (text) => {
+    return text.trim().length === 0 ? 0 : text.trim().split(/\s+/).length;
+  };
+
+  const handleAssignmentChange = (field, value) => {
+    setNewAssignment(prev => ({ ...prev, [field]: value }));
+  };
+
+  const saveAssignment = async () => {
+    const trimmedTitle = newAssignment.title.trim();
+    const trimmedQuestion = newAssignment.question.trim();
+    if (!trimmedTitle || !trimmedQuestion) {
+      alert('Please enter assignment title and question text.');
+      return;
+    }
+
+    const wordCount = countWords(trimmedQuestion);
+    if (wordCount > 300) {
+      alert(`Question text must be 300 words or less. Current count: ${wordCount}`);
+      return;
+    }
+
+    if (!newAssignment.start || !newAssignment.end) {
+      alert('Please set both start and end date/time for the assignment.');
+      return;
+    }
+
+    const startDate = new Date(newAssignment.start);
+    const endDate = new Date(newAssignment.end);
+    if (endDate <= startDate) {
+      alert('End time must be later than start time.');
+      return;
+    }
+
+    const assignmentId = `assignment_${Date.now()}`;
+    const assignmentData = {
+      title: trimmedTitle,
+      question: trimmedQuestion,
+      start: newAssignment.start,
+      end: newAssignment.end,
+      createdAt: new Date().toISOString()
+    };
+
+    await set(ref(db, `classAssignments/${assignmentId}`), assignmentData);
+    setClassAssignments(prev => [...prev, { id: assignmentId, ...assignmentData }]);
+
+    const durationMinutes = Math.max(60, Math.round((endDate.getTime() - startDate.getTime()) / 60000));
+    const existingIndex = examSchedule.slots.findIndex(slot => slot.course === 'class_assignments');
+    const updatedSlot = {
+      course: 'class_assignments',
+      start: newAssignment.start,
+      end: newAssignment.end,
+      duration: durationMinutes
+    };
+
+    const newSlots = [...examSchedule.slots];
+    if (existingIndex >= 0) {
+      newSlots[existingIndex] = updatedSlot;
+    } else {
+      newSlots.push(updatedSlot);
+    }
+
+    const updatedSchedule = { ...examSchedule, slots: newSlots };
+    setExamSchedule(updatedSchedule);
+    await set(ref(db, 'examSchedule'), updatedSchedule);
+
+    setNewAssignment({ title: '', question: '', start: '', end: '' });
+    alert('Assignment saved and scheduled successfully. Students will see it when the window opens.');
   };
 
   const handleSaveSchedule = () => {
@@ -434,6 +520,76 @@ const AdminDashboard = () => {
             <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
               <button className="btn btn-outline" onClick={addSlot}>Append New Slot</button>
               <button className="btn btn-primary" onClick={handleSaveSchedule}>Commit Settings</button>
+            </div>
+
+            <div className="assignment-config-card" style={{ marginTop: '40px' }}>
+              <div className="admin-card-header">
+                <div>
+                  <h2>Live Assignment Question</h2>
+                  <p className="text-muted">Write one question up to 300 words and schedule it for all students.</p>
+                </div>
+              </div>
+              <div className="admin-form-grid">
+                <div className="form-group" style={{ flex: '1 1 100%' }}>
+                  <label>Assignment Title</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Student Performance Analysis System"
+                    value={newAssignment.title}
+                    onChange={e => handleAssignmentChange('title', e.target.value)}
+                  />
+                </div>
+                <div className="form-group" style={{ flex: '1 1 100%' }}>
+                  <label>Question Text (max 300 words)</label>
+                  <textarea
+                    className="form-control"
+                    rows={6}
+                    maxLength={2500}
+                    placeholder="Describe the assignment and requirements here..."
+                    value={newAssignment.question}
+                    onChange={e => handleAssignmentChange('question', e.target.value)}
+                  />
+                  <small className="text-muted">Word count: {countWords(newAssignment.question)} / 300</small>
+                </div>
+                <div className="form-group">
+                  <label>Start Date & Time</label>
+                  <input
+                    type="datetime-local"
+                    className="form-control"
+                    value={newAssignment.start}
+                    onChange={e => handleAssignmentChange('start', e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>End Date & Time</label>
+                  <input
+                    type="datetime-local"
+                    className="form-control"
+                    value={newAssignment.end}
+                    onChange={e => handleAssignmentChange('end', e.target.value)}
+                  />
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: '12px', marginTop: '16px' }}>
+                <button className="btn btn-primary" onClick={saveAssignment}>Save Assignment</button>
+                <button className="btn btn-outline" onClick={() => setNewAssignment({ title: '', question: '', start: '', end: '' })}>Clear Form</button>
+              </div>
+
+              {classAssignments.length > 0 && (
+                <div style={{ marginTop: '24px' }}>
+                  <h4>Saved Assignments</h4>
+                  <div className="assignment-list">
+                    {classAssignments.map((assignment) => (
+                      <div key={assignment.id} className="assignment-preview-card">
+                        <strong>{assignment.title}</strong>
+                        <p className="text-muted" style={{ marginTop: '6px' }}>{assignment.question.slice(0, 120)}{assignment.question.length > 120 ? '...' : ''}</p>
+                        <small>Window: {new Date(assignment.start).toLocaleString()} — {new Date(assignment.end).toLocaleString()}</small>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

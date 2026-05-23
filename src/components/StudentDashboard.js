@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { ref, get, child } from "firebase/database";
 import { getCurrentPKTTime } from '../utils/timeUtility';
+import examSchedule from '../data/examSchedule';
 import '../StudentDashboard.css';
 
 const StudentDashboard = ({ user }) => {
@@ -38,7 +39,16 @@ const StudentDashboard = ({ user }) => {
         const scheduleSnapshot = await get(child(dbRef, 'examSchedule'));
         let currentSchedule = { slots: [] };
         if (scheduleSnapshot.exists()) {
-          currentSchedule = scheduleSnapshot.val();
+          const remoteSchedule = scheduleSnapshot.val();
+          const mergedSlots = [...(remoteSchedule.slots || [])];
+          (examSchedule.slots || []).forEach(localSlot => {
+            const exists = mergedSlots.some(remoteSlot => remoteSlot.course === localSlot.course && remoteSlot.start === localSlot.start && remoteSlot.end === localSlot.end);
+            if (!exists) mergedSlots.push(localSlot);
+          });
+          currentSchedule = { ...remoteSchedule, slots: mergedSlots };
+          setSchedule(currentSchedule);
+        } else {
+          currentSchedule = examSchedule;
           setSchedule(currentSchedule);
         }
 
@@ -113,6 +123,31 @@ const StudentDashboard = ({ user }) => {
               const end = new Date(slot.end);
               const isActive = pktTime >= start && pktTime <= end;
               const isUpcoming = pktTime < start;
+              const isClassAssignment = slot.course === 'class_assignments';
+
+              if (isClassAssignment) {
+                return (
+                  <div key={index} className={`schedule-item class-assignment ${isActive ? 'active' : ''}`}>
+                    <div className="schedule-info" style={{ color: 'white', flex: 1 }}>
+                      <div className="assignment-badge">📚 CLASS ASSIGNMENT</div>
+                      <div className="assignment-title">Coding Assignments</div>
+                      <div className="assignment-count">Complete practical programming tasks and submit your solutions</div>
+                      <div className="module-time" style={{ marginTop: '12px', opacity: 0.95 }}>
+                        Available: {start.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })} — {end.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
+                      </div>
+                      {isActive && <span style={{ color: '#fbbf24', fontWeight: 800, fontSize: '0.75rem', marginTop: '8px', display: 'block' }}>● ASSIGNMENTS AVAILABLE</span>}
+                    </div>
+                    <div className="assignment-icon">📝</div>
+                    <div style={{ marginLeft: '16px' }}>
+                      {isActive ? (
+                        <a href="/exam" className="btn btn-primary" style={{ background: 'white', color: '#667eea' }}>Start Assignment</a>
+                      ) : (
+                        <button className="btn btn-outline" style={{ borderColor: 'white', color: 'white' }} disabled>{isUpcoming ? 'Coming Soon' : 'Closed'}</button>
+                      )}
+                    </div>
+                  </div>
+                );
+              }
 
               return (
                 <div key={index} className={`schedule-item ${isActive ? 'active' : isUpcoming ? 'upcoming' : ''}`}>

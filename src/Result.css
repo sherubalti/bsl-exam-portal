@@ -105,4 +105,168 @@
   }
 }
 
+/* Assignment Review Styles */
+.review-card.assignment-review {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  border: 2px solid #d1d5db;
+  border-left: 5px solid #667eea;
+}
+
+.review-card.assignment-review .review-top {
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #d1d5db;
+}
+
+.review-card.assignment-review .icon-submitted {
+  background: #dbeafe;
+  color: #0369a1;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.assignment-content {
+  margin-top: 16px;
+}
+
+.question-text {
+  font-size: 0.95rem;
+  color: #4b5563;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  background: white;
+  border-left: 3px solid #667eea;
+  border-radius: 4px;
+}
+
+.requirements-review {
+  margin: 20px 0;
+  padding: 16px;
+  background: white;
+  border-radius: 8px;
+}
+
+.requirements-review h4 {
+  margin: 0 0 12px 0;
+  color: #1e293b;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.req-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.req-list li {
+  padding: 8px 0;
+  padding-left: 24px;
+  position: relative;
+  color: #475569;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.req-list li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #10b981;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.req-list li.sub-req {
+  padding-left: 40px;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.req-list li.sub-req:before {
+  content: "→";
+  left: 20px;
+  color: #94a3b8;
+}
+
+.concepts-review {
+  margin: 16px 0;
+  padding: 12px;
+  background: #f0f7ff;
+  border-radius: 8px;
+  border: 1px solid #bfdbfe;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.concepts-review .label {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #1e40af;
+  margin-right: 4px;
+}
+
+.concept-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #3b82f6;
+  color: white;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.difficulty-review {
+  margin: 12px 0;
+  padding: 8px 12px;
+  background: #fef3c7;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: #92400e;
+}
+
+.submission-box {
+  margin-top: 20px;
+  padding: 16px;
+  background: #1e293b;
+  border-radius: 8px;
+  border: 1px solid #334155;
+}
+
+.submission-box label {
+  display: block;
+  color: #cbd5e1;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.code-display {
+  color: #10b981;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  margin: 0;
+  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.submission-meta {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
 
