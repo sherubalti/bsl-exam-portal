@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import webMcqs from '../data/web_mcqs.json';
 import oldMcqs from '../data/old_mcqs.json';
@@ -29,6 +29,8 @@ const Exam = ({ user }) => {
   const [remoteClassAssignments, setRemoteClassAssignments] = useState([]);
   const [loadingTime, setLoadingTime] = useState(true);
   const [examSubmitted, setExamSubmitted] = useState(false);
+  const violationTimeoutRef = useRef(null);
+  const MAX_VIOLATIONS = 20;
 
   const mcqModules = {
     web: webMcqs,
@@ -206,22 +208,49 @@ const Exam = ({ user }) => {
 
   useEffect(() => {
     if (!examStarted || examSubmitted) return;
+
+    const clearViolationDelay = () => {
+      if (violationTimeoutRef.current) {
+        clearTimeout(violationTimeoutRef.current);
+        violationTimeoutRef.current = null;
+      }
+    };
+
     const handleViolation = () => {
       setViolationCount(prev => {
         const next = prev + 1;
         setShowWarning(true);
         setTimeout(() => setShowWarning(false), 3000);
-        if (next >= 3) handleSubmit(true);
+        if (next >= MAX_VIOLATIONS) handleSubmit(true);
         return next;
       });
     };
-    const handleVisibility = () => { if (document.hidden) handleViolation(); };
-    const handleBlur = () => handleViolation();
+
+    const scheduleViolation = () => {
+      clearViolationDelay();
+      violationTimeoutRef.current = setTimeout(() => {
+        handleViolation();
+        violationTimeoutRef.current = null;
+      }, 2000);
+    };
+
+    const handleVisibility = () => {
+      if (document.hidden) scheduleViolation();
+      else clearViolationDelay();
+    };
+
+    const handleBlur = () => scheduleViolation();
+    const handleFocus = () => clearViolationDelay();
+
     document.addEventListener('visibilitychange', handleVisibility);
     window.addEventListener('blur', handleBlur);
+    window.addEventListener('focus', handleFocus);
+
     return () => {
+      clearViolationDelay();
       document.removeEventListener('visibilitychange', handleVisibility);
       window.removeEventListener('blur', handleBlur);
+      window.removeEventListener('focus', handleFocus);
     };
   }, [examStarted, examSubmitted, handleSubmit]);
 
@@ -327,7 +356,7 @@ const Exam = ({ user }) => {
   const q = questions[currentQuestion];
   return (
     <div className="exam-active-page">
-      {showWarning && <div className="violation-alert">Violation {violationCount}/3: Browser Focus Lost!</div>}
+      {showWarning && <div className="violation-alert">Violation {violationCount}/{MAX_VIOLATIONS}: Browser Focus Lost!</div>}
       
       <div className="exam-header-bar">
         <div className="q-progress">
