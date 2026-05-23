@@ -247,7 +247,7 @@ const Exam = ({ user }) => {
     const moduleQuestions = Array.isArray(module) ? module : module.questions || [];
     const normalizedQuestions = moduleQuestions.map(q => ({
       ...q,
-      type: q.type || 'class_assignment',
+      type: q.type || (course === 'class_assignments' ? 'class_assignment' : 'mcq'),
       requirements: q.requirements || [],
       concepts: q.concepts || []
     }));
