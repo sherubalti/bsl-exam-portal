@@ -15,13 +15,14 @@ import Result from './components/Result';
 import ProjectUpload from './components/ProjectUpload';
 import StudentRegister from './components/StudentRegister';
 import AIChatbot from './components/AIChatbot';
+import Alumni from './components/Alumni';
 import { db } from './firebase';
 import { ref, onValue } from "firebase/database";
 import './App.css';
 
 function AppContent({ currentUser, isAdmin, isOnline, handleLogin, handleLogout }) {
   const location = useLocation();
-  const publicPaths = ['/', '/courses', '/student-register', '/about', '/contact'];
+  const publicPaths = ['/', '/courses', '/student-register', '/about', '/contact', '/alumni'];
   const isHomePage = publicPaths.includes(location.pathname);
 
   return (
@@ -43,6 +44,7 @@ function AppContent({ currentUser, isAdmin, isOnline, handleLogin, handleLogout 
           <Route path="/courses" element={<Training />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/alumni" element={<Alumni />} />
           <Route 
             path="/student-login" 
             element={

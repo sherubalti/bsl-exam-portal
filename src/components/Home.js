@@ -96,7 +96,7 @@ const Home = () => {
               <Link to="/student-login">Student Portal</Link>
               <Link to="/admin-login">Admin Access</Link>
               <Link to="/courses">Curriculum</Link>
-              <Link to="/about">Success Stories</Link>
+              <Link to="/alumni">Success Stories</Link>
             </div>
             <div className="nav-col">
               <h4>Academy</h4>
