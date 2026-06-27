@@ -63,7 +63,7 @@ const ProjectUpload = ({ user }) => {
       <div className="upload-form-card">
         {success && (
           <div className="success-banner">
-            <span>✅</span> {success}
+            {success}
           </div>
         )}
 
@@ -95,7 +95,9 @@ const ProjectUpload = ({ user }) => {
           <div className="form-group">
             <label>Technical Documentation (PDF/DOCX/PPTX)</label>
             <div className="file-input-wrapper">
-              <span className="upload-icon">📁</span>
+              <span className="upload-icon" style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+              </span>
               <strong>{file ? 'Replace Document' : 'Click or Drag File to Upload'}</strong>
               <p className="text-muted">Maximum file size: 10MB</p>
               <input
@@ -106,8 +108,9 @@ const ProjectUpload = ({ user }) => {
               />
             </div>
             {file && (
-              <div className="file-name-display">
-                📎 {file.name} ({formatFileSize(file.size)})
+              <div className="file-name-display" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+                {file.name} ({formatFileSize(file.size)})
               </div>
             )}
           </div>

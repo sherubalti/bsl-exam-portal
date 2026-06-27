@@ -12,6 +12,7 @@ const StudentDashboard = ({ user }) => {
   const [schedule, setSchedule] = useState({ slots: [] });
   const [pktTime, setPktTime] = useState(new Date());
   const [isExamActive, setIsExamActive] = useState(false);
+  const [globalSettings, setGlobalSettings] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,6 +64,11 @@ const StudentDashboard = ({ user }) => {
           });
           setIsExamActive(hasActiveSlot);
         }
+
+        const settingsSnapshot = await get(child(dbRef, 'globalSettings'));
+        if (settingsSnapshot.exists()) {
+          setGlobalSettings(settingsSnapshot.val());
+        }
       } catch (err) {
         console.error(err);
       } finally {
@@ -92,6 +98,13 @@ const StudentDashboard = ({ user }) => {
         <p>Monitor your academic progress and upcoming assessments.</p>
       </header>
       
+      {globalSettings && globalSettings.feeLastDate && (
+        <div style={{ background: 'var(--warning-bg)', borderLeft: '4px solid #d97706', padding: '14px 20px', borderRadius: '8px', marginBottom: '28px' }}>
+          <h4 style={{ color: 'var(--warning)', margin: '0 0 4px', fontSize: '0.9rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Fee Deadline Notice</h4>
+          <p style={{ margin: 0, color: 'var(--text-main)', fontSize: '0.875rem' }}>Last date for fee submission: <strong>{new Date(globalSettings.feeLastDate).toLocaleDateString('en-PK', { day: 'numeric', month: 'long', year: 'numeric' })}</strong>. Please clear your dues before the deadline.</p>
+        </div>
+      )}
+
       <div className="stat-grid">
         <div className="stat-card">
           <h3>{userData?.progress || 0}%</h3>
@@ -112,7 +125,7 @@ const StudentDashboard = ({ user }) => {
       </div>
 
       <div className="dashboard-section">
-        <h3><span>📅</span> Examination Schedule</h3>
+        <h3>Examination Schedule</h3>
         <div className="schedule-list">
           {(() => {
             const slots = schedule.slots || [];
@@ -129,7 +142,7 @@ const StudentDashboard = ({ user }) => {
                 return (
                   <div key={index} className={`schedule-item class-assignment ${isActive ? 'active' : ''}`}>
                     <div className="schedule-info" style={{ color: 'white', flex: 1 }}>
-                      <div className="assignment-badge">📚 CLASS ASSIGNMENT</div>
+                      <div className="assignment-badge">CLASS ASSIGNMENT</div>
                       <div className="assignment-title">Coding Assignments</div>
                       <div className="assignment-count">Complete practical programming tasks and submit your solutions</div>
                       <div className="module-time" style={{ marginTop: '12px', opacity: 0.95 }}>
@@ -137,7 +150,6 @@ const StudentDashboard = ({ user }) => {
                       </div>
                       {isActive && <span style={{ color: '#fbbf24', fontWeight: 800, fontSize: '0.75rem', marginTop: '8px', display: 'block' }}>● ASSIGNMENTS AVAILABLE</span>}
                     </div>
-                    <div className="assignment-icon">📝</div>
                     <div style={{ marginLeft: '16px' }}>
                       {isActive ? (
                         <a href="/exam" className="btn btn-primary" style={{ background: 'white', color: '#667eea' }}>Start Assignment</a>
@@ -171,7 +183,7 @@ const StudentDashboard = ({ user }) => {
       </div>
 
       <div className="dashboard-section">
-        <h3><span>🏆</span> Latest Performance</h3>
+        <h3>Latest Performance</h3>
         {!examHistory[0] ? (
           <div className="card text-muted">Assessment records will appear here after your first exam.</div>
         ) : (
@@ -194,9 +206,11 @@ const StudentDashboard = ({ user }) => {
       </div>
 
       <div className="dashboard-section">
-        <h3><span>⚡</span> Quick Actions</h3>
+        <h3>Quick Actions</h3>
         <div className="action-grid">
+          <a href="/profile" className="btn btn-outline">My Portfolio</a>
           <a href="/project-upload" className="btn btn-outline">Submit Project</a>
+          <a href="/fee-payment" className="btn btn-outline">My Fee Payments</a>
           <a href="/result" className="btn btn-outline">Academic Transcript</a>
           <a href="https://wa.me/923426930403" target="_blank" rel="noreferrer" className="btn btn-outline">Support Desk</a>
         </div>

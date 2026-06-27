@@ -1,0 +1,190 @@
+/* ─── Fee Payment ─── */
+.fee-container { padding-bottom: 60px; }
+
+.fee-header {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.fee-header h1 { font-size: 1.75rem; color: var(--navy); }
+.fee-header p  { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
+
+/* ─── Fee Content Grid ─── */
+.fee-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .fee-content-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── Submission Card ─── */
+.fee-submission-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-xs);
+}
+
+.fee-submission-card h2 {
+  font-size: 1.1rem;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ─── Payment Mode Selector ─── */
+.payment-mode-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.mode-btn {
+  padding: 16px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--bg-card);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.mode-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.mode-btn.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.mode-icon {
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+  line-height: 1;
+}
+
+.mode-text {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--navy);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ─── EasyPaisa Instructions ─── */
+.ep-account-info {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 18px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.ep-account-info h3 {
+  font-size: 1.15rem;
+  color: var(--navy);
+  margin: 8px 0;
+}
+
+.ep-account-info p { color: var(--text-muted); font-size: 0.875rem; }
+
+/* ─── Fee Form ─── */
+.fee-form label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--slate);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+
+/* ─── History Card ─── */
+.fee-history-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-xs);
+}
+
+.fee-history-card h2 {
+  font-size: 1.1rem;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.history-list { display: flex; flex-direction: column; gap: 10px; }
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 16px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--r-md);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.history-info { display: flex; flex-direction: column; gap: 3px; }
+
+.history-mode {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--navy);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.history-date { font-size: 0.78rem; color: var(--text-muted); }
+
+.history-trx {
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+  font-family: monospace;
+}
+
+/* ─── Banners ─── */
+.success-banner {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid #86efac;
+  border-left: 3px solid var(--success);
+  border-radius: var(--r-sm);
+  padding: 12px 16px;
+  margin-bottom: 18px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.error-banner {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border-color: #fca5a5;
+  border-left-color: var(--danger);
+}
+
+.empty-state {
+  padding: 32px;
+  text-align: center;
+}

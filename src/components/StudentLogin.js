@@ -3,38 +3,56 @@ import { db } from '../firebase';
 import { ref, get, child } from "firebase/database";
 
 const StudentLogin = ({ onLogin }) => {
-  const [userId, setUserId] = useState('');
+  const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError]       = useState('');
+  const [loading, setLoading]   = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
-    if (userId === 'admin' && password === 'admin123') {
+    // Admin hardcoded login
+    if (email === 'admin' && password === 'admin123') {
       onLogin({ email: 'admin', name: 'Student Admin' }, false);
+      setLoading(false);
       return;
     }
 
     try {
+      const emailKey = email.replace(/\./g, ',');
       const dbRef = ref(db);
-      const snapshot = await get(child(dbRef, `students/${userId}`));
-      if (snapshot.exists()) {
-        const userData = snapshot.val();
-        if (userData.password === password) {
-          onLogin({
-            email: userId,
-            name: userData.name || userId
-          }, false);
-        } else {
-          setError('Invalid password');
-        }
-      } else {
-        setError('Invalid User ID');
+      const snapshot = await get(child(dbRef, `students/${emailKey}`));
+
+      if (!snapshot.exists()) {
+        setError('No account found with this email. Please register first.');
+        setLoading(false);
+        return;
       }
+
+      const userData = snapshot.val();
+
+      if (userData.password === password) {
+        if (userData.isVerified === false) {
+          setError('Your account is not verified yet. Please check your email and click the verification link.');
+          setLoading(false);
+          return;
+        }
+
+        onLogin({
+          email: email,
+          name: userData.name || email
+        }, false);
+      } else {
+        setError('Invalid password.');
+      }
+
     } catch (err) {
       console.error(err);
       setError('Connection error. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -51,14 +69,12 @@ const StudentLogin = ({ onLogin }) => {
           
           <div className="features-grid">
             <div className="feature-card dark-feature">
-              <span className="feature-icon">🚀</span>
               <div>
                 <h4>Industry-Ready Skills</h4>
                 <p>Master cutting-edge technologies like Machine Learning and AI through hands-on projects.</p>
               </div>
             </div>
             <div className="feature-card dark-feature">
-              <span className="feature-icon">💡</span>
               <div>
                 <h4>Expert Mentorship</h4>
                 <p>Learn directly from seasoned professionals and receive guidance to excel globally.</p>
@@ -71,19 +87,19 @@ const StudentLogin = ({ onLogin }) => {
         <div className="login-form-section">
           <div className="auth-container">
             <h2>Student Portal</h2>
-            <p className="login-prompt">Please login to access your dashboard</p>
+            <p className="login-prompt">Login with your verified email</p>
             
             {error && <div className="error-msg">{error}</div>}
             
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label>User ID / Username</label>
+                <label>Email Address</label>
                 <input
                   type="text"
                   className="form-control"
-                  value={userId}
-                  onChange={(e) => setUserId(e.target.value)}
-                  placeholder="Enter your assigned ID"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your registered email"
                   required
                 />
               </div>
@@ -100,13 +116,19 @@ const StudentLogin = ({ onLogin }) => {
                 />
               </div>
               
-              <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '16px', padding: '14px' }}>
-                Login to Dashboard
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{ width: '100%', marginTop: '16px', padding: '14px' }}
+                disabled={loading}
+              >
+                {loading ? 'Verifying...' : 'Login to Dashboard'}
               </button>
             </form>
             
-            <div className="notice-box">
-              <strong>Notice:</strong> Accounts are assigned by the BSL administration. If you do not have your credentials, please contact your instructor.
+            <div className="notice-box" style={{ textAlign: 'center', marginTop: '20px' }}>
+              <strong>New Student?</strong>{' '}
+              <a href="/student-register" style={{ color: '#3b82f6', fontWeight: 'bold', textDecoration: 'none' }}>Register here</a> to create your account.
             </div>
           </div>
         </div>

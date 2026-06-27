@@ -20,22 +20,18 @@ const Home = () => {
         </div>
         <div className="features-grid-home">
           <div className="feature-item card-premium">
-            <div className="icon-wrapper">🚀</div>
             <h3>Expert Instructors</h3>
             <p className="text-muted">Our trainer has extensive industry experience and is an expert in the field, ensuring high-quality, project-based learning.</p>
           </div>
           <div className="feature-item card-premium">
-            <div className="icon-wrapper">📊</div>
             <h3>Industry Projects</h3>
             <p className="text-muted">Build a professional portfolio with projects that solve actual industry problems using real data.</p>
           </div>
           <div className="feature-item card-premium">
-            <div className="icon-wrapper">🎓</div>
             <h3>Global Certification</h3>
             <p className="text-muted">Get recognized by top tech companies with our industry-standard, globally accepted certification.</p>
           </div>
           <div className="feature-item card-premium">
-            <div className="icon-wrapper">🧠</div>
             <h3>Advanced Lab</h3>
             <p className="text-muted">Access our state-of-the-art computational resources and dedicated AI research laboratory.</p>
           </div>
@@ -111,8 +107,8 @@ const Home = () => {
         <div className="footer-bottom">
           <div className="container mx-auto">
             <div className="location-info-footer mb-4">
-              <span>📍 Ali Chowk, near Hawa Market, Skardu, Gilgit-Baltistan</span>
-              <span>📞 +92 342 6930403</span>
+              <span>Ali Chowk, near Hawa Market, Skardu, Gilgit-Baltistan</span>
+              <span>+92 342 6930403</span>
             </div>
             <p className="copyright-text">
               &copy; 2026 Baltistan Silicon Lab (BSL Academy). All Rights Reserved.

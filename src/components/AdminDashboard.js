@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { exportResultsToExcel, exportProjectsToExcel } from '../utils/exportToExcel';
+import { exportResultsToExcel, exportProjectsToExcel, exportFeeRecordsToExcel } from '../utils/exportToExcel';
 import { getCurrentPKTTime, formatForDateTimeInput } from '../utils/timeUtility';
 import examScheduleConfig from '../data/examSchedule';
 import { db } from '../firebase';
@@ -10,6 +10,7 @@ const AdminDashboard = () => {
   const [students, setStudents] = useState([]);
   const [results, setResults] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [feePayments, setFeePayments] = useState([]);
   const [activeTab, setActiveTab] = useState('results');
   const [selectedResult, setSelectedResult] = useState(null);
   const [examSchedule, setExamSchedule] = useState({
@@ -27,6 +28,10 @@ const AdminDashboard = () => {
     userId: '',
     name: '',
     password: ''
+  });
+  const [globalSettings, setGlobalSettings] = useState({
+    feeLastDate: '',
+    offlineAnnouncement: ''
   });
 
   useEffect(() => {
@@ -58,6 +63,21 @@ const AdminDashboard = () => {
       }
     });
 
+    // Load fee payments from Firebase
+    get(child(dbRef, 'feePayments')).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const list = [];
+        Object.keys(data).forEach(userKey => {
+          Object.keys(data[userKey]).forEach(paymentKey => {
+            list.push({ userKey, paymentKey, ...data[userKey][paymentKey] });
+          });
+        });
+        list.sort((a, b) => new Date(b.date) - new Date(a.date));
+        setFeePayments(list);
+      }
+    });
+
     // Load schedule from Firebase
     get(child(dbRef, 'examSchedule')).then((snapshot) => {
       if (snapshot.exists()) {
@@ -73,6 +93,13 @@ const AdminDashboard = () => {
         const data = snapshot.val();
         const list = Object.keys(data).map(key => ({ id: key, ...data[key] }));
         setClassAssignments(list);
+      }
+    });
+
+    // Load global settings
+    get(child(dbRef, 'globalSettings')).then((snapshot) => {
+      if (snapshot.exists()) {
+        setGlobalSettings(snapshot.val());
       }
     });
   }, []);
@@ -115,6 +142,17 @@ const AdminDashboard = () => {
         alert('Result deleted successfully');
       }).catch(err => alert('Error deleting result: ' + err.message));
     }
+  };
+
+  const updatePaymentStatus = (userKey, paymentKey, newStatus) => {
+    update(ref(db, `feePayments/${userKey}/${paymentKey}`), { status: newStatus }).then(() => {
+      setFeePayments(prev => prev.map(p => {
+        if (p.paymentKey === paymentKey) {
+          return { ...p, status: newStatus };
+        }
+        return p;
+      }));
+    }).catch(err => alert('Failed to update status: ' + err.message));
   };
 
   const handleSlotChange = (index, field, value) => {
@@ -225,6 +263,12 @@ const AdminDashboard = () => {
     });
   };
 
+  const handleSaveGlobalSettings = () => {
+    set(ref(db, 'globalSettings'), globalSettings).then(() => {
+      alert('Global settings updated successfully!');
+    });
+  };
+
   return (
     <div className="container admin-dashboard-container">
       <header className="admin-header">
@@ -252,6 +296,12 @@ const AdminDashboard = () => {
           onClick={() => { setActiveTab('schedule'); setSelectedResult(null); }}
         >
           Global Settings
+        </button>
+        <button 
+          className={`tab-btn ${activeTab === 'fees' ? 'active' : ''}`} 
+          onClick={() => { setActiveTab('fees'); setSelectedResult(null); }}
+        >
+          Fee Verification
         </button>
       </div>
 
@@ -398,6 +448,88 @@ const AdminDashboard = () => {
                     </tr>
                   );
                 })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'fees' && (
+        <div className="card-premium">
+          <div className="admin-card-header">
+            <div>
+              <h2>Fee Verifications</h2>
+              <p className="text-muted">Review and approve student fee payment slips and EasyPaisa transactions.</p>
+            </div>
+            <button className="btn btn-primary" onClick={() => exportFeeRecordsToExcel(feePayments)}>Export Records (.xlsx)</button>
+          </div>
+
+          <div className="admin-table-container">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Date & Mode</th>
+                  <th>Payment Details</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {feePayments.map((p, i) => (
+                  <tr key={p.paymentKey || i}>
+                    <td>
+                      <div className="user-info-block">
+                        <span className="user-info-name">{p.studentName}</span>
+                        <span className="user-info-id">{p.email}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span style={{ fontWeight: 600 }}>{p.mode === 'easypaisa' ? 'EasyPaisa' : 'Offline'}</span>
+                      <br />
+                      <span className="text-muted" style={{ fontSize: '0.85rem' }}>{p.date}</span>
+                    </td>
+                    <td>
+                      {p.mode === 'easypaisa' ? (
+                        <span style={{ color: '#2563eb', fontWeight: 600 }}>Trx ID: {p.trxId}</span>
+                      ) : (
+                        <span className="text-muted" style={{ fontStyle: 'italic' }}>Manual Verification Required</span>
+                      )}
+                    </td>
+                    <td>
+                      <span className={`status-badge ${p.status === 'Verified' ? 'pass' : (p.status === 'Rejected' ? 'fail' : 'warning')}`}>
+                        {p.status}
+                      </span>
+                    </td>
+                    <td>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <button 
+                          className="btn btn-primary" 
+                          style={{ background: '#10b981', border: 'none', padding: '6px 12px', fontSize: '0.85rem' }} 
+                          onClick={() => updatePaymentStatus(p.userKey, p.paymentKey, 'Verified')}
+                          disabled={p.status === 'Verified'}
+                        >
+                          Approve
+                        </button>
+                        <button 
+                          className="btn btn-primary" 
+                          style={{ background: '#ef4444', border: 'none', padding: '6px 12px', fontSize: '0.85rem' }} 
+                          onClick={() => updatePaymentStatus(p.userKey, p.paymentKey, 'Rejected')}
+                          disabled={p.status === 'Rejected'}
+                        >
+                          Reject
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+                {feePayments.length === 0 && (
+                  <tr>
+                    <td colSpan="5" style={{ textAlign: 'center', padding: '20px' }} className="text-muted">
+                      No fee payments submitted yet.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -590,6 +722,40 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               )}
+            </div>
+            
+            <div className="assignment-config-card" style={{ marginTop: '40px' }}>
+              <div className="admin-card-header">
+                <div>
+                  <h2>Portal Global Announcements & Settings</h2>
+                  <p className="text-muted">Configure notifications and instructions visible to all students.</p>
+                </div>
+              </div>
+              <div className="admin-form-grid">
+                <div className="form-group" style={{ flex: '1 1 100%' }}>
+                  <label>Fee Submission Last Date</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    value={globalSettings.feeLastDate || ''}
+                    onChange={e => setGlobalSettings({ ...globalSettings, feeLastDate: e.target.value })}
+                  />
+                  <small className="text-muted">Will be displayed on student dashboards and fee portal.</small>
+                </div>
+                <div className="form-group" style={{ flex: '1 1 100%' }}>
+                  <label>Offline Payment Important Announcement</label>
+                  <textarea
+                    className="form-control"
+                    rows={4}
+                    placeholder="e.g. Please bring original CNIC when paying at campus..."
+                    value={globalSettings.offlineAnnouncement || ''}
+                    onChange={e => setGlobalSettings({ ...globalSettings, offlineAnnouncement: e.target.value })}
+                  />
+                </div>
+              </div>
+              <div style={{ marginTop: '16px' }}>
+                <button className="btn btn-primary" onClick={handleSaveGlobalSettings}>Update Global Settings</button>
+              </div>
             </div>
           </div>
         </div>

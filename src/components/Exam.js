@@ -363,7 +363,7 @@ const Exam = ({ user }) => {
           <span className="badge-premium">Question {currentQuestion + 1} of {questions.length}</span>
         </div>
         <div className={`exam-timer ${timeLeft < 300 ? 'timer-low' : ''}`}>
-          <strong>⏱ {formatTime(timeLeft)}</strong>
+          <strong>Time Remaining: {formatTime(timeLeft)}</strong>
         </div>
       </div>
 

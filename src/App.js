@@ -16,13 +16,17 @@ import ProjectUpload from './components/ProjectUpload';
 import StudentRegister from './components/StudentRegister';
 import AIChatbot from './components/AIChatbot';
 import Alumni from './components/Alumni';
+import StudentProfile from './components/StudentProfile';
+import FeePayment from './components/FeePayment';
+import TopBar from './components/TopBar';
+import VerifyEmail from './components/VerifyEmail';
 import { db } from './firebase';
 import { ref, onValue } from "firebase/database";
 import './App.css';
 
 function AppContent({ currentUser, isAdmin, isOnline, handleLogin, handleLogout }) {
   const location = useLocation();
-  const publicPaths = ['/', '/courses', '/student-register', '/about', '/contact', '/alumni'];
+  const publicPaths = ['/', '/courses', '/student-register', '/about', '/contact', '/alumni', '/verify'];
   const isHomePage = publicPaths.includes(location.pathname);
 
   return (
@@ -30,12 +34,15 @@ function AppContent({ currentUser, isAdmin, isOnline, handleLogin, handleLogout 
       {isHomePage ? (
         <Navbar />
       ) : (
-        <Sidebar 
-          currentUser={currentUser} 
-          isAdmin={isAdmin} 
-          onLogout={handleLogout} 
-          isOnline={isOnline}
-        />
+        <>
+          <Sidebar 
+            currentUser={currentUser} 
+            isAdmin={isAdmin} 
+            onLogout={handleLogout} 
+            isOnline={isOnline}
+          />
+          <TopBar currentUser={currentUser} isAdmin={isAdmin} />
+        </>
       )}
       
       <div className={`main-content ${isHomePage ? 'full-width' : ''}`}>
@@ -44,7 +51,8 @@ function AppContent({ currentUser, isAdmin, isOnline, handleLogin, handleLogout 
           <Route path="/courses" element={<Training />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/alumni" element={<Alumni />} />
+          <Route path="/alumni" element={<Alumni isAdmin={isAdmin} />} />
+          <Route path="/verify" element={<VerifyEmail />} />
           <Route 
             path="/student-login" 
             element={
@@ -106,6 +114,22 @@ function AppContent({ currentUser, isAdmin, isOnline, handleLogin, handleLogout 
             element={
               currentUser && !isAdmin ? 
               <ProjectUpload user={currentUser} /> :
+              <Navigate to="/student-login" />
+            } 
+          />
+          <Route 
+            path="/profile" 
+            element={
+              currentUser && !isAdmin ? 
+              <StudentProfile user={currentUser} /> :
+              <Navigate to="/student-login" />
+            } 
+          />
+          <Route 
+            path="/fee-payment" 
+            element={
+              currentUser && !isAdmin ? 
+              <FeePayment user={currentUser} /> :
               <Navigate to="/student-login" />
             } 
           />

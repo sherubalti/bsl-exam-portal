@@ -33,3 +33,15 @@ export const exportProjectsToExcel = (projects) => {
   }));
   exportToExcel(exportData, 'student_projects');
 };
+
+export const exportFeeRecordsToExcel = (feePayments) => {
+  const exportData = feePayments.map(payment => ({
+    'Student Name': payment.studentName,
+    'Email': payment.email,
+    'Mode': payment.mode === 'easypaisa' ? 'EasyPaisa' : 'Offline',
+    'Date Submitted': payment.date,
+    'Status': payment.status,
+    'Transaction ID': payment.trxId || 'N/A'
+  }));
+  exportToExcel(exportData, 'fee_records');
+};

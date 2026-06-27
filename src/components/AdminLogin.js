@@ -32,14 +32,12 @@ const AdminLogin = ({ onLogin }) => {
           
           <div className="features-grid">
             <div className="feature-card dark-feature">
-              <span className="feature-icon">🛡️</span>
               <div>
                 <h4>Secure Management</h4>
                 <p>Advanced security protocols to protect student data and exam integrity.</p>
               </div>
             </div>
             <div className="feature-card dark-feature">
-              <span className="feature-icon">📈</span>
               <div>
                 <h4>Live Analytics</h4>
                 <p>Monitor student progress and exam results in real-time with automated grading.</p>

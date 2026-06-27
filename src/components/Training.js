@@ -72,10 +72,10 @@ const Training = () => {
               <div className="skills-tags mb-6">
                 {course.skills.map(skill => <span key={skill} className="skill-tag">{skill}</span>)}
               </div>
-
               <div className="course-meta">
-                <div className="meta-item text-muted">
-                  <span role="img" aria-label="duration">⏱️</span> {course.duration}
+                <div className="meta-item text-muted" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  {course.duration}
                 </div>
                 <a href="#register" className="btn btn-primary">Enroll Now</a>
               </div>
@@ -95,21 +95,27 @@ const Training = () => {
                 
                 <div className="perks-grid-mini">
                   <div className="perk-mini">
-                    <span className="perk-icon">🎓</span>
+                    <span className="perk-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path></svg>
+                    </span>
                     <div>
                       <strong>Industry Certification</strong>
                       <p>Recognized by top tech firms</p>
                     </div>
                   </div>
                   <div className="perk-mini">
-                    <span className="perk-icon">💼</span>
+                    <span className="perk-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                    </span>
                     <div>
                       <strong>Career Support</strong>
                       <p>Resume building & interviews</p>
                     </div>
                   </div>
                   <div className="perk-mini">
-                    <span className="perk-icon">🛠️</span>
+                    <span className="perk-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                    </span>
                     <div>
                       <strong>Hands-on Labs</strong>
                       <p>Real-world project experience</p>

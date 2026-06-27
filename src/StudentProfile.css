@@ -1,0 +1,239 @@
+/* Professional Data Science Profile — Corporate Theme */
+.profile-ds-container { padding-bottom: 60px; }
+
+.profile-ds-header {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-badge {
+  display: inline-block;
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 4px 10px;
+  border-radius: var(--r-sm);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  border: 1px solid rgba(30,64,175,0.15);
+}
+
+.profile-ds-header h1 { font-size: 1.75rem; color: var(--navy); }
+.profile-ds-header p  { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
+
+/* ─── Two-column layout ─── */
+.profile-ds-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .profile-ds-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── Sidebar panel ─── */
+.profile-ds-sidebar {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: var(--shadow-xs);
+}
+
+.profile-avatar-ds {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bg-subtle);
+  border: 2px solid var(--border);
+}
+
+.avatar-ring {
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--accent);
+  opacity: 0.35;
+  animation: spin 25s linear infinite;
+}
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+.avatar-text {
+  font-size: 2.2rem;
+  color: var(--accent);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.ds-name  { color: var(--navy); font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+.ds-email { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 24px; }
+
+.ds-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.metric-box {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 14px 10px;
+}
+
+.metric-val {
+  display: block;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 3px;
+}
+
+.metric-lbl {
+  display: block;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+
+/* ─── Main form ─── */
+.profile-ds-main {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-xs);
+}
+
+.ds-section-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--slate);
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.ds-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 600px) { .ds-form-grid { grid-template-columns: 1fr; } }
+
+.ds-input-group { margin-bottom: 16px; }
+
+.ds-input-group label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--slate);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 6px;
+}
+
+.ds-input {
+  width: 100%;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 10px 14px;
+  border-radius: var(--r-sm);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.ds-input:disabled { opacity: 0.65; cursor: not-allowed; }
+
+.ds-input.editable {
+  color: var(--text-main);
+  background: var(--bg-card);
+  border-color: var(--accent);
+}
+
+.ds-input.editable:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.ds-actions {
+  margin-top: 28px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ds-btn {
+  padding: 9px 20px;
+  border-radius: var(--r-sm);
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: 'Inter', sans-serif;
+  border: 1px solid transparent;
+}
+
+.ds-btn-primary {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.ds-btn-primary:hover { background: var(--accent-soft); }
+
+.ds-btn-success {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.ds-btn-success:hover { background: var(--accent-hover); }
+
+.ds-btn-outline {
+  background: transparent;
+  color: var(--slate);
+  border-color: var(--border);
+}
+.ds-btn-outline:hover { color: var(--navy); border-color: var(--slate); background: var(--bg-subtle); }
+
+.ds-success-banner {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid #86efac;
+  border-left: 3px solid var(--success);
+  border-radius: var(--r-sm);
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ds-loader {
+  color: var(--accent);
+  font-size: 0.95rem;
+  font-weight: 600;
+  animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse { from { opacity: 0.5; } to { opacity: 1; } }

@@ -37,17 +37,14 @@ const About = () => {
           
           <div className="values-grid">
             <div className="value-item card-premium">
-              <div className="value-icon">⭐</div>
               <h4>Excellence</h4>
               <p className="text-muted">We maintain the highest standards in our curriculum and instruction, ensuring our students are industry-ready.</p>
             </div>
             <div className="value-item card-premium">
-              <div className="value-icon">💡</div>
               <h4>Innovation</h4>
               <p className="text-muted">We stay at the forefront of AI and Data Science research, integrating the latest technologies into our programs.</p>
             </div>
             <div className="value-item card-premium">
-              <div className="value-icon">🌍</div>
               <h4>Impact</h4>
               <p className="text-muted">We focus on building solutions that solve real-world problems and contribute to the growth of the region.</p>
             </div>

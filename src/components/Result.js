@@ -102,7 +102,7 @@ const Result = ({ user }) => {
               <div key={i} className="review-card glass-premium assignment-review">
                 <div className="review-top">
                   <span className="q-num">Assignment {i + 1}</span>
-                  <span className="status-icon icon-submitted">📝 Submitted</span>
+                  <span className="status-icon icon-submitted">Submitted</span>
                 </div>
                 <h3>{d.title}</h3>
                 <div className="assignment-content">
