@@ -27,12 +27,46 @@ const AdminDashboard = () => {
   const [newStudent, setNewStudent] = useState({
     userId: '',
     name: '',
-    password: ''
+    password: '',
+    whatsappNumber: ''
   });
   const [globalSettings, setGlobalSettings] = useState({
     feeLastDate: '',
     offlineAnnouncement: ''
   });
+  const [broadcastMessage, setBroadcastMessage] = useState('');
+
+  const sendBroadcast = async () => {
+    const numbers = students.map(s => s.whatsappNumber).filter(Boolean);
+    if (!broadcastMessage.trim()) return alert("Please type a message.");
+    if (numbers.length === 0) return alert("No students have valid WhatsApp numbers.");
+    
+    try {
+      const res = await fetch('/api/send-whatsapp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ numbers, message: broadcastMessage })
+      });
+      const data = await res.json();
+      if (data.success) { 
+        alert('Broadcast sent successfully!'); 
+        setBroadcastMessage(''); 
+      } else {
+        alert('Failed: ' + (data.error || 'Unknown error'));
+      }
+    } catch (e) { alert('Error: ' + e.message); }
+  };
+
+  const triggerManualReminders = async () => {
+    if (!window.confirm("Send fee reminder WhatsApp to all unpaid/late students now?")) return;
+    try {
+      const res = await fetch('/api/cron-fee-reminders');
+      const data = await res.json();
+      alert(data.message || `Reminders sent to ${data.notifiedCount || 0} students.`);
+    } catch(e) {
+      alert('Error triggering reminders: ' + e.message);
+    }
+  };
 
   useEffect(() => {
     const dbRef = ref(db);
@@ -114,6 +148,8 @@ const AdminDashboard = () => {
     const studentData = {
       name: newStudent.name || newStudent.userId,
       password: newStudent.password,
+      whatsappNumber: newStudent.whatsappNumber || '',
+      feeStatus: 'Unpaid',
       joinDate: new Date().toISOString(),
       averageScore: 0,
       attempts: 0
@@ -122,7 +158,7 @@ const AdminDashboard = () => {
     set(ref(db, 'students/' + newStudent.userId), studentData)
       .then(() => {
         alert('Student account created successfully!');
-        setNewStudent({ userId: '', name: '', password: '' });
+        setNewStudent({ userId: '', name: '', password: '', whatsappNumber: '' });
         setStudents(prev => [...prev, { userId: newStudent.userId, ...studentData }]);
       });
   };
@@ -348,6 +384,16 @@ const AdminDashboard = () => {
                   required 
                 />
               </div>
+              <div className="form-group">
+                <label>WhatsApp Number</label>
+                <input 
+                  type="text" 
+                  className="form-control" 
+                  placeholder="+923001234567"
+                  value={newStudent.whatsappNumber} 
+                  onChange={e => setNewStudent({...newStudent, whatsappNumber: e.target.value})} 
+                />
+              </div>
             </div>
             <button type="submit" className="btn btn-primary">Initialize Account</button>
           </form>
@@ -359,7 +405,8 @@ const AdminDashboard = () => {
                 <tr>
                   <th>Student Profile</th>
                   <th>Security Key</th>
-                  <th>Status</th>
+                  <th>WhatsApp</th>
+                  <th>Fee Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -373,7 +420,21 @@ const AdminDashboard = () => {
                       </div>
                     </td>
                     <td><code style={{ background: 'var(--bg-subtle)', padding: '4px 8px', borderRadius: '4px', color: 'var(--text-main)', fontWeight: 600 }}>{s.password}</code></td>
-                    <td><span className="status-badge pass">Active</span></td>
+                    <td>{s.whatsappNumber || 'N/A'}</td>
+                    <td>
+                      <select 
+                        value={s.feeStatus || 'Unpaid'} 
+                        onChange={(e) => {
+                          update(ref(db, `students/${s.userId}`), { feeStatus: e.target.value });
+                          setStudents(prev => prev.map(student => student.userId === s.userId ? { ...student, feeStatus: e.target.value } : student));
+                        }}
+                        style={{ padding: '4px', borderRadius: '4px', border: '1px solid #ccc' }}
+                      >
+                        <option value="Paid">Paid</option>
+                        <option value="Unpaid">Unpaid</option>
+                        <option value="Late">Late</option>
+                      </select>
+                    </td>
                     <td>
                       <button className="btn btn-outline" style={{ color: '#ef4444', borderColor: '#fee2e2' }} onClick={() => deleteStudent(s.userId)}>Remove</button>
                     </td>
@@ -382,6 +443,33 @@ const AdminDashboard = () => {
               </tbody>
             </table>
           </div>
+
+          <div className="assignment-config-card" style={{ marginTop: '40px' }}>
+            <div className="admin-card-header">
+              <div>
+                <h2>WhatsApp Communications</h2>
+                <p className="text-muted">Broadcast instructions or send fee reminders.</p>
+              </div>
+            </div>
+            
+            <div className="admin-form-grid" style={{ marginBottom: '20px' }}>
+              <div className="form-group" style={{ flex: '1 1 100%' }}>
+                <label>Important Instructions Broadcast</label>
+                <textarea
+                  className="form-control"
+                  rows={4}
+                  placeholder="Type an important instruction to send to ALL students on WhatsApp..."
+                  value={broadcastMessage}
+                  onChange={e => setBroadcastMessage(e.target.value)}
+                />
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <button className="btn btn-primary" onClick={sendBroadcast}>Send Broadcast to All</button>
+              <button className="btn btn-outline" style={{ color: '#ef4444', borderColor: '#fee2e2' }} onClick={triggerManualReminders}>Send Late Fee Reminders Now</button>
+            </div>
+          </div>
+
         </div>
       )}
 
