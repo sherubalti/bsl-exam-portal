@@ -322,12 +322,32 @@
 .chatbot-toggle.open { display: none; }
 
 @media (max-width: 768px) {
-  .message { font-size: 0.95rem; max-width: 90%; }
-  .control-btn { width: 52px; height: 52px; }
-  .ai-avatar-core { width: 100px; height: 100px; }
-  .chat-window {
+  .chatbot-wrapper {
+    bottom: 16px;
+    right: 16px;
+    z-index: 999999;
+  }
+  .video-call-layout {
     width: calc(100vw - 32px);
     height: calc(100vh - 100px);
+    max-height: 85vh;
     border-radius: 20px;
+  }
+  .vc-message {
+    font-size: 0.95rem;
+    max-width: 90%;
+  }
+  .vc-icon-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 0.85rem;
+  }
+  .vc-input {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+  .vc-send-btn {
+    width: 40px;
+    height: 40px;
   }
 }
