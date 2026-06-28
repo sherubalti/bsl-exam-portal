@@ -328,26 +328,42 @@
     z-index: 999999;
   }
   .video-call-layout {
-    width: calc(100vw - 32px);
-    height: calc(100vh - 100px);
-    max-height: 85vh;
-    border-radius: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;
+    max-height: none;
+    border-radius: 0;
+    z-index: 1000000;
+  }
+  .chatbot-toggle {
+    width: 55px;
+    height: 55px;
+    margin: 0;
   }
   .vc-message {
     font-size: 0.95rem;
     max-width: 90%;
+    padding: 10px 14px;
   }
   .vc-icon-btn {
-    width: 34px;
-    height: 34px;
-    font-size: 0.85rem;
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+  }
+  .vc-title {
+    font-size: 1rem;
   }
   .vc-input {
-    padding: 10px 14px;
-    font-size: 0.9rem;
+    padding: 12px 14px;
+    font-size: 0.95rem;
   }
   .vc-send-btn {
     width: 40px;
     height: 40px;
+  }
+  .vc-subtitles {
+    bottom: 120px;
   }
 }
