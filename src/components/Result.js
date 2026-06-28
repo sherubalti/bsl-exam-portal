@@ -13,7 +13,7 @@ const Result = ({ user }) => {
     const SERVICE_ID = "service_5tzm50o";
     const TEMPLATE_ID = "template_wznd4o3";
     const PUBLIC_KEY ="rdrLtx3ektaxB41qt";
-    const ADMIN_EMAIL = 'sheralishahid1010@gmail.com';
+    const ADMIN_EMAIL = 'baltistansiliconlab@gmail.com';
 
     const resultId = examResult.date || `${examResult.score}-${examResult.totalQuestions}`;
     try {

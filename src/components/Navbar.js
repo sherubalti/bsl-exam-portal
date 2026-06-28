@@ -26,7 +26,7 @@ const Navbar = () => {
           <Link to="/alumni" onClick={() => setIsOpen(false)}>Alumni</Link>
           <Link to="/contact" onClick={() => setIsOpen(false)}>Contact</Link>
           <div className="nav-actions">
-            <Link to="/student-register" className="btn btn-outline btn-sm" onClick={() => setIsOpen(false)}>Register</Link>
+
             <Link to="/student-login" className="btn btn-primary btn-sm" onClick={() => setIsOpen(false)}>Portal</Link>
             <Link to="/admin-login" className="btn btn-outline btn-sm" onClick={() => setIsOpen(false)}>Admin</Link>
           </div>

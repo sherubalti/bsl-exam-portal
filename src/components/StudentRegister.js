@@ -55,6 +55,21 @@ const StudentRegister = ({ onLogin }) => {
         return;
       }
 
+      // Check if phone number already exists
+      if (formData.phone) {
+        const allStudentsSnapshot = await get(child(dbRef, 'students'));
+        if (allStudentsSnapshot.exists()) {
+          const studentsData = allStudentsSnapshot.val();
+          for (const key in studentsData) {
+            if (studentsData[key].phone === formData.phone) {
+              setError('An account with this phone number already exists.');
+              setLoading(false);
+              return;
+            }
+          }
+        }
+      }
+
       // Generate verification token
       const token = generateVerificationToken();
       const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // 24 hours
@@ -130,7 +145,7 @@ const StudentRegister = ({ onLogin }) => {
             {formData.email}
           </div>
           <p style={{ color: 'var(--text-muted)', lineHeight: '1.7', marginBottom: '28px' }}>
-            Open your Gmail inbox and click the verification link from <strong>noreply@navttc-exam-portal.firebaseapp.com</strong>.
+            Open your Gmail inbox and click the verification link from <strong>baltistansiliconlab@gmail.com</strong>.
             After verifying, come back and login.
           </p>
           <div style={{

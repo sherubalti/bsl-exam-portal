@@ -4,51 +4,130 @@ import '../AIChatbot.css';
 const AIChatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { id: 1, type: 'ai', text: 'Hello! I am your BSL AI Guider. How can I assist you today?' }
+    { id: 1, type: 'ai', text: 'Hello! I am your BSL AI Tutor. How can I assist you today?\n\nآداب! میں آپ کا BSL AI ٹیوٹر ہوں۔ آج میں آپ کی کس طرح مدد کر سکتا ہوں؟' }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [showKeyboard, setShowKeyboard] = useState(true);
-  const [isMuted, setIsMuted] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [voiceLang, setVoiceLang] = useState('en-US');
+  const [isMuted, setIsMuted] = useState(false);
+  const [voiceLang, setVoiceLang] = useState('en-US'); // 'en-US' or 'ur-PK'
   const messagesEndRef = useRef(null);
+  const recognitionRef = useRef(null);
+  const isCancelledRef = useRef(false); // tracks if user closed chat during a pending response
+
+  // Load voices properly (browsers load them async)
+  const getVoicesLoaded = () => new Promise(resolve => {
+    const voices = window.speechSynthesis.getVoices();
+    if (voices.length > 0) { resolve(voices); return; }
+    window.speechSynthesis.onvoiceschanged = () => resolve(window.speechSynthesis.getVoices());
+  });
 
   // Web Speech API for TTS
-  const speakText = (text) => {
+  const speakText = async (text, lang) => {
     if (isMuted || !('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel(); // Stop any ongoing speech
+    window.speechSynthesis.cancel();
+
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = voiceLang === 'ur-PK' ? 'ur-PK' : 'en-US';
-    utterance.rate = 1.0;
-    utterance.pitch = 1.1;
+    const activeLang = lang || voiceLang;
+
+    // Wait for voices to be available
+    const voices = await getVoicesLoaded();
+
+    // Log available voices to console for debugging
+    console.log('Available voices:', voices.map(v => `${v.name} (${v.lang})`));
+
+    const isUrdu = activeLang === 'ur-PK';
+    const femaleOrChildNames = ['female', 'zira', 'susan', 'hazel', 'fiona', 'samantha', 'karen', 'moira', 'tessa', 'veena', 'child'];
+    const maleNames = ['david', 'mark', 'guy', 'james', 'richard', 'george', 'daniel', 'male', 'reed', 'rishi'];
+
+    let selectedVoice = null;
+
+    if (isUrdu) {
+      utterance.lang = 'ur-PK';
+      selectedVoice = voices.find(v =>
+        v.lang.toLowerCase().includes('ur') &&
+        !femaleOrChildNames.some(n => v.name.toLowerCase().includes(n))
+      ) || voices.find(v => v.lang.toLowerCase().includes('ur'));
+
+      // If no Urdu voice, use English male voice with low pitch for Urdu text
+      if (!selectedVoice) {
+        selectedVoice = voices.find(v =>
+          v.lang.toLowerCase().includes('en') &&
+          maleNames.some(n => v.name.toLowerCase().includes(n))
+        );
+        utterance.lang = 'en-US';
+      }
+    } else {
+      utterance.lang = 'en-US';
+      // Prefer known deep male voices
+      selectedVoice = voices.find(v =>
+        v.lang.toLowerCase().startsWith('en') &&
+        maleNames.some(n => v.name.toLowerCase().includes(n))
+      );
+      // Fallback: any en voice not female/child
+      if (!selectedVoice) {
+        selectedVoice = voices.find(v =>
+          v.lang.toLowerCase().startsWith('en') &&
+          !femaleOrChildNames.some(n => v.name.toLowerCase().includes(n))
+        );
+      }
+    }
+
+    if (selectedVoice) {
+      console.log('Selected voice:', selectedVoice.name);
+      utterance.voice = selectedVoice;
+    }
+
+    utterance.rate = 0.95;
+    utterance.pitch = 0.55; // Very low pitch — deep adult male
     window.speechSynthesis.speak(utterance);
   };
+
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
+    if ('speechSynthesis' in window) {
+      // Trigger voice load
+      window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.getVoices();
+      };
+    }
     scrollToBottom();
   }, [messages, isTyping]);
 
   // Voice Input (Speech-to-Text)
   const startListening = () => {
+    if (isListening) {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+      setIsListening(false);
+      return;
+    }
+
+    // Stop any ongoing AI speech BEFORE starting recognition to prevent 'aborted' conflicts
+    window.speechSynthesis?.cancel();
+
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
-      alert("Your browser does not support Voice Input. Please use Chrome.");
+      alert("Your browser does not support Voice Input. Please use Google Chrome or Edge.");
       return;
     }
 
     const recognition = new SpeechRecognition();
+    recognitionRef.current = recognition;
+
     recognition.lang = voiceLang;
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 
     recognition.onstart = () => {
       setIsListening(true);
-      window.speechSynthesis?.cancel(); // stop AI speaking when user talks
     };
 
     recognition.onresult = (event) => {
@@ -58,7 +137,10 @@ const AIChatbot = () => {
     };
 
     recognition.onerror = (event) => {
-      console.error("Speech recognition error", event.error);
+      console.error("Speech recognition error:", event.error);
+      if (event.error === 'not-allowed') {
+        alert("Microphone access blocked! Please click the lock icon in your browser URL bar and allow Microphone access.");
+      }
       setIsListening(false);
     };
 
@@ -66,35 +148,69 @@ const AIChatbot = () => {
       setIsListening(false);
     };
 
-    recognition.start();
+    try {
+      recognition.start();
+    } catch (e) {
+      console.error("Failed to start recognition:", e);
+      setIsListening(false);
+    }
   };
 
   const knowledgeBase = {
     location: "Baltistan Silicon Lab (BSL Academy) is located at Ali Chowk, near Hawa Market, Skardu. We are easily accessible and centrally located for all students.",
     courses: "Our curriculum includes specialized tracks in Artificial Intelligence, Data Science, Machine Learning (ML), Computer Vision (CV), and Natural Language Processing (NLP).",
     timing: "We offer flexible professional schedules: Morning Track (09:00 - 12:00) and Evening Track (17:00 - 20:00). Special weekend workshops are also conducted regularly.",
-    contact: "For direct inquiries, please contact our administrative office via WhatsApp at +92 342 6930403 or email us at info@bsl.edu.pk.",
+    contact: "For direct inquiries, please contact our administrative office via WhatsApp at +92 342 6930403 or email us at baltistansiliconlab@gmail.com.",
     fee: "Course fees vary by specialization. We provide scholarships for meritorious students. Please reach out to our admissions office for the latest fee structure.",
     admission: "Admissions are currently open. You can apply via the registration portal on our homepage. Shortlisted candidates will be called for a technical assessment.",
-    instructor: "Our faculty consists of PhD researchers and industry leads from top global technology firms, ensuring world-class mentorship."
+    instructor: "Our faculty consists of ms researchers and industry leads from top global technology firms, ensuring world-class mentorship."
   };
 
-  const getGroqResponse = async (userText) => {
-    try {
-      const systemPrompt = `You are an interactive AI Video Tutor for BSL Academy. 
-      YOUR CORE RULES:
-      1. ONLY answer questions related to TECHNOLOGY and BSL ACADEMY (courses, location, timings).
-      2. If asked about ANYTHING ELSE, politely say: "I'm your BSL AI tutor, so I can only discuss our tech courses and academy details!"
-      3. CRITICAL: Respond in the EXACT same language the user uses (English, Roman Urdu, or Urdu script).
-      
-      BSL DETAILS:
-      - Location: Ali Chowk, near Hawa Market, Skardu.
-      - Contact: WhatsApp 0342-6930403
-      - Courses: AI, Data Science, MERN Stack.
-      - Keep responses conversational, friendly, short (like you are speaking to them on a video call), and unformatted (no markdown or bullet points).`;
+  // ── Detect which language the user typed ─────────────────────────
+  const detectLang = (text) => {
+    // Urdu Unicode block: \u0600-\u06FF, \u0750-\u077F, \uFB50-\uFDFF, \uFE70-\uFEFF
+    const urduScriptRatio = (text.match(/[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/g) || []).length / text.length;
+    if (urduScriptRatio > 0.2) return 'ur-PK';  // Urdu script
 
+    // Roman Urdu common words
+    const romanUrduWords = ['kya', 'hai', 'hain', 'kaise', 'mujhe', 'aap', 'yeh', 'woh', 'bhi', 'nahi', 'karo', 'karo', 'batao', 'bata', 'dena', 'lena', 'shukriya', 'mehrbani', 'adaab', 'salaam', 'kahan', 'kitna', 'kab', 'kuch', 'kyun', 'theek', 'accha', 'zyada', 'kam', 'beta', 'bhai', 'jee', 'haan', 'na', 'matlab', 'course', 'fee', 'timing', 'admission', 'register'];
+    const lower = text.toLowerCase();
+    const romanHits = romanUrduWords.filter(w => lower.includes(w)).length;
+    if (romanHits >= 2) return 'ur-PK'; // Roman Urdu
+
+    return 'en-US'; // Default English
+  };
+
+  // ── AI response with auto language matching ───────────────────────
+  const getGroqResponse = async (userText, detectedLang) => {
+    try {
+      const langRule = detectedLang === 'ur-PK'
+        ? `LANGUAGE RULE: The user wrote in Urdu or Roman Urdu.
+- If they wrote in Urdu script (اردو), reply ONLY in proper Urdu script. Do NOT include any English.
+- If they wrote in Roman Urdu (e.g. "kya hal hai"), reply ONLY in Roman Urdu. Do NOT include Urdu script or English.
+- Be natural, warm and professional like a Pakistani male tutor.`
+        : `LANGUAGE RULE: The user wrote in English. Reply ONLY in clear, professional English. Do NOT include any Urdu.`;
+
+      const systemPrompt = `You are "Alex", a professional and warm Pakistani male AI Tutor for BSL Academy (Baltistan Silicon Lab), Skardu.
+
+${langRule}
+
+ABOUT BSL ACADEMY:
+- Location: Ali Chowk, near Hawa Market, Skardu.
+- Contact: WhatsApp 0342-6930403 | Email: baltistansiliconlab@gmail.com
+- Courses: AI, Data Science, Machine Learning, Computer Vision, NLP, MERN Stack.
+- Timings: Morning 9am–12pm, Evening 5pm–8pm. Weekend workshops available.
+- Fees: Vary by course. Scholarships available for deserving students.
+- Admission: Apply via the registration portal on the homepage.
+
+RULES:
+- No markdown, no bullet points, no asterisks — plain conversational sentences only.
+- Answer ALL topics: technology, AI, programming, science, math, general knowledge, etc.
+- Never refuse. Always give a helpful, intelligent answer.
+- If asked who you are: say you are Alex, BSL Academy AI Tutor.`;
 
       const GROQ_API_KEY = process.env.REACT_APP_GROQ_API_KEY;
+      console.log("API KEY:", process.env.REACT_APP_GROQ_API_KEY);
 
       const response = await fetch(`https://api.groq.com/openai/v1/chat/completions`, {
         method: 'POST',
@@ -103,63 +219,76 @@ const AIChatbot = () => {
           'Authorization': `Bearer ${GROQ_API_KEY}`
         },
         body: JSON.stringify({
-          model: "openai/gpt-oss-20b",
+          model: "llama-3.3-70b-versatile",
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: userText }
           ],
-          temperature: 0.5,
-          max_tokens: 300,
+          temperature: 0.75,
+          max_tokens: 450,
         })
       });
 
-      if (!response.ok) throw new Error("API Error");
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        console.error("Groq API Error:", response.status, errData);
+        throw new Error("API Error: " + response.status);
+      }
 
       const data = await response.json();
       return data.choices[0].message.content;
 
     } catch (error) {
-      console.error("Groq Error:", error);
-      return getLocalFallbackResponse(userText);
+      console.error("Groq Error:", error.message);
+      return getLocalFallbackResponse(userText, detectedLang);
     }
   };
 
-  const getLocalFallbackResponse = (input) => {
-    const text = input.toLowerCase().trim();
-    if (text.includes('location') || text.includes('where') || text.includes('skardu')) return knowledgeBase.location;
-    if (text.includes('course') || text.includes('study')) return knowledgeBase.courses;
-    if (text.includes('time') || text.includes('schedule')) return knowledgeBase.timing;
-    if (text.includes('contact') || text.includes('whatsapp')) return knowledgeBase.contact;
-    if (text.includes('fee') || text.includes('price')) return knowledgeBase.fee;
-    if (text.includes('join') || text.includes('register')) return knowledgeBase.admission;
-
-    return "I'm your BSL AI Tutor! Ask me about our courses, timings, location, or how to join us in Skardu.";
+  const getLocalFallbackResponse = (input, lang) => {
+    const text = input.toLowerCase();
+    const isUrdu = lang === 'ur-PK';
+    if (text.includes('location') || text.includes('kahan') || text.includes('skardu'))
+      return isUrdu ? 'BSL اکیڈمی علی چوک، ہوا مارکیٹ کے قریب، سکردو میں واقع ہے۔' : knowledgeBase.location;
+    if (text.includes('course') || text.includes('study') || text.includes('parhna'))
+      return isUrdu ? 'ہم AI، ڈیٹا سائنس، مشین لرننگ، NLP اور کمپیوٹر ویژن کے کورسز پیش کرتے ہیں۔' : knowledgeBase.courses;
+    if (text.includes('time') || text.includes('timing') || text.includes('waqt'))
+      return isUrdu ? 'صبح کی کلاس 9 بجے سے 12 بجے تک اور شام کی کلاس 5 بجے سے 8 بجے تک ہوتی ہے۔' : knowledgeBase.timing;
+    if (text.includes('fee') || text.includes('fees') || text.includes('kitna'))
+      return isUrdu ? 'فیس کورس کے حساب سے مختلف ہے۔ ہمارے دفتر سے رابطہ کریں۔' : knowledgeBase.fee;
+    return isUrdu ? 'میں BSL اکیڈمی کا AI ٹیوٹر ہوں۔ کورسز، فیس یا داخلے کے بارے میں پوچھیں۔' :
+      "I'm your BSL AI Tutor! Ask me about courses, timings, fees or joining us in Skardu.";
   };
 
   const handleSendMessage = async (text = inputValue) => {
     if (!text.trim()) return;
 
-    // Stop speaking if user interrupts
     window.speechSynthesis?.cancel();
+
+    const detectedLang = detectLang(text);
 
     const userMessage = { id: Date.now(), type: 'user', text: text };
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsTyping(true);
+    isCancelledRef.current = false;
 
-    const aiText = await getGroqResponse(text);
+    const aiText = await getGroqResponse(text, detectedLang);
+
+    if (isCancelledRef.current) { setIsTyping(false); return; }
+
     const aiResponse = { id: Date.now() + 1, type: 'ai', text: aiText };
-
     setIsTyping(false);
     setMessages(prev => [...prev, aiResponse]);
-    speakText(aiText);
+
+    // Speak in the SAME language the user used
+    speakText(aiText, detectedLang);
   };
 
   const suggestions = [
     "What courses do you offer?",
-    "Where is BSL located?",
-    "Training timings?",
-    "How to register?"
+    "BSL kahan hai?",
+    "Fee kitni hai?",
+    "AI kya hota hai?"
   ];
 
   const toggleMute = () => {
@@ -168,7 +297,11 @@ const AIChatbot = () => {
   };
 
   const closeCall = () => {
-    window.speechSynthesis?.cancel();
+    isCancelledRef.current = true; // Mark as cancelled so pending response won't speak
+    window.speechSynthesis?.cancel(); // Stop any active voice immediately
+    if (recognitionRef.current) recognitionRef.current.stop(); // Stop mic if listening
+    setIsListening(false);
+    setIsTyping(false);
     setIsOpen(false);
   };
 
@@ -183,98 +316,73 @@ const AIChatbot = () => {
   return (
     <div className="chatbot-wrapper">
       {isOpen && (
-        <div className="chat-window">
-          {/* Top Header */}
-          <div className="call-header">
-            <div className="call-header-info">
-              <h4>BSL AI Guider</h4>
-              <span><div className="status-dot-mini"></div> Connected</span>
+        <div className="chatbot-window video-call-layout">
+          {/* Background Avatar covering entire window */}
+          <div className="video-call-background ai-breathe-bg">
+            <img src="/ai_avatar_male.png" alt="Virtual Tutor" />
+          </div>
+
+          {/* Top Header Overlay */}
+          <div className="video-call-header">
+            <div className="vc-title">
+              <span className="vc-status-dot"></span> BSL AI Tutor
+            </div>
+            <div className="vc-actions">
+              <button className="vc-icon-btn" onClick={() => setIsMuted(!isMuted)}>
+                {isMuted ? '🔇' : '🔊'}
+              </button>
+              <button className="vc-icon-btn" onClick={() => setVoiceLang(prev => prev === 'en-US' ? 'ur-PK' : 'en-US')} title="Voice Accent: EN / UR">
+                🌐 {voiceLang === 'en-US' ? 'EN' : 'UR'}
+              </button>
+              <button className="vc-icon-btn vc-close-btn" onClick={closeCall}>
+                ✕
+              </button>
             </div>
           </div>
 
-          {/* Central Animated Avatar */}
-          <div className="avatar-container">
-            <div className={`ai-avatar-core ${isTyping || ('speechSynthesis' in window && window.speechSynthesis.speaking) ? 'speaking' : ''}`}>
-              <div className="ai-avatar-rings"></div>
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
-                <path d="M12 12 2.1 16.9"></path>
-                <path d="M12 12 21.9 16.9"></path>
-              </svg>
-            </div>
-          </div>
-
-          {/* Floating Chat/Subtitles */}
-          <div className="chat-subtitles">
-            {messages.slice(-5).map(msg => (
-              <div key={msg.id} className={`message ${msg.type}`}>
+          {/* Middle Overlay: Subtitles */}
+          <div className="vc-subtitles">
+            {messages.slice(-3).map(msg => (
+              <div key={msg.id} className={`vc-message ${msg.type}`}>
                 {msg.text}
               </div>
             ))}
-            {isTyping && <div className="typing-indicator">AI is listening...</div>}
+            {isTyping && (
+              <div className="vc-message ai typing-indicator">
+                <span>.</span><span>.</span><span>.</span>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Keyboard & Suggestions */}
-          {showKeyboard && (
-            <div className="keyboard-area">
-              <div className="suggested-questions">
-                {suggestions.map((q, i) => (
-                  <div key={i} className="suggestion-chip" onClick={() => handleSendMessage(q)}>
-                    {q}
-                  </div>
-                ))}
-              </div>
-              <form className="chat-input-area" onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }}>
+          {/* Bottom Overlay: Inputs */}
+          <div className="vc-input-area">
+            {showKeyboard ? (
+              <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} className="vc-input-form">
                 <input
                   type="text"
-                  className="chat-input"
-                  placeholder="Ask me anything about BSL..."
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  autoFocus
+                  placeholder="Type or ask..."
+                  className="vc-input"
                 />
-                <button type="submit" className="send-btn">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="22" y1="2" x2="11" y2="13"></line>
-                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                  </svg>
+                <button type="submit" className="vc-send-btn" disabled={!inputValue.trim()}>
+                  ➤
                 </button>
               </form>
-            </div>
-          )}
+            ) : (
+              <div className="vc-voice-controls">
+                <button
+                  className={`vc-mic-btn ${isListening ? 'listening' : ''}`}
+                  onClick={startListening}
+                >
+                  {isListening ? '🛑 Stop' : '🎙️ Tap to Speak'}
+                </button>
+              </div>
+            )}
 
-          {/* Call Controls Bar */}
-          <div className="call-controls">
-            <button className="control-btn lang-toggle" onClick={() => setVoiceLang(voiceLang === 'en-US' ? 'ur-PK' : 'en-US')} aria-label="Toggle Language" style={{ fontSize: '1rem', fontWeight: 'bold' }}>
-              {voiceLang === 'en-US' ? 'EN' : 'UR'}
-            </button>
-            <button className={`control-btn mute ${isMuted ? 'active' : ''}`} onClick={toggleMute} aria-label="Mute Audio">
-              {isMuted ? (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-              ) : (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5L6 9H2v6h4l5 4z"></path><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
-              )}
-            </button>
-            <button className={`control-btn keyboard ${isListening ? 'active' : ''}`} onClick={startListening} aria-label="Start Voice Input">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={isListening ? "#ef4444" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                <line x1="12" y1="19" x2="12" y2="23"></line>
-                <line x1="8" y1="23" x2="16" y2="23"></line>
-              </svg>
-            </button>
-            <button className={`control-btn keyboard ${showKeyboard ? 'active' : ''}`} onClick={() => setShowKeyboard(!showKeyboard)} aria-label="Toggle Keyboard">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
-                <line x1="6" y1="8" x2="6.01" y2="8"></line><line x1="10" y1="8" x2="10.01" y2="8"></line><line x1="14" y1="8" x2="14.01" y2="8"></line><line x1="18" y1="8" x2="18.01" y2="8"></line><line x1="6" y1="12" x2="6.01" y2="12"></line><line x1="10" y1="12" x2="10.01" y2="12"></line><line x1="14" y1="12" x2="14.01" y2="12"></line><line x1="18" y1="12" x2="18.01" y2="12"></line><line x1="8" y1="16" x2="16" y2="16"></line>
-              </svg>
-            </button>
-            <button className="control-btn end-call" onClick={closeCall} aria-label="End Call">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67m-2.67-3.34a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"></path>
-                <line x1="23" y1="1" x2="1" y2="23"></line>
-              </svg>
+            <button className="vc-mode-toggle" onClick={() => setShowKeyboard(!showKeyboard)}>
+              {showKeyboard ? '🗣️ Switch to Voice' : '⌨️ Switch to Keyboard'}
             </button>
           </div>
         </div>
@@ -282,12 +390,8 @@ const AIChatbot = () => {
 
       {/* Floating Toggle Button (visible when closed) */}
       {!isOpen && (
-        <button className="chatbot-toggle" onClick={handleInitialOpen}>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-            <circle cx="11" cy="12" r="3"></circle>
-          </svg>
+        <button className="chatbot-toggle" onClick={handleInitialOpen} style={{ padding: 0, overflow: 'hidden', zIndex: 999999, cursor: 'pointer' }}>
+          <img src="/ai_avatar_male.png" alt="Virtual Tutor" className="ai-breathe" style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
         </button>
       )}
     </div>
